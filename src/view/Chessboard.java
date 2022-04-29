@@ -53,6 +53,10 @@ public class Chessboard extends JComponent {
         initBishopOnBoard(0, CHESSBOARD_SIZE - 3, ChessColor.BLACK);
         initBishopOnBoard(CHESSBOARD_SIZE - 1, 2, ChessColor.WHITE);
         initBishopOnBoard(CHESSBOARD_SIZE - 1, CHESSBOARD_SIZE - 3, ChessColor.WHITE);
+        initQueenOnBoard(0, 3, ChessColor.BLACK);
+        initQueenOnBoard(CHESSBOARD_SIZE - 1, CHESSBOARD_SIZE - 5, ChessColor.WHITE);
+        initKingOnBoard(0, 4, ChessColor.BLACK);
+        initKingOnBoard(CHESSBOARD_SIZE - 1, CHESSBOARD_SIZE - 4, ChessColor.WHITE);
     }
 
     public ChessComponent[][] getChessComponents() {
@@ -105,13 +109,21 @@ public class Chessboard extends JComponent {
         chessComponent.setVisible(true);
         putChessOnBoard(chessComponent);
     }
+
     private void initKnightOnBoard(int row, int col, ChessColor color) {
         ChessComponent chessComponent = new KnightChessComponent(new ChessboardPoint(row, col), calculatePoint(row, col), color, clickController, CHESS_SIZE);
         chessComponent.setVisible(true);
         putChessOnBoard(chessComponent);
     }
+
     private void initBishopOnBoard(int row, int col, ChessColor color) {
         ChessComponent chessComponent = new BishopChessComponent(new ChessboardPoint(row, col), calculatePoint(row, col), color, clickController, CHESS_SIZE);
+        chessComponent.setVisible(true);
+        putChessOnBoard(chessComponent);
+    }
+
+    private void initQueenOnBoard(int row, int col, ChessColor color) {
+        ChessComponent chessComponent = new QueenChessComponent(new ChessboardPoint(row, col), calculatePoint(row, col), color, clickController, CHESS_SIZE);
         chessComponent.setVisible(true);
         putChessOnBoard(chessComponent);
     }
@@ -121,6 +133,11 @@ public class Chessboard extends JComponent {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+    }
+    private void initKingOnBoard(int row, int col, ChessColor color) {
+        ChessComponent chessComponent = new KingChessComponent(new ChessboardPoint(row, col), calculatePoint(row, col), color, clickController, CHESS_SIZE);
+        chessComponent.setVisible(true);
+        putChessOnBoard(chessComponent);
     }
 
 
