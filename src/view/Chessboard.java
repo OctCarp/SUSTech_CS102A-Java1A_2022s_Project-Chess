@@ -57,6 +57,12 @@ public class Chessboard extends JComponent {
         initQueenOnBoard(CHESSBOARD_SIZE - 1, CHESSBOARD_SIZE - 5, ChessColor.WHITE);
         initKingOnBoard(0, 4, ChessColor.BLACK);
         initKingOnBoard(CHESSBOARD_SIZE - 1, CHESSBOARD_SIZE - 4, ChessColor.WHITE);
+        for (int i = 0; i < CHESSBOARD_SIZE; i++) {
+            initPawnOnBoard(1, i, ChessColor.BLACK);
+        }
+        for (int i = 0; i < CHESSBOARD_SIZE; i++) {
+            initPawnOnBoard(CHESSBOARD_SIZE-2, i, ChessColor.WHITE);
+        }
     }
 
     public ChessComponent[][] getChessComponents() {
@@ -127,18 +133,23 @@ public class Chessboard extends JComponent {
         chessComponent.setVisible(true);
         putChessOnBoard(chessComponent);
     }
-
+    private void initKingOnBoard(int row, int col, ChessColor color) {
+        ChessComponent chessComponent = new KingChessComponent(new ChessboardPoint(row, col), calculatePoint(row, col), color, clickController, CHESS_SIZE);
+        chessComponent.setVisible(true);
+        putChessOnBoard(chessComponent);
+    }
+    private void initPawnOnBoard(int row, int col, ChessColor color) {
+        ChessComponent chessComponent = new PawnChessComponent(new ChessboardPoint(row, col), calculatePoint(row, col), color, clickController, CHESS_SIZE);
+        chessComponent.setVisible(true);
+        putChessOnBoard(chessComponent);
+    }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
     }
-    private void initKingOnBoard(int row, int col, ChessColor color) {
-        ChessComponent chessComponent = new KingChessComponent(new ChessboardPoint(row, col), calculatePoint(row, col), color, clickController, CHESS_SIZE);
-        chessComponent.setVisible(true);
-        putChessOnBoard(chessComponent);
-    }
+
 
 
     private Point calculatePoint(int row, int col) {
