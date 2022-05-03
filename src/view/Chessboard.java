@@ -23,6 +23,7 @@ public class Chessboard extends JComponent {
      * <br>
      * currentColor: 当前行棋方
      */
+
     private static final int CHESSBOARD_SIZE = 8;
 
     private final ChessComponent[][] chessComponents = new ChessComponent[CHESSBOARD_SIZE][CHESSBOARD_SIZE];
@@ -38,32 +39,10 @@ public class Chessboard extends JComponent {
         CHESS_SIZE = width / 8;
         System.out.printf("chessboard size = %d, chess size = %d\n", width, CHESS_SIZE);
 
-        initiateEmptyChessboard();
-
         // FIXME: Initialize chessboard for testing only.
-        initRookOnBoard(0, 0, ChessColor.BLACK);
-        initRookOnBoard(0, CHESSBOARD_SIZE - 1, ChessColor.BLACK);
-        initRookOnBoard(CHESSBOARD_SIZE - 1, 0, ChessColor.WHITE);
-        initRookOnBoard(CHESSBOARD_SIZE - 1, CHESSBOARD_SIZE - 1, ChessColor.WHITE);
-        initKnightOnBoard(0, 1, ChessColor.BLACK);
-        initKnightOnBoard(0, CHESSBOARD_SIZE - 2, ChessColor.BLACK);
-        initKnightOnBoard(CHESSBOARD_SIZE - 1, 1, ChessColor.WHITE);
-        initKnightOnBoard(CHESSBOARD_SIZE - 1, CHESSBOARD_SIZE - 2, ChessColor.WHITE);
-        initBishopOnBoard(0, 2, ChessColor.BLACK);
-        initBishopOnBoard(0, CHESSBOARD_SIZE - 3, ChessColor.BLACK);
-        initBishopOnBoard(CHESSBOARD_SIZE - 1, 2, ChessColor.WHITE);
-        initBishopOnBoard(CHESSBOARD_SIZE - 1, CHESSBOARD_SIZE - 3, ChessColor.WHITE);
-        initQueenOnBoard(0, 3, ChessColor.BLACK);
-        initQueenOnBoard(CHESSBOARD_SIZE - 1, CHESSBOARD_SIZE - 5, ChessColor.WHITE);
-        initKingOnBoard(0, 4, ChessColor.BLACK);
-        initKingOnBoard(CHESSBOARD_SIZE - 1, CHESSBOARD_SIZE - 4, ChessColor.WHITE);
-        for (int i = 0; i < CHESSBOARD_SIZE; i++) {
-            initPawnOnBoard(1, i, ChessColor.BLACK);
-        }
-        for (int i = 0; i < CHESSBOARD_SIZE; i++) {
-            initPawnOnBoard(CHESSBOARD_SIZE-2, i, ChessColor.WHITE);
-        }
+        initChess();
     }
+
 
     public ChessComponent[][] getChessComponents() {
         return chessComponents;
@@ -158,5 +137,30 @@ public class Chessboard extends JComponent {
 
     public void loadGame(List<String> chessData) {
         chessData.forEach(System.out::println);
+    }
+    public void initChess(){
+        initiateEmptyChessboard();
+        initRookOnBoard(0, 0, ChessColor.BLACK);
+        initRookOnBoard(0, CHESSBOARD_SIZE - 1, ChessColor.BLACK);
+        initRookOnBoard(CHESSBOARD_SIZE - 1, 0, ChessColor.WHITE);
+        initRookOnBoard(CHESSBOARD_SIZE - 1, CHESSBOARD_SIZE - 1, ChessColor.WHITE);
+        initKnightOnBoard(0, 1, ChessColor.BLACK);
+        initKnightOnBoard(0, CHESSBOARD_SIZE - 2, ChessColor.BLACK);
+        initKnightOnBoard(CHESSBOARD_SIZE - 1, 1, ChessColor.WHITE);
+        initKnightOnBoard(CHESSBOARD_SIZE - 1, CHESSBOARD_SIZE - 2, ChessColor.WHITE);
+        initBishopOnBoard(0, 2, ChessColor.BLACK);
+        initBishopOnBoard(0, CHESSBOARD_SIZE - 3, ChessColor.BLACK);
+        initBishopOnBoard(CHESSBOARD_SIZE - 1, 2, ChessColor.WHITE);
+        initBishopOnBoard(CHESSBOARD_SIZE - 1, CHESSBOARD_SIZE - 3, ChessColor.WHITE);
+        initQueenOnBoard(0, 3, ChessColor.BLACK);
+        initQueenOnBoard(CHESSBOARD_SIZE - 1, CHESSBOARD_SIZE - 5, ChessColor.WHITE);
+        initKingOnBoard(0, 4, ChessColor.BLACK);
+        initKingOnBoard(CHESSBOARD_SIZE - 1, CHESSBOARD_SIZE - 4, ChessColor.WHITE);
+        for (int i = 0; i < CHESSBOARD_SIZE; i++) {
+            initPawnOnBoard(1, i, ChessColor.BLACK);
+        }
+        for (int i = 0; i < CHESSBOARD_SIZE; i++) {
+            initPawnOnBoard(CHESSBOARD_SIZE-2, i, ChessColor.WHITE);
+        }
     }
 }

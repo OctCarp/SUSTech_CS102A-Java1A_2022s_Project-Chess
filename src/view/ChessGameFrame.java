@@ -13,10 +13,14 @@ public class ChessGameFrame extends JFrame {
     private final int WIDTH;
     private final int HEIGTH;
     public final int CHESSBOARD_SIZE;
+    private Chessboard chessboard;
     private GameController gameController;
+
+
 
     public ChessGameFrame(int width, int height) {
         setTitle("2022 CS102A Project Demo"); //设置标题
+
         this.WIDTH = width;
         this.HEIGTH = height;
         this.CHESSBOARD_SIZE = HEIGTH * 4 / 5;
@@ -29,16 +33,33 @@ public class ChessGameFrame extends JFrame {
 
         addChessboard();
         addLabel();
-        addHelloButton();
+        addSaveButton();
         addLoadButton();
+        addRestart();
     }
 
+    private JButton addRestart() {
+        JButton button = new JButton("Restart");
+        button.addActionListener(e -> restart());
+        button.setLocation(HEIGTH, HEIGTH / 10 + 360);
+        button.setSize(200, 60);
+        button.setFont(new Font("Rockwell", Font.BOLD, 20));
+        add(button);
+        return button;
+    }
+    private void restart() {
+        if (chessboard != null) {
+            this.remove(chessboard);
+        }
+        addChessboard();
+        repaint();
+    }
 
     /**
      * 在游戏面板中添加棋盘
      */
     private void addChessboard() {
-        Chessboard chessboard = new Chessboard(CHESSBOARD_SIZE, CHESSBOARD_SIZE);
+        chessboard = new Chessboard(CHESSBOARD_SIZE, CHESSBOARD_SIZE);
         gameController = new GameController(chessboard);
         chessboard.setLocation(HEIGTH / 10, HEIGTH / 10);
         add(chessboard);
@@ -59,9 +80,9 @@ public class ChessGameFrame extends JFrame {
      * 在游戏面板中增加一个按钮，如果按下的话就会显示Hello, world!
      */
 
-    private void addHelloButton() {
-        JButton button = new JButton("Show Hello Here");
-        button.addActionListener((e) -> JOptionPane.showMessageDialog(this, "Hello, world!"));
+    private void addSaveButton() {
+        JButton button = new JButton("Save");
+        button.addActionListener((e) -> JOptionPane.showMessageDialog(this, "haven't finished"));
         button.setLocation(HEIGTH, HEIGTH / 10 + 120);
         button.setSize(200, 60);
         button.setFont(new Font("Rockwell", Font.BOLD, 20));
