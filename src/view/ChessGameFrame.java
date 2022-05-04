@@ -17,7 +17,6 @@ public class ChessGameFrame extends JFrame {
     private GameController gameController;
 
 
-
     public ChessGameFrame(int width, int height) {
         setTitle("2022 CS102A Project Demo"); //设置标题
 
@@ -38,15 +37,15 @@ public class ChessGameFrame extends JFrame {
         addRestart();
     }
 
-    private JButton addRestart() {
+    private void addRestart() {
         JButton button = new JButton("Restart");
         button.addActionListener(e -> restart());
         button.setLocation(HEIGTH, HEIGTH / 10 + 360);
         button.setSize(200, 60);
         button.setFont(new Font("Rockwell", Font.BOLD, 20));
         add(button);
-        return button;
     }
+
     private void restart() {
         if (chessboard != null) {
             this.remove(chessboard);
@@ -94,12 +93,16 @@ public class ChessGameFrame extends JFrame {
         button.setLocation(HEIGTH, HEIGTH / 10 + 240);
         button.setSize(200, 60);
         button.setFont(new Font("Rockwell", Font.BOLD, 20));
+        JFileChooser chooser = new JFileChooser();
         add(button);
-
         button.addActionListener(e -> {
-            System.out.println("Click load");
-            String path = JOptionPane.showInputDialog(this,"Input Path here");
-            gameController.loadGameFromFile(path);
+            int flag = chooser.showOpenDialog(null);
+            //若选择了文件，则打印选择了什么文件
+            if (flag == JFileChooser.APPROVE_OPTION) {
+                System.out.println("用户选择了文件：" + chooser.getSelectedFile().getName());
+            } else {
+                System.out.println("未成功选择");
+            }
         });
     }
 
