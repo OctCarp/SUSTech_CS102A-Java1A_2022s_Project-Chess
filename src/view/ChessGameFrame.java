@@ -1,9 +1,13 @@
 package view;
 
+import chess.ChessColor;
 import controller.GameController;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
+
+import static chess.ChessColor.BLACK;
 
 /**
  * 这个类表示游戏过程中的整个游戏界面，是一切的载体
@@ -15,6 +19,7 @@ public class ChessGameFrame extends JFrame {
     public final int CHESSBOARD_SIZE;
     private Chessboard chessboard;
     private GameController gameController;
+    static JLabel statusLabel;
 
 
     public ChessGameFrame(int width, int height) {
@@ -35,6 +40,7 @@ public class ChessGameFrame extends JFrame {
         addSaveButton();
         addLoadButton();
         addRestart();
+        addRegretButton();
     }
 
     private void addRestart() {
@@ -68,11 +74,18 @@ public class ChessGameFrame extends JFrame {
      * 在游戏面板中添加标签
      */
     private void addLabel() {
-        JLabel statusLabel = new JLabel("Sample label");
+        statusLabel = new JLabel("BLACK");
         statusLabel.setLocation(HEIGTH, HEIGTH / 10);
         statusLabel.setSize(200, 60);
         statusLabel.setFont(new Font("Rockwell", Font.BOLD, 20));
         add(statusLabel);
+    }
+    public static void setStatusLabel(ChessColor color){
+        if(color==BLACK){
+            statusLabel.setText("BLACK");
+        }else{
+            statusLabel.setText("WHITE");
+        }
     }
 
     /**
@@ -87,7 +100,14 @@ public class ChessGameFrame extends JFrame {
         button.setFont(new Font("Rockwell", Font.BOLD, 20));
         add(button);
     }
-
+    private void addRegretButton() {
+        JButton button = new JButton("Regret");
+        button.addActionListener((e) -> chessboard.regretStep());
+        button.setLocation(HEIGTH, HEIGTH / 10 + 480);
+        button.setSize(200, 60);
+        button.setFont(new Font("Rockwell", Font.BOLD, 20));
+        add(button);
+    }
     private void addLoadButton() {
         JButton button = new JButton("Load");
         button.setLocation(HEIGTH, HEIGTH / 10 + 240);
@@ -98,11 +118,9 @@ public class ChessGameFrame extends JFrame {
         button.addActionListener(e -> {
             int flag = chooser.showOpenDialog(null);
             //若选择了文件，则打印选择了什么文件
-            if (flag == JFileChooser.APPROVE_OPTION) {
-                System.out.println("用户选择了文件：" + chooser.getSelectedFile().getName());
-            } else {
-                System.out.println("未成功选择");
-            }
+            chooser.setCurrentDirectory(new File("."));
+            chooser.showOpenDialog(this);
+
         });
     }
 

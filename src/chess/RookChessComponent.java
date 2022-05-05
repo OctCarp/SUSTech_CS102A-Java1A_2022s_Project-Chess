@@ -1,4 +1,4 @@
-package model;
+package chess;
 
 import view.ChessboardPoint;
 import controller.ClickController;

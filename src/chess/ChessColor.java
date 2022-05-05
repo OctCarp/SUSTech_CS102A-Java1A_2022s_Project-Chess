@@ -1,4 +1,4 @@
-package model;
+package chess;
 
 import java.awt.*;
 

@@ -1,6 +1,6 @@
 package util;
 
-import model.ChessComponent;
+import chess.ChessComponent;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -45,7 +45,7 @@ public class GameSaver extends Util{
 
     }
 
-    private static void saveStepsIntoFile(String fileName, ChessGridComponent[][] chessboard) throws IOException {
+    private static void saveStepsIntoFile(String fileName, ChessComponent[][] chessboard) throws IOException {
         gameSaver.write("Reversi-GameSteps:"+System.lineSeparator());
         for (Step s: stepList){
             gameSaver.write(s.toString()+System.lineSeparator());
@@ -53,14 +53,12 @@ public class GameSaver extends Util{
         gameSaver.write("=========="+System.lineSeparator());
     }
 
-    private static void saveChessboardIntoFile(String fileName, ChessGridComponent[][] chessboard) throws IOException {
-        for (int i = 0; i< SIZE; i++){
-            for (int j = 0; j < SIZE; j++) {
+    private static void saveChessboardIntoFile(String fileName, ChessComponent[][] chessboard) throws IOException {
+        for (int i = 0; i< 8; i++){
+            for (int j = 0; j < 8; j++) {
                 gameSaver.write(String.format("%3s",chessboard[i][j].toString()));
             }
             gameSaver.write(System.lineSeparator());
         }
-
     }
-
 }
