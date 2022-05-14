@@ -1,6 +1,6 @@
 package chess;
 
-import view.ChessboardPoint;
+import chessboard.ChessboardPoint;
 import controller.ClickController;
 
 import javax.imageio.ImageIO;
@@ -39,6 +39,7 @@ public class KnightChessComponent extends ChessComponent {
 
     public KnightChessComponent(ChessboardPoint chessboardPoint, Point location, ChessColor color, ClickController listener, int size) {
         super(chessboardPoint, location, color, listener, size);
+        setName(color);
         initiateKnightImage(color);
     }
 
@@ -62,6 +63,14 @@ public class KnightChessComponent extends ChessComponent {
         if (isSelected()) {
             g.setColor(Color.RED);
             g.drawOval(0, 0, getWidth(), getHeight());
+        }
+    }
+    @Override
+    public void setName(ChessColor color) {
+        if (color == ChessColor.BLACK) {
+            this.name = 'N';
+        } else {
+            this.name = 'n';
         }
     }
 }

@@ -2,7 +2,7 @@ package controller;
 
 
 import chess.ChessComponent;
-import view.Chessboard;
+import chessboard.Chessboard;
 
 public class ClickController {
     private final Chessboard chessboard;

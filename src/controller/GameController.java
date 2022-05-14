@@ -1,6 +1,6 @@
 package controller;
 
-import view.Chessboard;
+import chessboard.Chessboard;
 
 import java.io.IOException;
 import java.nio.file.Files;

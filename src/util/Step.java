@@ -1,91 +1,50 @@
 package util;
 
-import chess.ChessColor;
-import chess.ChessComponent;
-import chess.EmptySlotComponent;
-import view.Chessboard;
-import view.ChessboardPoint;
+import chess.*;
 
-import java.io.Serializable;
 
-public class Step implements Serializable {
-    private ChessComponent chess;
-    private ChessboardPoint start;
-    private ChessboardPoint end;
-    private ChessColor color;
-    private ChessComponent eatChess;
-    int ate=0;
+public class Step {
+    ChessColor player;
+    ChessComponent[][] chessComponents1 = new ChessComponent[8][8];
+
+    public void setPlayer(ChessColor player) {
+        this.player = player;
+    }
 
     public Step() {
     }
 
-    public Step(ChessComponent chess, ChessboardPoint start, ChessboardPoint end) {
-        this.chess = chess;
-        this.start = start;
-        this.end = end;
-        this.color = chess.getChessColor();
-        ate = 0;
+    public Step(ChessColor player, ChessComponent[][] chessComponents) {
+        this.player = player;
+        setChessComponents(chessComponents);
     }
 
-    public Step(ChessComponent chess, ChessboardPoint start, ChessboardPoint end, ChessComponent eatChess) {
-        this.chess = chess;
-        this.start = start;
-        this.end = end;
-        this.color = chess.getChessColor();
-        this.eatChess = eatChess;
-        ate = 1;
-    }
-
-    public int colorInt() {
-        if (chess.getChessColor() == ChessColor.BLACK) {
-            return 1;
-        } else if (chess.getChessColor() == ChessColor.WHITE) {
-            return 2;
-        } else return 0;
+    public void setChessComponents(ChessComponent[][] chessComponents1) {
+        this.chessComponents1 = chessComponents1;
     }
 
 
-    public ChessComponent getChess() {
-        return chess;
+    public ChessComponent[][] getChessComponents1() {
+        return chessComponents1;
     }
 
-    public void setChess(ChessComponent chess) {
-        this.chess = chess;
-        start = new ChessboardPoint(chess.getX(),chess.getY());
-        this.color=chess.getChessColor();
-
-    }
-
-    public ChessboardPoint getStart() {
-        return start;
-    }
-
-    public void setStart(ChessboardPoint start) {
-        this.start = new ChessboardPoint(start.getX(),start.getY());
-    }
-
-    public ChessboardPoint getEnd() {
-        return end;
-    }
-
-    public void setEnd(ChessboardPoint end) {
-        this.end = new ChessboardPoint(end.getX(),end.getY());
-    }
-
-    public ChessColor getColor() {
-        return color;
-    }
-    public void setEatChess(ChessComponent eatChess){
-        this.eatChess=eatChess;
-        this.end = new ChessboardPoint(eatChess.getX(),eatChess.getY());
-        ate=1;
-    }
-
-    public ChessComponent getEatChess() {
-        return eatChess;
+    public ChessColor getPlayer() {
+        return player;
     }
 
     public String toString() {
-        return colorInt() + " " + start.getX() + start.getY() + " " + end.getX() + end.getY() + " " + ate + "" + eatChess.getName();
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                sb.append(chessComponents1[i][j].toString());
+            }
+            sb.append(String.format("\n"));
+        }
+        if (player == ChessColor.BLACK) {
+            sb.append(String.format("x"));
+        } else {
+            sb.append(String.format("y"));
+        }
+        return sb.toString();
     }
 }

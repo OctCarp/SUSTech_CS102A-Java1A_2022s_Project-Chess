@@ -1,6 +1,6 @@
 package chess;
 
-import view.ChessboardPoint;
+import chessboard.ChessboardPoint;
 import controller.ClickController;
 
 import javax.swing.*;
@@ -27,6 +27,8 @@ public abstract class ChessComponent extends JComponent {
      * handle click event
      */
     private ClickController clickController;
+    protected char name;
+    abstract public void setName(ChessColor color) ;
 
     /**
      * chessboardPoint: 表示8*8棋盘中，当前棋子在棋格对应的位置，如(0, 0), (1, 0), (0, 7),(7, 7)等等
@@ -121,5 +123,8 @@ public abstract class ChessComponent extends JComponent {
         Color squareColor = BACKGROUND_COLORS[(chessboardPoint.getX() + chessboardPoint.getY()) % 2];
         g.setColor(squareColor);
         g.fillRect(0, 0, this.getWidth(), this.getHeight());
+    }
+    public String toString() {
+        return String.valueOf(this.name);
     }
 }
