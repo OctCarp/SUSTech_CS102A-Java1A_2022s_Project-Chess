@@ -12,7 +12,6 @@ import java.io.IOException;
  * 这个类是一个抽象类，主要表示8*8棋盘上每个格子的棋子情况，当前有两个子类继承它，分别是EmptySlotComponent(空棋子)和RookChessComponent(车)。
  */
 public abstract class ChessComponent extends JComponent {
-
     /**
      * CHESSGRID_SIZE: 主要用于确定每个棋子在页面中显示的大小。
      * <br>
@@ -27,6 +26,7 @@ public abstract class ChessComponent extends JComponent {
      * handle click event
      */
     private ClickController clickController;
+    public Color backColor;
     protected char name;
     abstract public void setName(ChessColor color) ;
 
@@ -49,6 +49,7 @@ public abstract class ChessComponent extends JComponent {
         this.chessColor = chessColor;
         this.selected = false;
         this.clickController = clickController;
+        setSquareColor(getBackColor(chessboardPoint));
     }
 
     public ChessboardPoint getChessboardPoint() {
@@ -115,14 +116,23 @@ public abstract class ChessComponent extends JComponent {
      * @throws IOException 如果一些资源找不到(如棋子图片路径错误)，就会抛出异常
      */
     public abstract void loadResource() throws IOException;
+    Color squareColor;
+
+    public void setSquareColor(Color squareColor) {
+        this.squareColor = squareColor;
+    }
+
+    public Color getBackColor(ChessboardPoint chessboardPoint) {
+        return BACKGROUND_COLORS[(chessboardPoint.getX() + chessboardPoint.getY()) % 2];
+    }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponents(g);
         System.out.printf("repaint chess [%d,%d]\n", chessboardPoint.getX(), chessboardPoint.getY());
-        Color squareColor = BACKGROUND_COLORS[(chessboardPoint.getX() + chessboardPoint.getY()) % 2];
         g.setColor(squareColor);
         g.fillRect(0, 0, this.getWidth(), this.getHeight());
+
     }
     public String toString() {
         return String.valueOf(this.name);

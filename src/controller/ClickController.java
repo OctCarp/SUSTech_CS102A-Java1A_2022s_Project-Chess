@@ -3,6 +3,9 @@ package controller;
 
 import chess.ChessComponent;
 import chessboard.Chessboard;
+import chessboard.ChessboardPoint;
+
+import java.awt.*;
 
 public class ClickController {
     private final Chessboard chessboard;
@@ -18,20 +21,43 @@ public class ClickController {
                 chessComponent.setSelected(true);
                 first = chessComponent;
                 first.repaint();
+                for (int i = 0; i <8 ; i++) {
+                    for (int j = 0; j <8 ; j++) {
+                        if(chessComponent.canMoveTo(Chessboard.chessComponents,new ChessboardPoint(i,j))){
+                            if(chessComponent.getChessColor()!=Chessboard.chessComponents[i][j].getChessColor()) {
+                                Chessboard.chessComponents[i][j].setSquareColor(Color.YELLOW);
+                                Chessboard.chessComponents[i][j].repaint();
+                            }
+                        }
+                    }
+                }
             }
         } else {
             if (first == chessComponent) { // 再次点击取消选取
                 chessComponent.setSelected(false);
                 ChessComponent recordFirst = first;
                 first = null;
+                for (int i = 0; i < 8; i++) {
+                    for (int j = 0; j < 8; j++) {
+                        Chessboard.chessComponents[i][j].setSquareColor(Chessboard.chessComponents[i][j].getBackColor(new ChessboardPoint(i,j)));
+                        Chessboard.chessComponents[i][j].repaint();
+                    }
+                }
                 recordFirst.repaint();
             } else if (handleSecond(chessComponent)) {
                 //repaint in swap chess method.
                 chessboard.swapChessComponents(first, chessComponent);
                 chessboard.swapColor();
 
+
+               for (int i = 0; i < 8; i++) {
+                    for (int j = 0; j < 8; j++) {
+                        Chessboard.chessComponents[i][j].setSquareColor(Chessboard.chessComponents[i][j].getBackColor(new ChessboardPoint(i,j)));
+                        Chessboard.chessComponents[i][j].repaint();
+                    }
+                }
                 first.setSelected(false);
-                first = null;
+               first=null;
             }
         }
     }

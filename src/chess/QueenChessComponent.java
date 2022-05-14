@@ -1,5 +1,6 @@
 package chess;
 
+import chessboard.Chessboard;
 import controller.ClickController;
 import chessboard.ChessboardPoint;
 
@@ -9,6 +10,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class QueenChessComponent extends ChessComponent {
+    private ChessComponent[][]chessComponents=Chessboard.chessComponents;
 
     private static Image QUEEN_WHITE;
     private static Image QUEEN_BLACK;
