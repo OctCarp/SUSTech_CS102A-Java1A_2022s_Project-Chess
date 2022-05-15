@@ -1,7 +1,7 @@
 package chess;
 
 import controller.ClickController;
-import view.ChessboardPoint;
+import chessboard.ChessboardPoint;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -38,6 +38,7 @@ public class PawnChessComponent extends ChessComponent {
 
     public PawnChessComponent(ChessboardPoint chessboardPoint, Point location, ChessColor color, ClickController listener, int size) {
         super(chessboardPoint, location, color, listener, size);
+        setName(color);
         initiatePawnImage(color);
     }
 
@@ -99,6 +100,14 @@ public class PawnChessComponent extends ChessComponent {
         if (isSelected()) {
             g.setColor(Color.RED);
             g.drawOval(0, 0, getWidth(), getHeight());
+        }
+    }
+    @Override
+    public void setName(ChessColor color) {
+        if (color == ChessColor.BLACK) {
+            this.name = 'P';
+        } else {
+            this.name = 'p';
         }
     }
 }

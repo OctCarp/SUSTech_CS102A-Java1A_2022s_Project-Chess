@@ -1,6 +1,6 @@
 package chess;
 
-import view.ChessboardPoint;
+import chessboard.ChessboardPoint;
 import controller.ClickController;
 
 import javax.imageio.ImageIO;
@@ -62,6 +62,7 @@ public class RookChessComponent extends ChessComponent {
 
     public RookChessComponent(ChessboardPoint chessboardPoint, Point location, ChessColor color, ClickController listener, int size) {
         super(chessboardPoint, location, color, listener, size);
+        setName(color);
         initiateRookImage(color);
     }
 
@@ -112,6 +113,14 @@ public class RookChessComponent extends ChessComponent {
         if (isSelected()) { // Highlights the model if selected.
             g.setColor(Color.RED);
             g.drawOval(0, 0, getWidth() , getHeight());
+        }
+    }
+    @Override
+    public void setName(ChessColor color) {
+        if (color == ChessColor.BLACK) {
+            this.name = 'R';
+        } else {
+            this.name = 'r';
         }
     }
 }

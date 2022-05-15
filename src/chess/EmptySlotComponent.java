@@ -1,6 +1,6 @@
 package chess;
 
-import view.ChessboardPoint;
+import chessboard.ChessboardPoint;
 import controller.ClickController;
 
 import java.awt.*;
@@ -13,6 +13,7 @@ public class EmptySlotComponent extends ChessComponent {
 
     public EmptySlotComponent(ChessboardPoint chessboardPoint, Point location, ClickController listener, int size) {
         super(chessboardPoint, location, ChessColor.NONE, listener, size);
+        setName(ChessColor.NONE);
     }
 
     @Override
@@ -24,5 +25,8 @@ public class EmptySlotComponent extends ChessComponent {
     public void loadResource() throws IOException {
         //No resource!
     }
-
+    @Override
+    public void setName(ChessColor color) {
+        this.name='_';
+    }
 }

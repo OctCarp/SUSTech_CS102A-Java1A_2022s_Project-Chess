@@ -1,4 +1,4 @@
-package view;
+package chessboard;
 
 /**
  * 这个类表示棋盘上的位置，如(0, 0), (0, 7)等等
