@@ -1,5 +1,5 @@
-import view.ChessGameFrame;
-import view.Homescreen;
+import chessboard.ChessGameFrame;
+import chessboard.Homescreen;
 
 import javax.swing.*;
 import java.io.IOException;

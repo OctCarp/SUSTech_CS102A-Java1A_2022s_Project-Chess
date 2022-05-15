@@ -1,4 +1,4 @@
-package view;
+package chessboard;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

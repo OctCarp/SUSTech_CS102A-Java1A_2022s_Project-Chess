@@ -62,6 +62,7 @@ public class ChessGameFrame extends JFrame {
         }
         addChessboard();
         repaint();
+        statusLabel.setText("BLACK");
     }
 
     /**
