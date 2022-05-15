@@ -6,18 +6,18 @@ import java.io.IOException;
 
 public class BoardSaver {
     private static BufferedWriter boardSaver;
-    public static void saveGame(String fileName){
-        try{
-            boardSaver = new BufferedWriter(new FileWriter(fileName));
+
+    public static void saveGame(String fileName) {
+        try {
+            boardSaver = new BufferedWriter(new FileWriter("./saves/"+fileName));
             saveBoardIntoFile(fileName);
             boardSaver.flush();
             boardSaver.close();
-        }catch (IOException e){
+        } catch (IOException e) {
 
             //todo: fail!
             e.printStackTrace();
         }
-
     }
 
     private static void saveBoardIntoFile(String fileName) throws IOException {

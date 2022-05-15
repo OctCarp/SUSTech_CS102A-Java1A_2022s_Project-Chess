@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.IOException;
 
 import static chess.ChessColor.BLACK;
+import static util.BoardLoader.initLoader;
 
 /**
  * 这个类表示游戏过程中的整个游戏界面，是一切的载体
@@ -30,6 +31,7 @@ public class ChessGameFrame extends JFrame {
 
     Countdown cd;
     Thread t;
+
     public ChessGameFrame(int width, int height) {
         setTitle("2022 CS102A Project Demo"); //设置标题
 
@@ -71,19 +73,22 @@ public class ChessGameFrame extends JFrame {
         repaint();
         Countdown.restart();
     }
-    private void addCount(){
+
+    private void addCount() {
         count = new JLabel();
-        count.setLocation(HEIGTH+70, HEIGTH / 10);
+        count.setLocation(HEIGTH + 70, HEIGTH / 10);
         count.setSize(100, 60);
         count.setFont(new Font("Rockwell", Font.BOLD, 20));
         add(count);
     }
-    private void countTxt(){
-        cd=new Countdown();
-        t=new Thread(cd);
+
+    private void countTxt() {
+        cd = new Countdown();
+        t = new Thread(cd);
         t.start();
     }
-    private void setCountBoard(Countdown cd,Chessboard chessboard){
+
+    private void setCountBoard(Countdown cd, Chessboard chessboard) {
         cd.setChessboard(chessboard);
     }
 
@@ -108,10 +113,11 @@ public class ChessGameFrame extends JFrame {
         statusLabel.setFont(new Font("Rockwell", Font.BOLD, 20));
         add(statusLabel);
     }
-    public static void setStatusLabel(ChessColor color){
-        if(color==BLACK){
+
+    public static void setStatusLabel(ChessColor color) {
+        if (color == BLACK) {
             statusLabel.setText("BLACK");
-        }else{
+        } else {
             statusLabel.setText("WHITE");
         }
     }
@@ -125,14 +131,16 @@ public class ChessGameFrame extends JFrame {
         add(button);
         button.addActionListener(e -> {
             String filePath = JOptionPane.showInputDialog(this, "input the name here");
-            StepSaver.stepList.add(new Step(chessboard.getCurrentColor(),chessboard.getChessComponents()));
-            BoardSaver.saveGame(filePath + ".txt");
+
+                StepSaver.stepList.add(new Step(chessboard.getCurrentColor(), chessboard.getChessComponents()));
+                BoardSaver.saveGame(filePath + ".txt");
         });
         button.setLocation(HEIGTH, HEIGTH / 10 + 120);
         button.setSize(200, 60);
         button.setFont(new Font("Rockwell", Font.BOLD, 20));
         add(button);
     }
+
     private void addRegretButton() {
         JButton button = new JButton("Regret");
         button.addActionListener((e) -> chessboard.regretStep());
@@ -141,6 +149,7 @@ public class ChessGameFrame extends JFrame {
         button.setFont(new Font("Rockwell", Font.BOLD, 20));
         add(button);
     }
+
     private void addLoadButton() {
         JButton button = new JButton("Load");
         button.setLocation(HEIGTH, HEIGTH / 10 + 240);
@@ -149,19 +158,41 @@ public class ChessGameFrame extends JFrame {
         JFileChooser chooser = new JFileChooser();
         add(button);
         button.addActionListener(e -> {
-            String path = readPath();
-            BoardLoader.readBoard(path);
-            loadGame();
-            chessboard.loadGame(BoardLoader.boardStrings);
+            try {
+                String path = readPath();
+                BoardLoader.readBoard(path);
+                if (BoardLoader.legal()) {
+                    loadGame();
+                    chessboard.loadGame(BoardLoader.boardStrings);
+                    BoardLoader.initLoader();
+                } else {
+                    JOptionPane.showMessageDialog(this, BoardLoader.wrong);
+                    BoardLoader.initLoader();
+                }
+            } catch (NullPointerException w) {
+                JOptionPane.showMessageDialog(this, "no file selected");
+            }
         });
     }
+
     private String readPath() {
         JFileChooser fc = new JFileChooser();
-        fc.setCurrentDirectory(new File("."));
+        fc.setCurrentDirectory(new File("./saves"));
         fc.showOpenDialog(this);
-
-        return fc.getSelectedFile().getAbsolutePath();
+        try {
+            String s = fc.getSelectedFile().getName();
+            String[] ss = s.split("\\.");
+            if (ss.length == 2) {
+                if (!ss[1].equals("txt")) {
+                    BoardLoader.one04 = true;
+                }
+            }else BoardLoader.one04 = true;
+            return fc.getSelectedFile().getAbsolutePath();
+        } catch (NullPointerException e) {
+            return null;
+        }
     }
+
     private void loadGame() {
         if (chessboard != null) {
             this.remove(chessboard);
