@@ -1,14 +1,19 @@
 import chessboard.ChessGameFrame;
-import view.AllFrames;
-import view.frame.MainFrame;
+import chessboard.Homescreen;
 
 import javax.swing.*;
+import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            ChessGameFrame mainFrame = new ChessGameFrame(1000,760);
-            mainFrame.setVisible(true);
+            Homescreen homescreen= null;
+            try {
+                homescreen = new Homescreen(1000,760);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            homescreen.setVisible(true);
         });
     }
 }
