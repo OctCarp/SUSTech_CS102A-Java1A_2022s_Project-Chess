@@ -5,6 +5,7 @@ import controller.Countdown;
 import controller.GameController;
 import util.BoardLoader;
 import util.BoardSaver;
+import util.Step;
 import util.StepSaver;
 
 import javax.swing.*;
@@ -27,7 +28,8 @@ public class ChessGameFrame extends JFrame {
     static JLabel statusLabel;
     public static JLabel count;
 
-
+    Countdown cd;
+    Thread t;
     public ChessGameFrame(int width, int height) {
         setTitle("2022 CS102A Project Demo"); //设置标题
 
@@ -40,15 +42,14 @@ public class ChessGameFrame extends JFrame {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); //设置程序关闭按键，如果点击右上方的叉就游戏全部关闭了
         setLayout(null);
         StepSaver.initiate();
-
+        addCount();
+        countTxt();
         addChessboard();
         addLabel();
         addSaveButton();
         addLoadButton();
         addRestart();
         addRegretButton();
-        addCount();
-        countTxt();
     }
 
     private void addRestart() {
@@ -66,9 +67,9 @@ public class ChessGameFrame extends JFrame {
         }
         StepSaver.initiate();
         addChessboard();
+        setStatusLabel(ChessColor.WHITE);
         repaint();
         Countdown.restart();
-        Countdown.setColor(BLACK);
     }
     private void addCount(){
         count = new JLabel();
@@ -78,9 +79,8 @@ public class ChessGameFrame extends JFrame {
         add(count);
     }
     private void countTxt(){
-        Countdown cd=new Countdown();
-        Thread t=new Thread(cd);
-        setCountBoard(cd,this.chessboard);
+        cd=new Countdown();
+        t=new Thread(cd);
         t.start();
     }
     private void setCountBoard(Countdown cd,Chessboard chessboard){
@@ -93,6 +93,7 @@ public class ChessGameFrame extends JFrame {
     private void addChessboard() {
         chessboard = new Chessboard(CHESSBOARD_SIZE, CHESSBOARD_SIZE);
         gameController = new GameController(chessboard);
+        setCountBoard(cd, chessboard);
         chessboard.setLocation(HEIGTH / 10, HEIGTH / 10);
         add(chessboard);
     }
@@ -101,7 +102,7 @@ public class ChessGameFrame extends JFrame {
      * 在游戏面板中添加标签
      */
     private void addLabel() {
-        statusLabel = new JLabel("BLACK");
+        statusLabel = new JLabel("WHITE");
         statusLabel.setLocation(HEIGTH, HEIGTH / 10);
         statusLabel.setSize(100, 60);
         statusLabel.setFont(new Font("Rockwell", Font.BOLD, 20));
@@ -124,6 +125,7 @@ public class ChessGameFrame extends JFrame {
         add(button);
         button.addActionListener(e -> {
             String filePath = JOptionPane.showInputDialog(this, "input the name here");
+            StepSaver.stepList.add(new Step(chessboard.getCurrentColor(),chessboard.getChessComponents()));
             BoardSaver.saveGame(filePath + ".txt");
         });
         button.setLocation(HEIGTH, HEIGTH / 10 + 120);
@@ -150,7 +152,7 @@ public class ChessGameFrame extends JFrame {
             String path = readPath();
             BoardLoader.readBoard(path);
             loadGame();
-            chessboard.loadChessGame(BoardLoader.boardStrings);
+            chessboard.loadGame(BoardLoader.boardStrings);
         });
     }
     private String readPath() {
@@ -166,6 +168,7 @@ public class ChessGameFrame extends JFrame {
         }
         chessboard = new Chessboard(CHESSBOARD_SIZE, CHESSBOARD_SIZE);
         gameController = new GameController(chessboard);
+        setCountBoard(cd, chessboard);
         chessboard.setLocation(HEIGTH / 10, HEIGTH / 10);
         add(chessboard);
     }

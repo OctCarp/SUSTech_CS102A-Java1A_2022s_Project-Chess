@@ -32,7 +32,7 @@ public class Chessboard extends JComponent {
     private static final int CHESSBOARD_SIZE = 8;
 
     public static ChessComponent[][] chessComponents = new ChessComponent[CHESSBOARD_SIZE][CHESSBOARD_SIZE];
-    private ChessColor currentColor = ChessColor.BLACK;
+    private ChessColor currentColor=ChessColor.WHITE;
     //all chessComponents in this chessboard are shared only one model controller
     private final ClickController clickController = new ClickController(this);
     public static int CHESS_SIZE;
@@ -44,7 +44,6 @@ public class Chessboard extends JComponent {
         setSize(width, height);
         CHESS_SIZE = width / 8;
         System.out.printf("chessboard size = %d, chess size = %d\n", width, CHESS_SIZE);
-
         // FIXME: Initialize chessboard for testing only.
         initChess();
     }
@@ -196,8 +195,33 @@ public class Chessboard extends JComponent {
         return new Point(col * CHESS_SIZE, row * CHESS_SIZE);
     }
 
-    public void loadGame(List<String> chessData) {
-        chessData.forEach(System.out::println);
+    public void loadGame(List<String> chessboard) {
+
+        char player = chessboard.get(8).charAt(0);
+        if (player == 'x') {
+            swapColor(ChessColor.BLACK);
+        } else {
+            swapColor(ChessColor.WHITE);
+        }
+        ChessComponent[][] chessComponents2 = new ChessComponent[8][8];
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                char c = chessboard.get(i).charAt(j);
+                ChessComponent chess = type(c, i, j);
+                chessComponents2[i][j] = chess;
+            }
+        }
+        StepSaver.initiate();
+        Step board = new Step();
+        board.setChessComponents(chessComponents2);
+
+        if (player == 'x') {
+            board.setPlayer(ChessColor.BLACK);
+        } else {
+            board.setPlayer(ChessColor.WHITE);
+        }
+        StepSaver.stepList.add(board);
+        regretStep();
     }
 
     public void initChess() {
@@ -286,27 +310,7 @@ public class Chessboard extends JComponent {
         return new EmptySlotComponent((new ChessboardPoint(x, y)), calculatePoint(x, y), clickController, CHESS_SIZE);
     }
 
-    public void loadChessGame(List<String> chessboard) {
-        ChessComponent[][] chessComponents2 = new ChessComponent[8][8];
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-                char c = chessboard.get(i).charAt(j);
-                ChessComponent chess = type(c, i, j);
-                chessComponents2[i][j] = chess;
-            }
-        }
-        StepSaver.initiate();
-        Step board = new Step();
-        board.setChessComponents(chessComponents2);
-        char player = chessboard.get(8).charAt(0);
-        if (player == 'x') {
-            board.setPlayer(ChessColor.BLACK);
-        } else {
-            board.setPlayer(ChessColor.WHITE);
-        }
-        StepSaver.stepList.add(board);
-        regretStep();
-    }
+
     public ChessComponent getChessComponents(int x,int y){
         return chessComponents[x][y];
     }
@@ -317,4 +321,5 @@ public class Chessboard extends JComponent {
             }
         }
     }
+
 }

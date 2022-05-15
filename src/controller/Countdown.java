@@ -1,23 +1,21 @@
 package controller;
 
 import chess.ChessColor;
-import chess.ChessComponent;
-import chessboard.ChessGameFrame;
 import chessboard.Chessboard;
 import util.Step;
 import util.StepSaver;
 
 import javax.swing.*;
-import java.awt.*;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import static chessboard.ChessGameFrame.count;
 
 public class Countdown implements Runnable {
-    JLabel j2 = count;
+    JLabel j1 = count;
     Chessboard chessboard;
-    public static long midTime = 5;
+    static long init=5;
+    public static long midTime = init;
     public static ChessColor color;
     private ClickController controller;
     /**
@@ -39,15 +37,14 @@ public class Countdown implements Runnable {
         while (midTime > 0) {
             midTime--;
             long ss = midTime;
-            j2.setText(String.format("%d", ss));
+            j1.setText(String.format("%d", ss));
             try {
                 Thread.sleep(1000);
                 if (midTime == 0) {
+                    StepSaver.stepList.add(new Step(chessboard.getCurrentColor(), chessboard.getChessComponents()));
+                    chessboard.removeSelect();
                     chessboard.swapColor();
                     restart();
-                    chessboard.removeSelect();
-                    StepSaver.stepList.add(new Step(chessboard.getCurrentColor(), chessboard.getChessComponents()));
-
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -57,7 +54,7 @@ public class Countdown implements Runnable {
     }
 
     public static void restart() {
-        midTime = 5;
+        midTime = init;
     }
 
     /**
@@ -65,20 +62,14 @@ public class Countdown implements Runnable {
      */
 
     public Countdown() {
-        color = ChessColor.BLACK;
+
     }
 
-    public void setChessboard(Chessboard chessboard) {
+    public  void setChessboard(Chessboard chessboard) {
         this.chessboard = chessboard;
     }
 
-    public static void setColor(ChessColor color) {
-        Countdown.color = color;
-    }
 
-    public static void swapC() {
-        color = color == ChessColor.BLACK ? ChessColor.WHITE : ChessColor.BLACK;
-    }
 }
 
 

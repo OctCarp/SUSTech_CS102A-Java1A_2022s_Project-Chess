@@ -8,8 +8,11 @@ import chessboard.ChessboardPoint;
 import java.awt.*;
 
 public class ClickController {
-    private final Chessboard chessboard;
+    private  Chessboard chessboard;
     private ChessComponent first;
+    public ClickController(){
+
+    }
 
     public void removeFirst(ChessComponent chessComponent) {
         chessComponent.setSelected(false);
@@ -39,7 +42,7 @@ public class ClickController {
                 first.repaint();
                 for (int i = 0; i <8 ; i++) {
                     for (int j = 0; j <8 ; j++) {
-                        if(chessComponent.canMoveTo(Chessboard.chessComponents,new ChessboardPoint(i,j))){
+                        if(first.canMoveTo(Chessboard.chessComponents,new ChessboardPoint(i,j))){
                             if(chessComponent.getChessColor()!=Chessboard.chessComponents[i][j].getChessColor()) {
                                 Chessboard.chessComponents[i][j].setSquareColor(Color.YELLOW);
                                 Chessboard.chessComponents[i][j].repaint();
