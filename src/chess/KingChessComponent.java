@@ -73,4 +73,8 @@ public class KingChessComponent extends ChessComponent{
             this.name = 'k';
         }
     }
+    @Override
+    public  void removeSelected(){
+        getClickController().removeFirst(this);
+    }
 }

@@ -73,4 +73,8 @@ public class KnightChessComponent extends ChessComponent {
             this.name = 'n';
         }
     }
+    @Override
+    public  void removeSelected(){
+        getClickController().removeFirst(this);
+    }
 }

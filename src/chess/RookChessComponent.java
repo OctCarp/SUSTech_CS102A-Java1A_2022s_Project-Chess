@@ -123,4 +123,8 @@ public class RookChessComponent extends ChessComponent {
             this.name = 'r';
         }
     }
+    @Override
+    public  void removeSelected(){
+        getClickController().removeFirst(this);
+    }
 }

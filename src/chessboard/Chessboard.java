@@ -3,6 +3,7 @@ package chessboard;
 
 import chess.*;
 import controller.ClickController;
+import controller.Countdown;
 import util.StepSaver;
 import util.Step;
 
@@ -37,13 +38,6 @@ public class Chessboard extends JComponent {
     public static int CHESS_SIZE;
     public static LinkedList<Step> stepList;
 
-    public LinkedList<Step> getStepList() {
-        return stepList;
-    }
-
-    public void setStepList(LinkedList<Step> stepList) {
-        stepList = stepList;
-    }
 
     public Chessboard(int width, int height) {
         setLayout(null); // Use absolute layout.
@@ -81,7 +75,7 @@ public class Chessboard extends JComponent {
             if (step != null) {
                 ChessComponent[][] chessComponents1 = step.getChessComponents1();
                 swapColor(step.getPlayer());
-
+                Countdown.restart();
                 //     initiateEmptyChessboard();
                 for (int i = 0; i < 8; i++) {
                     for (int j = 0; j < 8; j++) {
@@ -312,5 +306,15 @@ public class Chessboard extends JComponent {
         }
         StepSaver.stepList.add(board);
         regretStep();
+    }
+    public ChessComponent getChessComponents(int x,int y){
+        return chessComponents[x][y];
+    }
+    public void removeSelect(){
+        for (int i = 0; i <8 ; i++) {
+            for (int j = 0; j <8 ; j++) {
+                chessComponents[i][j].removeSelected();
+            }
+        }
     }
 }

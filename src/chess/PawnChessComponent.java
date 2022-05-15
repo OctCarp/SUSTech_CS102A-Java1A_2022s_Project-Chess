@@ -110,4 +110,8 @@ public class PawnChessComponent extends ChessComponent {
             this.name = 'p';
         }
     }
+    @Override
+    public  void removeSelected(){
+        getClickController().removeFirst(this);
+    }
 }

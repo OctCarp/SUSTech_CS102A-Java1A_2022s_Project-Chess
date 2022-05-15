@@ -91,4 +91,8 @@ public class BishopChessComponent extends ChessComponent {
             this.name = 'b';
         }
     }
+    @Override
+    public  void removeSelected(){
+        getClickController().removeFirst(this);
+    }
 }

@@ -108,4 +108,8 @@ public class QueenChessComponent extends ChessComponent {
             this.name = 'q';
         }
     }
+    @Override
+    public  void removeSelected(){
+        getClickController().removeFirst(this);
+    }
 }

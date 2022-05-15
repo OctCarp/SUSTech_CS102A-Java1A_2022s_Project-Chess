@@ -29,4 +29,7 @@ public class EmptySlotComponent extends ChessComponent {
     public void setName(ChessColor color) {
         this.name='_';
     }
+    @Override
+    public void removeSelected(){
+    }
 }

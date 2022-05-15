@@ -1,6 +1,7 @@
 package chessboard;
 
 import chess.ChessColor;
+import controller.Countdown;
 import controller.GameController;
 import util.BoardLoader;
 import util.BoardSaver;
@@ -24,6 +25,7 @@ public class ChessGameFrame extends JFrame {
     private Chessboard chessboard;
     private GameController gameController;
     static JLabel statusLabel;
+    public static JLabel count;
 
 
     public ChessGameFrame(int width, int height) {
@@ -45,6 +47,8 @@ public class ChessGameFrame extends JFrame {
         addLoadButton();
         addRestart();
         addRegretButton();
+        addCount();
+        countTxt();
     }
 
     private void addRestart() {
@@ -60,8 +64,27 @@ public class ChessGameFrame extends JFrame {
         if (chessboard != null) {
             this.remove(chessboard);
         }
+        StepSaver.initiate();
         addChessboard();
         repaint();
+        Countdown.restart();
+        Countdown.setColor(BLACK);
+    }
+    private void addCount(){
+        count = new JLabel();
+        count.setLocation(HEIGTH+70, HEIGTH / 10);
+        count.setSize(100, 60);
+        count.setFont(new Font("Rockwell", Font.BOLD, 20));
+        add(count);
+    }
+    private void countTxt(){
+        Countdown cd=new Countdown();
+        Thread t=new Thread(cd);
+        setCountBoard(cd,this.chessboard);
+        t.start();
+    }
+    private void setCountBoard(Countdown cd,Chessboard chessboard){
+        cd.setChessboard(chessboard);
     }
 
     /**
@@ -80,7 +103,7 @@ public class ChessGameFrame extends JFrame {
     private void addLabel() {
         statusLabel = new JLabel("BLACK");
         statusLabel.setLocation(HEIGTH, HEIGTH / 10);
-        statusLabel.setSize(200, 60);
+        statusLabel.setSize(100, 60);
         statusLabel.setFont(new Font("Rockwell", Font.BOLD, 20));
         add(statusLabel);
     }

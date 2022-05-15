@@ -52,6 +52,10 @@ public abstract class ChessComponent extends JComponent {
         setSquareColor(getBackColor(chessboardPoint));
     }
 
+    public ClickController getClickController() {
+        return clickController;
+    }
+
     public ChessboardPoint getChessboardPoint() {
         return chessboardPoint;
     }
@@ -99,6 +103,9 @@ public abstract class ChessComponent extends JComponent {
             System.out.printf("Click [%d,%d]\n", chessboardPoint.getX(), chessboardPoint.getY());
             clickController.onClick(this);
         }
+    }
+    public  void removeSelected(){
+        clickController.removeFirst(this);
     }
 
     /**
