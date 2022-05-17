@@ -1,4 +1,5 @@
-# CS102A-ChessProjnow for xch&wjy only
+# CS102A-ChessProject
+now for xch&wjy only
 
 ## 基础部分
 #### Task1：初始化游戏 (10/10)
@@ -20,8 +21,9 @@ TODO:
 
 (2)加载已有棋局的时候，使用JFileChooser读写(1%)
 
-#### 2.AI与算法(1/12)
+#### 2.AI与算法(2/12)
 (1)选中棋子时，显示棋子下一步合法落子点(1%)
+(2)当“王”被攻击时，显示报警提示(1%）
 
 #### 3.悔棋与耗时组件(5/8）
 
@@ -32,4 +34,4 @@ TODO:
 #### 6.版本控制(2/2)
 
 (1)使用github或者gitee进行版本控制，且小组成员都有一定的commit量(2%)
-### Bonus合计：10
+### Bonus合计：11
