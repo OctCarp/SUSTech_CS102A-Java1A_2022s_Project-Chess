@@ -52,7 +52,7 @@ public class PawnChessComponent extends ChessComponent {
                         return false;
                     }
                 } else if (destination.getX() == 3) {
-                    if (!(chessComponents[2][destination.getY()] instanceof EmptySlotComponent) &&
+                    if (!(chessComponents[2][destination.getY()] instanceof EmptySlotComponent) ||
                             !(chessComponents[3][destination.getY()] instanceof EmptySlotComponent)) {
                         return false;
                     }
@@ -74,7 +74,7 @@ public class PawnChessComponent extends ChessComponent {
                             return false;
                         }
                     } else if (destination.getX() == 4) {
-                        if (!(chessComponents[5][destination.getY()] instanceof EmptySlotComponent) &&
+                        if (!(chessComponents[5][destination.getY()] instanceof EmptySlotComponent) ||
                                 !(chessComponents[4][destination.getY()] instanceof EmptySlotComponent)) {
                             return false;
                         }
