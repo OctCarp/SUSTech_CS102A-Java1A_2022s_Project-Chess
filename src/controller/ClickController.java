@@ -3,6 +3,7 @@ package controller;
 
 import chess.ChessColor;
 import chess.ChessComponent;
+import chessboard.ChessGameFrame;
 import chessboard.Chessboard;
 import chessboard.ChessboardPoint;
 
@@ -74,6 +75,7 @@ public class ClickController {
                     Chessboard.setCanMoveToB();
                 }
                chessboard.CheckMake();
+                ChessGameFrame.setStatusLabelCheck();
                first.setSelected(false);
                Countdown.restart();
                first=null;

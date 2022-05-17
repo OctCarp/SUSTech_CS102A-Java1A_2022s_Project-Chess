@@ -52,6 +52,7 @@ public class ChessGameFrame extends JFrame {
         addLoadButton();
         addRestart();
         addRegretButton();
+        addLabelCheck();
     }
 
     private void addRestart() {
@@ -112,6 +113,27 @@ public class ChessGameFrame extends JFrame {
         statusLabel.setSize(100, 60);
         statusLabel.setFont(new Font("Rockwell", Font.BOLD, 20));
         add(statusLabel);
+    }
+
+    private void addLabelCheck(){
+        statusLabel = new JLabel("Check King White");
+        statusLabel.setLocation(HEIGTH, HEIGTH/10 +60 );
+        statusLabel.setSize(200, 60);
+        statusLabel.setFont(new Font("Rockwell", Font.BOLD, 10));
+        setVisible(false);
+        add(statusLabel);
+    }
+
+    public static void setStatusLabelCheck(){
+        if (Chessboard.CheckKing(Chessboard.getKingB())){
+            statusLabel.setText("Check King Black");
+            statusLabel.setVisible(true);
+        }
+        else if (Chessboard.CheckKing(Chessboard.getKingW())){
+            statusLabel.setText("Check King White");
+            statusLabel.setVisible(true);
+        }
+        else statusLabel.setVisible(false);
     }
 
     public static void setStatusLabel(ChessColor color) {

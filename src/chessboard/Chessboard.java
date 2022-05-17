@@ -40,8 +40,8 @@ public class Chessboard extends JComponent {
     public static LinkedList<Step> stepList;
     public static List<ChessboardPoint> CanMoveToW = new ArrayList<>();
     public static List<ChessboardPoint> CanMoveToB = new ArrayList<>();
-    public ChessComponent KingW;
-    public ChessComponent KingB;
+    public static ChessComponent KingW;
+    public static ChessComponent KingB;
 
 
     public Chessboard(int width, int height) {
@@ -177,7 +177,7 @@ public class Chessboard extends JComponent {
         }
     }
 
-    public boolean CheckKing(ChessComponent King){
+    public static boolean CheckKing(ChessComponent King){
         if (King.getChessColor()==ChessColor.BLACK){
             for (int i=0;i<CanMoveToW.size();i++){
                 if (CanMoveToW.get(i).getX()==King.getChessboardPoint().getX()&&CanMoveToW.get(i).getY()==King.getChessboardPoint().getY())
@@ -378,6 +378,14 @@ public class Chessboard extends JComponent {
 
     public ChessComponent getChessComponents(int x,int y){
         return chessComponents[x][y];
+    }
+
+    public static ChessComponent getKingW() {
+        return KingW;
+    }
+
+    public static ChessComponent getKingB() {
+        return KingB;
     }
 
     public void removeSelect(){
