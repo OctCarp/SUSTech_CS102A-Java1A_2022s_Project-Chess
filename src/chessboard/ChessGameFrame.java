@@ -28,6 +28,7 @@ public class ChessGameFrame extends JFrame {
     private GameController gameController;
     static JLabel statusLabel;
     public static JLabel count;
+    static JLabel checkLabel;
 
     Countdown cd;
     Thread t;
@@ -70,6 +71,7 @@ public class ChessGameFrame extends JFrame {
         }
         StepSaver.initiate();
         addChessboard();
+        checkLabel.setVisible(false);
         setStatusLabel(ChessColor.WHITE);
         repaint();
         Countdown.restart();
@@ -116,24 +118,24 @@ public class ChessGameFrame extends JFrame {
     }
 
     private void addLabelCheck(){
-        statusLabel = new JLabel("Check King White");
-        statusLabel.setLocation(HEIGTH, HEIGTH/10 +60 );
-        statusLabel.setSize(200, 60);
-        statusLabel.setFont(new Font("Rockwell", Font.BOLD, 10));
+        checkLabel = new JLabel();
+        checkLabel.setLocation(HEIGTH, HEIGTH/10 +60 );
+        checkLabel.setSize(200, 60);
+        checkLabel.setFont(new Font("Rockwell", Font.BOLD, 10));
         setVisible(false);
-        add(statusLabel);
+        add(checkLabel);
     }
 
-    public static void setStatusLabelCheck(){
-        if (Chessboard.CheckKing(Chessboard.getKingB())){
-            statusLabel.setText("Check King Black");
-            statusLabel.setVisible(true);
+    public static void setStatusLabelCheck(Chessboard chessboard){
+        if (chessboard.CheckKing(chessboard.getKingB())){
+            checkLabel.setText("Check King Black");
+            checkLabel.setVisible(true);
         }
-        else if (Chessboard.CheckKing(Chessboard.getKingW())){
-            statusLabel.setText("Check King White");
-            statusLabel.setVisible(true);
+        else if (chessboard.CheckKing(chessboard.getKingW())){
+            checkLabel.setText("Check King White");
+            checkLabel.setVisible(true);
         }
-        else statusLabel.setVisible(false);
+        else checkLabel.setVisible(false);
     }
 
     public static void setStatusLabel(ChessColor color) {

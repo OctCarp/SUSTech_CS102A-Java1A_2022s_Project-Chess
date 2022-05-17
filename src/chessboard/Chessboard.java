@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import static chessboard.ChessGameFrame.setStatusLabelCheck;
+
 /**
  * 这个类表示面板上的棋盘组件对象
  */
@@ -135,6 +137,9 @@ public class Chessboard extends JComponent {
                         chessComponents[i][j].repaint();
                     }
                 }
+                setCanMoveToB();
+                setCanMoveToW();
+                setStatusLabelCheck(this);
             }
         } else {
 

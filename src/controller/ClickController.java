@@ -75,7 +75,7 @@ public class ClickController {
                     Chessboard.setCanMoveToB();
                 }
                chessboard.CheckMake();
-                ChessGameFrame.setStatusLabelCheck();
+                ChessGameFrame.setStatusLabelCheck(chessboard);
                first.setSelected(false);
                Countdown.restart();
                first=null;
