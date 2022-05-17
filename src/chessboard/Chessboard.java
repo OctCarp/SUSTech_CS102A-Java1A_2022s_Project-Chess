@@ -4,6 +4,7 @@ package chessboard;
 import chess.*;
 import controller.ClickController;
 import controller.Countdown;
+import util.CheckMove;
 import util.StepSaver;
 import util.Step;
 
@@ -44,12 +45,14 @@ public class Chessboard extends JComponent {
     public static List<ChessboardPoint> CanMoveToB = new ArrayList<>();
     public static ChessComponent KingW;
     public static ChessComponent KingB;
+    public CheckMove checkMove;
 
 
 
     public Chessboard(int width, int height) {
         setLayout(null); // Use absolute layout.
         setSize(width, height);
+        checkMove=new CheckMove(this);
         CHESS_SIZE = width / 8;
         System.out.printf("chessboard size = %d, chess size = %d\n", width, CHESS_SIZE);
         // FIXME: Initialize chessboard for testing only.
