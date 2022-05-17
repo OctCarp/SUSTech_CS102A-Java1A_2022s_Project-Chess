@@ -10,6 +10,7 @@ import util.Step;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -37,6 +38,10 @@ public class Chessboard extends JComponent {
     private final ClickController clickController = new ClickController(this);
     public static int CHESS_SIZE;
     public static LinkedList<Step> stepList;
+    public static List<ChessboardPoint> CanMoveToW = new ArrayList<>();
+    public static List<ChessboardPoint> CanMoveToB = new ArrayList<>();
+    public ChessComponent KingW;
+    public ChessComponent KingB;
 
 
     public Chessboard(int width, int height) {
@@ -47,8 +52,6 @@ public class Chessboard extends JComponent {
         // FIXME: Initialize chessboard for testing only.
         initChess();
     }
-
-
     public ChessComponent[][] getChessComponents() {
         return chessComponents;
     }
@@ -66,6 +69,41 @@ public class Chessboard extends JComponent {
         add(chessComponents[row][col] = chessComponent);
     }
 
+    public List<ChessboardPoint> getCanMoveToW(){
+        return CanMoveToW;
+    }
+
+    public List<ChessboardPoint> getCanMoveToB(){
+        return CanMoveToB;
+    }
+
+    public static void setCanMoveToB() {
+        List<ChessboardPoint> canMoveToB=new ArrayList<>();
+        for (int i=0;i<=7;i++){
+            for (int j=0;j<=7;j++){
+                for (int M=0;M<=7;M++){
+                    for (int N=0;N<=7;N++){
+                        if (chessComponents[i][j].canMoveTo(chessComponents,new ChessboardPoint(M,N))&&chessComponents[i][j].getChessColor()==ChessColor.BLACK)canMoveToB.add(new ChessboardPoint(M,N));
+                    }
+                }
+            }
+        }
+        CanMoveToB = canMoveToB;
+    }
+
+    public static void setCanMoveToW() {
+        List<ChessboardPoint> canMoveToW=new ArrayList<>();
+        for (int i=0;i<=7;i++){
+            for (int j=0;j<=7;j++){
+                for (int M=0;M<=7;M++){
+                    for (int N=0;N<=7;N++){
+                        if (chessComponents[i][j].canMoveTo(chessComponents,new ChessboardPoint(M,N))&&chessComponents[i][j].getChessColor()==ChessColor.WHITE)canMoveToW.add(new ChessboardPoint(M,N));
+                    }
+                }
+            }
+        }
+        CanMoveToW = canMoveToW;
+    }
 
     public void regretStep() {
         stepList = StepSaver.stepList;
@@ -126,12 +164,33 @@ public class Chessboard extends JComponent {
         simpleSwap(chess1, chess2);
     }
 
+    public void CheckMake(){
+            if (CheckKing(KingW))System.out.println("JIANGW");
+            if (CheckKing(KingB))System.out.println("JIANGB");
+    }
+
     public void initiateEmptyChessboard() {
         for (int i = 0; i < chessComponents.length; i++) {
             for (int j = 0; j < chessComponents[i].length; j++) {
                 putChessOnBoard(new EmptySlotComponent(new ChessboardPoint(i, j), calculatePoint(i, j), clickController, CHESS_SIZE));
             }
         }
+    }
+
+    public boolean CheckKing(ChessComponent King){
+        if (King.getChessColor()==ChessColor.BLACK){
+            for (int i=0;i<CanMoveToW.size();i++){
+                if (CanMoveToW.get(i).getX()==King.getChessboardPoint().getX()&&CanMoveToW.get(i).getY()==King.getChessboardPoint().getY())
+                    return true;
+            }
+        }
+        else {
+            for (int i=0;i<CanMoveToB.size();i++){
+                if (CanMoveToB.get(i).getX()==King.getChessboardPoint().getX()&&CanMoveToB.get(i).getY()==King.getChessboardPoint().getY())
+                    return true;
+            }
+        }
+        return false;
     }
 
     public void EmptyOnBoard(int row, int col) {
@@ -176,6 +235,12 @@ public class Chessboard extends JComponent {
         ChessComponent chessComponent = new KingChessComponent(new ChessboardPoint(row, col), calculatePoint(row, col), color, clickController, CHESS_SIZE);
         chessComponent.setVisible(true);
         putChessOnBoard(chessComponent);
+        if (color==ChessColor.WHITE){
+            KingW=chessComponent;
+        }
+        if (color==ChessColor.BLACK){
+            KingB=chessComponent;
+        }
     }
 
     private void PawnOnBoard(int row, int col, ChessColor color) {
@@ -314,6 +379,7 @@ public class Chessboard extends JComponent {
     public ChessComponent getChessComponents(int x,int y){
         return chessComponents[x][y];
     }
+
     public void removeSelect(){
         for (int i = 0; i <8 ; i++) {
             for (int j = 0; j <8 ; j++) {

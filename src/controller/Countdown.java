@@ -14,7 +14,7 @@ import static chessboard.ChessGameFrame.count;
 public class Countdown implements Runnable {
     JLabel j1 = count;
     Chessboard chessboard;
-    static long init=5;
+    static long init=30;
     public static long midTime = init;
     public static ChessColor color;
     private ClickController controller;

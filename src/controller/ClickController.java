@@ -1,6 +1,7 @@
 package controller;
 
 
+import chess.ChessColor;
 import chess.ChessComponent;
 import chessboard.Chessboard;
 import chessboard.ChessboardPoint;
@@ -66,6 +67,13 @@ public class ClickController {
                         Chessboard.chessComponents[i][j].repaint();
                     }
                 }
+                if (first.getChessColor()==ChessColor.WHITE){
+                    Chessboard.setCanMoveToB();
+                }
+                if (first.getChessColor()==ChessColor.BLACK){
+                    Chessboard.setCanMoveToW();
+                }
+               chessboard.CheckMake();
                first.setSelected(false);
                Countdown.restart();
                first=null;
