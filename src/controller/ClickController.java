@@ -68,12 +68,8 @@ public class ClickController {
                         Chessboard.chessComponents[i][j].repaint();
                     }
                 }
-                if (first.getChessColor()==ChessColor.WHITE){
-                    Chessboard.setCanMoveToW();
-                }
-                if (first.getChessColor()==ChessColor.BLACK){
-                    Chessboard.setCanMoveToB();
-                }
+               chessboard.setCanMoveToW();
+               chessboard.setCanMoveToB();
                chessboard.CheckMake();
                 ChessGameFrame.setStatusLabelCheck(chessboard);
                first.setSelected(false);
