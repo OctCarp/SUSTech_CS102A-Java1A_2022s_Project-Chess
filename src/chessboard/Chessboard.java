@@ -4,6 +4,7 @@ package chessboard;
 import chess.*;
 import controller.ClickController;
 import controller.Countdown;
+import util.CheckMove;
 import util.StepSaver;
 import util.Step;
 
@@ -44,11 +45,13 @@ public class Chessboard extends JComponent {
     public static List<ChessboardPoint> CanMoveToB = new ArrayList<>();
     public static ChessComponent KingW;
     public static ChessComponent KingB;
+    public CheckMove checkMove;
 
 
     public Chessboard(int width, int height) {
         setLayout(null); // Use absolute layout.
         setSize(width, height);
+        checkMove=new CheckMove(this);
         CHESS_SIZE = width / 8;
         System.out.printf("chessboard size = %d, chess size = %d\n", width, CHESS_SIZE);
         // FIXME: Initialize chessboard for testing only.
@@ -79,7 +82,7 @@ public class Chessboard extends JComponent {
         return CanMoveToB;
     }
 
-    public static void setCanMoveToB() {
+    public void setCanMoveToB() {
         List<ChessboardPoint> canMoveToB=new ArrayList<>();
         for (int i=0;i<=7;i++){
             for (int j=0;j<=7;j++){
@@ -93,7 +96,7 @@ public class Chessboard extends JComponent {
         CanMoveToB = canMoveToB;
     }
 
-    public static void setCanMoveToW() {
+    public void setCanMoveToW() {
         List<ChessboardPoint> canMoveToW=new ArrayList<>();
         for (int i=0;i<=7;i++){
             for (int j=0;j<=7;j++){
@@ -393,6 +396,9 @@ public class Chessboard extends JComponent {
         return KingB;
     }
 
+    public ClickController getClickController(){
+        return clickController;
+    }
     public void removeSelect(){
         for (int i = 0; i <8 ; i++) {
             for (int j = 0; j <8 ; j++) {
@@ -400,5 +406,4 @@ public class Chessboard extends JComponent {
             }
         }
     }
-
 }

@@ -1,5 +1,6 @@
 package chess;
 
+import chessboard.Chessboard;
 import chessboard.ChessboardPoint;
 import controller.ClickController;
 
@@ -23,13 +24,14 @@ public abstract class ChessComponent extends JComponent {
      */
 
 //    private static final Dimension CHESSGRID_SIZE = new Dimension(1080 / 4 * 3 / 8, 1080 / 4 * 3 / 8);
-    private static final Color[] BACKGROUND_COLORS = {Color.WHITE, Color.BLACK};
+    private static final Color[] BACKGROUND_COLORS = {Color.WHITE, Color.CYAN};
     /**
      * handle click event
      */
     private ClickController clickController;
     public Color backColor;
     protected char name;
+    public Chessboard chessboard;
     abstract public void setName(ChessColor color) ;
 
     /**
