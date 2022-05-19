@@ -3,9 +3,12 @@ package controller;
 
 import chess.ChessColor;
 import chess.ChessComponent;
+import chess.EmptySlotComponent;
+import chess.KingChessComponent;
 import chessboard.ChessGameFrame;
 import chessboard.Chessboard;
 import chessboard.ChessboardPoint;
+import chessboard.Winboard;
 
 import java.awt.*;
 
@@ -58,6 +61,11 @@ public class ClickController {
                removeFirst(chessComponent);
             } else if (handleSecond(chessComponent)) {
                 //repaint in swap chess method.
+                if (chessComponent instanceof KingChessComponent){
+                        Winboard.setWinText(chessComponent.getChessColor());
+                        chessboard.chessGameFrame.winboard.setVisible(true);
+                        chessboard.chessGameFrame.setVisible(false);
+                }
                 chessboard.swapChessComponents(first, chessComponent);
                 chessboard.swapColor();
 

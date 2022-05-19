@@ -4,7 +4,6 @@ package chessboard;
 import chess.*;
 import controller.ClickController;
 import controller.Countdown;
-import util.CheckMove;
 import util.StepSaver;
 import util.Step;
 
@@ -45,14 +44,13 @@ public class Chessboard extends JComponent {
     public static List<ChessboardPoint> CanMoveToB = new ArrayList<>();
     public static ChessComponent KingW;
     public static ChessComponent KingB;
-    public CheckMove checkMove;
+    public ChessGameFrame chessGameFrame;
 
 
 
     public Chessboard(int width, int height) {
         setLayout(null); // Use absolute layout.
         setSize(width, height);
-        checkMove=new CheckMove(this);
         CHESS_SIZE = width / 8;
         System.out.printf("chessboard size = %d, chess size = %d\n", width, CHESS_SIZE);
         // FIXME: Initialize chessboard for testing only.
@@ -241,7 +239,7 @@ public class Chessboard extends JComponent {
     }
 
     private void KingOnBoard(int row, int col, ChessColor color) {
-        ChessComponent chessComponent = new KingChessComponent(new ChessboardPoint(row, col), calculatePoint(row, col), color, clickController, CHESS_SIZE);
+        ChessComponent chessComponent = new KingChessComponent(new ChessboardPoint(row, col), calculatePoint(row, col), color, clickController, CHESS_SIZE,this);
         chessComponent.setVisible(true);
         putChessOnBoard(chessComponent);
         if (color==ChessColor.WHITE){
@@ -338,7 +336,7 @@ public class Chessboard extends JComponent {
                 } else if (chess instanceof QueenChessComponent) {
                     chess1 = new QueenChessComponent((new ChessboardPoint(x, y)), calculatePoint(x, y), color, clickController, CHESS_SIZE);
                 } else if (chess instanceof KingChessComponent) {
-                    chess1 = new KingChessComponent((new ChessboardPoint(x, y)), calculatePoint(x, y), color, clickController, CHESS_SIZE);
+                    chess1 = new KingChessComponent((new ChessboardPoint(x, y)), calculatePoint(x, y), color, clickController, CHESS_SIZE, this);
                 } else if (chess instanceof BishopChessComponent) {
                     chess1 = new BishopChessComponent((new ChessboardPoint(x, y)), calculatePoint(x, y), color, clickController, CHESS_SIZE);
                 } else if (chess instanceof KnightChessComponent) {
@@ -357,9 +355,9 @@ public class Chessboard extends JComponent {
     public ChessComponent type(char c, int x, int y) {
         switch (c) {
             case 'K':
-                return new KingChessComponent((new ChessboardPoint(x, y)), calculatePoint(x, y), ChessColor.BLACK, clickController, CHESS_SIZE);
+                return new KingChessComponent((new ChessboardPoint(x, y)), calculatePoint(x, y), ChessColor.BLACK, clickController, CHESS_SIZE,this);
             case 'k':
-                return new KingChessComponent((new ChessboardPoint(x, y)), calculatePoint(x, y), ChessColor.WHITE, clickController, CHESS_SIZE);
+                return new KingChessComponent((new ChessboardPoint(x, y)), calculatePoint(x, y), ChessColor.WHITE, clickController, CHESS_SIZE,this);
             case 'Q':
                 return new QueenChessComponent((new ChessboardPoint(x, y)), calculatePoint(x, y), ChessColor.BLACK, clickController, CHESS_SIZE);
             case 'q':
