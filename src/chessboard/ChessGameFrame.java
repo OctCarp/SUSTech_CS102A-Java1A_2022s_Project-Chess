@@ -27,6 +27,7 @@ public class ChessGameFrame extends JFrame {
     static JLabel statusLabel;
     public static JLabel count;
     static JLabel checkLabel;
+    static JButton pauseBtn;
     public Winboard winboard;
 
     Countdown cd;
@@ -55,6 +56,12 @@ public class ChessGameFrame extends JFrame {
         addLabelCheck();
         addPause();
     }
+    public static void setPause(){
+        pauseBtn.setText("Pause");
+    }
+    public static void setResume(){
+        pauseBtn.setText("Resume");
+    }
 
     private void addRestart() {
         JButton button = new JButton("Restart");
@@ -65,12 +72,12 @@ public class ChessGameFrame extends JFrame {
         add(button);
     }
     private void addPause() {
-        JButton button = new JButton("Pause");
-        button.addActionListener(e -> cd.changePause());
-        button.setLocation(HEIGTH+120, HEIGTH / 10);
-        button.setSize(100, 60);
-        button.setFont(new Font("Rockwell", Font.BOLD, 20));
-        add(button);
+        pauseBtn = new JButton("Pause");
+        pauseBtn.addActionListener(e -> cd.changePause());
+        pauseBtn.setLocation(HEIGTH+120, HEIGTH / 10);
+        pauseBtn.setSize(80, 50);
+        pauseBtn.setFont(new Font("Rockwell", Font.BOLD, 10));
+        add(pauseBtn);
     }
 
     private void restart() {

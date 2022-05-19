@@ -1,6 +1,7 @@
 package controller;
 
 import chess.ChessColor;
+import chessboard.ChessGameFrame;
 import chessboard.Chessboard;
 import util.Step;
 import util.StepSaver;
@@ -10,6 +11,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import static chessboard.ChessGameFrame.count;
+import static chessboard.ChessGameFrame.setResume;
 
 public class Countdown extends Thread {
     JLabel j1 = count;
@@ -102,8 +104,10 @@ public class Countdown extends Thread {
     public void changePause() {
         if (pause == true) {
             resumeThread();
+            ChessGameFrame.setPause();
         } else {
             pauseThread();
+            setResume();
         }
     }
 
