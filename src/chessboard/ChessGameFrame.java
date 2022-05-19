@@ -29,6 +29,7 @@ public class ChessGameFrame extends JFrame {
     static JLabel statusLabel;
     public static JLabel count;
     static JLabel checkLabel;
+    public Winboard winboard;
 
     Countdown cd;
     Thread t;
@@ -39,6 +40,7 @@ public class ChessGameFrame extends JFrame {
         this.WIDTH = width;
         this.HEIGTH = height;
         this.CHESSBOARD_SIZE = HEIGTH * 4 / 5;
+        this.winboard=new Winboard(600,300,this);
 
         setSize(WIDTH, HEIGTH);
         setLocationRelativeTo(null); // Center the window.
@@ -98,11 +100,12 @@ public class ChessGameFrame extends JFrame {
     /**
      * 在游戏面板中添加棋盘
      */
-    private void addChessboard() {
+    public void addChessboard() {
         chessboard = new Chessboard(CHESSBOARD_SIZE, CHESSBOARD_SIZE);
         gameController = new GameController(chessboard);
         setCountBoard(cd, chessboard);
         chessboard.setLocation(HEIGTH / 10, HEIGTH / 10);
+        chessboard.chessGameFrame=this;
         add(chessboard);
     }
 
@@ -226,5 +229,9 @@ public class ChessGameFrame extends JFrame {
         setCountBoard(cd, chessboard);
         chessboard.setLocation(HEIGTH / 10, HEIGTH / 10);
         add(chessboard);
+    }
+
+    public Chessboard getChessboard(){
+        return chessboard;
     }
 }

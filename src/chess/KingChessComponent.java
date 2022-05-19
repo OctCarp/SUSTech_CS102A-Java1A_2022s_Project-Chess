@@ -1,5 +1,6 @@
 package chess;
 
+import chessboard.Chessboard;
 import controller.ClickController;
 import chessboard.ChessboardPoint;
 
@@ -7,6 +8,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class KingChessComponent extends ChessComponent{
     private static Image KING_WHITE;
@@ -36,10 +38,11 @@ public class KingChessComponent extends ChessComponent{
         }
     }
 
-    public KingChessComponent(ChessboardPoint chessboardPoint, Point location, ChessColor color, ClickController listener, int size) {
+    public KingChessComponent(ChessboardPoint chessboardPoint, Point location, ChessColor color, ClickController listener, int size, Chessboard chessboard) {
         super(chessboardPoint, location, color, listener, size);
         setName(color);
         initiateKingImage(color);
+        this.chessboard=chessboard;
     }
 
     @Override
@@ -48,11 +51,31 @@ public class KingChessComponent extends ChessComponent{
         if ((Math.abs(source.getX() - destination.getX()) == 1 && Math.abs(source.getY() - destination.getY()) == 0) ||
                 (Math.abs(source.getX() - destination.getX()) == 0 &&Math.abs(source.getY() - destination.getY()) == 1)||
                 (Math.abs(source.getX() - destination.getX()) == 1 &&Math.abs(source.getY() - destination.getY()) == 1)) {
+            if (chessColor==ChessColor.BLACK&&!CheckKingB(destination)){
+                return true;
+            }else if (chessColor==ChessColor.WHITE&&!CheckKingW(destination))
             return true;
+            else return false;
         } else {
             return false;
         }
 
+    }
+
+    private boolean CheckKingB(ChessboardPoint destination){
+        for (int i=0;i<chessboard.getCanMoveToW().size();i++){
+            if (chessboard.getCanMoveToW().get(i).getX()==destination.getX()&&chessboard.getCanMoveToW().get(i).getY()==destination.getY())
+                return true;
+        }
+        return false;
+    }
+
+    private boolean CheckKingW(ChessboardPoint destination){
+        for (int i=0;i<chessboard.getCanMoveToB().size();i++){
+            if (chessboard.getCanMoveToB().get(i).getX()==destination.getX()&&chessboard.getCanMoveToB().get(i).getY()==destination.getY())
+                return true;
+        }
+        return false;
     }
 
     @Override
@@ -77,4 +100,6 @@ public class KingChessComponent extends ChessComponent{
     public  void removeSelected(){
         getClickController().removeFirst(this);
     }
+
+
 }
