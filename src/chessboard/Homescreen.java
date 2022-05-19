@@ -1,11 +1,11 @@
 package chessboard;
 
-import javax.imageio.ImageIO;
+import util.BoardLoader;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 import java.io.IOException;
 
 public class Homescreen extends JFrame implements ActionListener {
@@ -23,16 +23,41 @@ public class Homescreen extends JFrame implements ActionListener {
         FlowLayout layout = new FlowLayout();
         this.setLayout(null);
         setVisible(true);
-        JButton Start=new JButton("Start game");
-        add(Start);
-        setStart(Start);
-        Start.addActionListener(this);
-        Start.addActionListener(new ActionListener() {
+        JButton startBtn =new JButton("Start Game");
+        JButton loadBtn=new JButton("Load Game");
+        add(startBtn);
+        setStart(startBtn);
+        add(loadBtn);
+        setLoad(loadBtn);
+        startBtn.addActionListener(this);
+        startBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ChessGameFrame chessGameFrame=new ChessGameFrame(1000, 760);
                 chessGameFrame.setVisible(true);
                 setVisible(false);
+            }
+        });
+        loadBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ChessGameFrame chessGameFrame=new ChessGameFrame(1000, 760);
+                chessGameFrame.setVisible(true);
+                try {
+                    String path = chessGameFrame.readPath();
+                    BoardLoader.readBoard(path);
+                    if (BoardLoader.legal()) {
+                        chessGameFrame.loadGame();
+                        chessGameFrame.getChessboard().loadGame(BoardLoader.boardStrings);
+                        BoardLoader.initLoader();
+                        setVisible(false);
+                    } else {
+                        JOptionPane.showMessageDialog(chessGameFrame, BoardLoader.wrong);
+                        BoardLoader.initLoader();
+                    }
+                } catch (NullPointerException w) {
+                    JOptionPane.showMessageDialog(chessGameFrame, "no file selected");
+                }
             }
         });
 
@@ -42,6 +67,11 @@ public class Homescreen extends JFrame implements ActionListener {
         start.setLocation(WIDTH/2-100, 600);
         start.setSize(200, 60);
         start.setFont(new Font("Rockwell", Font.BOLD, 20));
+    }
+    public void setLoad(JButton load){
+        load.setLocation(WIDTH/2-100, 500);
+        load.setSize(200, 60);
+        load.setFont(new Font("Rockwell", Font.BOLD, 20));
     }
 
     @Override

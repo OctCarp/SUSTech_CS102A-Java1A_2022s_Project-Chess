@@ -202,7 +202,7 @@ public class ChessGameFrame extends JFrame {
         });
     }
 
-    private String readPath() {
+    String readPath() {
         JFileChooser fc = new JFileChooser();
         fc.setCurrentDirectory(new File("./saves"));
         fc.showOpenDialog(this);
@@ -220,7 +220,7 @@ public class ChessGameFrame extends JFrame {
         }
     }
 
-    private void loadGame() {
+    void loadGame() {
         if (chessboard != null) {
             this.remove(chessboard);
         }
