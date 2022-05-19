@@ -24,15 +24,15 @@ public abstract class ChessComponent extends JComponent {
      */
 
 //    private static final Dimension CHESSGRID_SIZE = new Dimension(1080 / 4 * 3 / 8, 1080 / 4 * 3 / 8);
-    private static final Color[] BACKGROUND_COLORS = {Color.WHITE, new Color(125,140,185)};
+    private static final Color[] BACKGROUND_COLORS = {BackColor.LIGHT.getColor(), BackColor.DEEP.getColor()};
     /**
      * handle click event
      */
     private ClickController clickController;
-    public Color backColor;
     protected char name;
     public Chessboard chessboard;
-    abstract public void setName(ChessColor color) ;
+
+    abstract public void setName(ChessColor color);
 
     /**
      * chessboardPoint: 表示8*8棋盘中，当前棋子在棋格对应的位置，如(0, 0), (1, 0), (0, 7),(7, 7)等等
@@ -80,6 +80,8 @@ public abstract class ChessComponent extends JComponent {
         this.selected = selected;
     }
 
+    boolean attacked;
+
     /**
      * @param another 主要用于和另外一个棋子交换位置
      *                <br>
@@ -107,8 +109,22 @@ public abstract class ChessComponent extends JComponent {
             System.out.printf("Click [%d,%d]\n", chessboardPoint.getX(), chessboardPoint.getY());
             clickController.onClick(this);
         }
+        if (e.getID() == MouseEvent.MOUSE_ENTERED) {
+            setSquareColor(BackColor.ENTERED.getColor());
+            repaint();
+        }
+        if (e.getID() == MouseEvent.MOUSE_EXITED) {
+            if (attacked) {
+                setSquareColor(BackColor.ATTACKED.getColor());
+                repaint();
+            } else {
+                setSquareColor(getBackColor(chessboardPoint));
+                repaint();
+            }
+        }
     }
-    public  void removeSelected(){
+
+    public void removeSelected() {
         clickController.removeFirst(this);
     }
 
@@ -127,10 +143,15 @@ public abstract class ChessComponent extends JComponent {
      * @throws IOException 如果一些资源找不到(如棋子图片路径错误)，就会抛出异常
      */
     public abstract void loadResource() throws IOException;
+
     Color squareColor;
 
     public void setSquareColor(Color squareColor) {
         this.squareColor = squareColor;
+    }
+
+    public void setAttacked(boolean attacked) {
+        this.attacked = attacked;
     }
 
     public Color getBackColor(ChessboardPoint chessboardPoint) {
@@ -144,6 +165,7 @@ public abstract class ChessComponent extends JComponent {
         g.fillRect(0, 0, this.getWidth(), this.getHeight());
 
     }
+
     public String toString() {
         return String.valueOf(this.name);
     }

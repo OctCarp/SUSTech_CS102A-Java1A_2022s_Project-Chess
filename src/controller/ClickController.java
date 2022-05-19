@@ -1,10 +1,7 @@
 package controller;
 
 
-import chess.ChessColor;
-import chess.ChessComponent;
-import chess.EmptySlotComponent;
-import chess.KingChessComponent;
+import chess.*;
 import chessboard.ChessGameFrame;
 import chessboard.Chessboard;
 import chessboard.ChessboardPoint;
@@ -13,9 +10,10 @@ import chessboard.Winboard;
 import java.awt.*;
 
 public class ClickController {
-    private  Chessboard chessboard;
+    private Chessboard chessboard;
     private ChessComponent first;
-    public ClickController(){
+
+    public ClickController() {
 
     }
 
@@ -25,11 +23,11 @@ public class ClickController {
 
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                Chessboard.chessComponents[i][j].setSquareColor(Chessboard.chessComponents[i][j].getBackColor(new ChessboardPoint(i,j)));
+                Chessboard.chessComponents[i][j].setSquareColor(Chessboard.chessComponents[i][j].getBackColor(new ChessboardPoint(i, j)));
                 Chessboard.chessComponents[i][j].repaint();
             }
         }
-        if (first!=null) {
+        if (first != null) {
             recordFirst.repaint();
             first = null;
         }
@@ -45,11 +43,12 @@ public class ClickController {
                 chessComponent.setSelected(true);
                 first = chessComponent;
                 first.repaint();
-                for (int i = 0; i <8 ; i++) {
-                    for (int j = 0; j <8 ; j++) {
-                        if(first.canMoveTo(Chessboard.chessComponents,new ChessboardPoint(i,j))){
-                            if(chessComponent.getChessColor()!=Chessboard.chessComponents[i][j].getChessColor()) {
-                                Chessboard.chessComponents[i][j].setSquareColor(Color.YELLOW);
+                for (int i = 0; i < 8; i++) {
+                    for (int j = 0; j < 8; j++) {
+                        if (first.canMoveTo(Chessboard.chessComponents, new ChessboardPoint(i, j))) {
+                            if (chessComponent.getChessColor() != Chessboard.chessComponents[i][j].getChessColor()) {
+                                Chessboard.chessComponents[i][j].setSquareColor(BackColor.ATTACKED.getColor());
+                                Chessboard.chessComponents[i][j].setAttacked(true);
                                 Chessboard.chessComponents[i][j].repaint();
                             }
                         }
@@ -58,31 +57,37 @@ public class ClickController {
             }
         } else {
             if (first == chessComponent) { // 再次点击取消选取
-               removeFirst(chessComponent);
+                removeFirst(chessComponent);
+                for (int i = 0; i < 8; i++) {
+                    for (int j = 0; j < 8; j++) {
+                        Chessboard.chessComponents[i][j].setAttacked(false);
+                    }
+                }
             } else if (handleSecond(chessComponent)) {
                 //repaint in swap chess method.
-                if (chessComponent instanceof KingChessComponent){
-                        Winboard.setWinText(chessComponent.getChessColor());
-                        chessboard.chessGameFrame.winboard.setVisible(true);
-                        chessboard.chessGameFrame.setVisible(false);
+                if (chessComponent instanceof KingChessComponent) {
+                    Winboard.setWinText(chessComponent.getChessColor());
+                    chessboard.chessGameFrame.winboard.setVisible(true);
+                    chessboard.chessGameFrame.setVisible(false);
                 }
                 chessboard.swapChessComponents(first, chessComponent);
                 chessboard.swapColor();
 
 
-               for (int i = 0; i < 8; i++) {
+                for (int i = 0; i < 8; i++) {
                     for (int j = 0; j < 8; j++) {
-                        Chessboard.chessComponents[i][j].setSquareColor(Chessboard.chessComponents[i][j].getBackColor(new ChessboardPoint(i,j)));
+                        Chessboard.chessComponents[i][j].setSquareColor(Chessboard.chessComponents[i][j].getBackColor(new ChessboardPoint(i, j)));
+                        Chessboard.chessComponents[i][j].setAttacked(false);
                         Chessboard.chessComponents[i][j].repaint();
                     }
                 }
-               chessboard.setCanMoveToW();
-               chessboard.setCanMoveToB();
-               chessboard.CheckMake();
+                chessboard.setCanMoveToW();
+                chessboard.setCanMoveToB();
+                chessboard.CheckMake();
                 ChessGameFrame.setStatusLabelCheck(chessboard);
-               first.setSelected(false);
-               Countdown.restart();
-               first=null;
+                first.setSelected(false);
+                Countdown.restart();
+                first = null;
             }
         }
     }
