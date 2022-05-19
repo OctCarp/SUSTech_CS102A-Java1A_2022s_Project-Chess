@@ -11,10 +11,8 @@ import util.StepSaver;
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
-import java.io.IOException;
 
 import static chess.ChessColor.BLACK;
-import static util.BoardLoader.initLoader;
 
 /**
  * 这个类表示游戏过程中的整个游戏界面，是一切的载体
@@ -32,7 +30,6 @@ public class ChessGameFrame extends JFrame {
     public Winboard winboard;
 
     Countdown cd;
-    Thread t;
 
     public ChessGameFrame(int width, int height) {
         setTitle("2022 CS102A Project Demo"); //设置标题
@@ -56,6 +53,7 @@ public class ChessGameFrame extends JFrame {
         addRestart();
         addRegretButton();
         addLabelCheck();
+        addPause();
     }
 
     private void addRestart() {
@@ -63,6 +61,14 @@ public class ChessGameFrame extends JFrame {
         button.addActionListener(e -> restart());
         button.setLocation(HEIGTH, HEIGTH / 10 + 360);
         button.setSize(200, 60);
+        button.setFont(new Font("Rockwell", Font.BOLD, 20));
+        add(button);
+    }
+    private void addPause() {
+        JButton button = new JButton("Pause");
+        button.addActionListener(e -> cd.changePause());
+        button.setLocation(HEIGTH+120, HEIGTH / 10);
+        button.setSize(100, 60);
         button.setFont(new Font("Rockwell", Font.BOLD, 20));
         add(button);
     }
@@ -81,7 +87,7 @@ public class ChessGameFrame extends JFrame {
 
     private void addCount() {
         count = new JLabel();
-        count.setLocation(HEIGTH + 70, HEIGTH / 10);
+        count.setLocation(HEIGTH + 80, HEIGTH / 10);
         count.setSize(100, 60);
         count.setFont(new Font("Rockwell", Font.BOLD, 20));
         add(count);
@@ -89,8 +95,7 @@ public class ChessGameFrame extends JFrame {
 
     private void countTxt() {
         cd = new Countdown();
-        t = new Thread(cd);
-        t.start();
+        cd.start();
     }
 
     private void setCountBoard(Countdown cd, Chessboard chessboard) {
@@ -158,9 +163,9 @@ public class ChessGameFrame extends JFrame {
         add(button);
         button.addActionListener(e -> {
             String filePath = JOptionPane.showInputDialog(this, "input the name here");
-
                 StepSaver.stepList.add(new Step(chessboard.getCurrentColor(), chessboard.getChessComponents()));
                 BoardSaver.saveGame(filePath + ".txt");
+                cd.resumeThread();
         });
         button.setLocation(HEIGTH, HEIGTH / 10 + 120);
         button.setSize(200, 60);

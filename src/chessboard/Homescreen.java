@@ -43,6 +43,7 @@ public class Homescreen extends JFrame implements ActionListener {
             public void actionPerformed(ActionEvent e) {
                 ChessGameFrame chessGameFrame=new ChessGameFrame(1000, 760);
                 chessGameFrame.setVisible(true);
+                setVisible(false);
                 try {
                     String path = chessGameFrame.readPath();
                     BoardLoader.readBoard(path);
@@ -50,7 +51,6 @@ public class Homescreen extends JFrame implements ActionListener {
                         chessGameFrame.loadGame();
                         chessGameFrame.getChessboard().loadGame(BoardLoader.boardStrings);
                         BoardLoader.initLoader();
-                        setVisible(false);
                     } else {
                         JOptionPane.showMessageDialog(chessGameFrame, BoardLoader.wrong);
                         BoardLoader.initLoader();
