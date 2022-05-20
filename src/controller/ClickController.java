@@ -6,8 +6,12 @@ import chessboard.ChessGameFrame;
 import chessboard.Chessboard;
 import chessboard.ChessboardPoint;
 import chessboard.Winboard;
+import util.Step;
+import util.StepSaver;
 
 import java.awt.*;
+
+import static chessboard.Chessboard.chessComponents;
 
 public class ClickController {
     private Chessboard chessboard;
@@ -23,8 +27,8 @@ public class ClickController {
 
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                Chessboard.chessComponents[i][j].setSquareColor(Chessboard.chessComponents[i][j].getBackColor(new ChessboardPoint(i, j)));
-                Chessboard.chessComponents[i][j].repaint();
+                chessComponents[i][j].setSquareColor(chessComponents[i][j].getBackColor(new ChessboardPoint(i, j)));
+                chessComponents[i][j].repaint();
             }
         }
         if (first != null) {
@@ -45,14 +49,14 @@ public class ClickController {
                 first.repaint();
                 for (int i = 0; i < 8; i++) {
                     for (int j = 0; j < 8; j++) {
-                        if (first.canMoveTo(Chessboard.chessComponents, new ChessboardPoint(i, j))) {
-                            if (chessComponent.getChessColor() != Chessboard.chessComponents[i][j].getChessColor()
+                        if (first.canMoveTo(chessComponents, new ChessboardPoint(i, j))) {
+                            if (chessComponent.getChessColor() != chessComponents[i][j].getChessColor()
                                     ||(first instanceof KingChessComponent
-                                    &&Chessboard.chessComponents[i][j] instanceof RookChessComponent
-                                    &&chessComponent.getChessColor()== Chessboard.chessComponents[i][j].getChessColor())) {
-                                Chessboard.chessComponents[i][j].setSquareColor(BackColor.ATTACKED.getColor());
-                                Chessboard.chessComponents[i][j].setAttacked(true);
-                                Chessboard.chessComponents[i][j].repaint();
+                                    && chessComponents[i][j] instanceof RookChessComponent
+                                    &&chessComponent.getChessColor()== chessComponents[i][j].getChessColor())) {
+                                chessComponents[i][j].setSquareColor(BackColor.ATTACKED.getColor());
+                                chessComponents[i][j].setAttacked(true);
+                                chessComponents[i][j].repaint();
                             }
                         }
                     }
@@ -63,7 +67,7 @@ public class ClickController {
                 removeFirst(chessComponent);
                 for (int i = 0; i < 8; i++) {
                     for (int j = 0; j < 8; j++) {
-                        Chessboard.chessComponents[i][j].setAttacked(false);
+                        chessComponents[i][j].setAttacked(false);
                     }
                 }
             }
@@ -86,15 +90,18 @@ public class ClickController {
                 if (first.moved!=true){
                     first.moved=true;
                 }
+                ChessComponent[][] chessComponents1 = chessboard.recordComponents(chessComponents);
+                Step oneStep = new Step(chessboard.getCurrentColor(), chessComponents1);
+                StepSaver.stepList.add(oneStep);
                 chessboard.swapChessComponents(first, chessComponent);
                 chessboard.swapColor();
 
 
                 for (int i = 0; i < 8; i++) {
                     for (int j = 0; j < 8; j++) {
-                        Chessboard.chessComponents[i][j].setSquareColor(Chessboard.chessComponents[i][j].getBackColor(new ChessboardPoint(i, j)));
-                        Chessboard.chessComponents[i][j].setAttacked(false);
-                        Chessboard.chessComponents[i][j].repaint();
+                        chessComponents[i][j].setSquareColor(chessComponents[i][j].getBackColor(new ChessboardPoint(i, j)));
+                        chessComponents[i][j].setAttacked(false);
+                        chessComponents[i][j].repaint();
                     }
                 }
                 chessboard.setCanMoveToW();

@@ -165,9 +165,9 @@ public class Chessboard extends JComponent {
 
     public void swapChessComponents(ChessComponent chess1, ChessComponent chess2) {
         // Note that chess1 has higher priority, 'destroys' chess2 if exists.
-        ChessComponent[][] chessComponents1 = recordComponents(chessComponents);
+        /*ChessComponent[][] chessComponents1 = recordComponents(chessComponents);
         Step oneStep = new Step(currentColor, chessComponents1);
-        StepSaver.stepList.add(oneStep);
+        StepSaver.stepList.add(oneStep);*/
         simpleSwap(chess1, chess2);
     }
 
@@ -425,6 +425,9 @@ public class Chessboard extends JComponent {
 
     public void castling(ChessComponent King, ChessComponent Rook){
             if (castle1(King,Rook)){
+                ChessComponent[][] chessComponents1 = recordComponents(chessComponents);
+                Step oneStep = new Step(currentColor, chessComponents1);
+                StepSaver.stepList.add(oneStep);
                         King.moved=true;
                         swapChessComponents(King, chessComponents[King.getChessboardPoint().getX()][2]);
                         swapChessComponents(Rook, chessComponents[King.getChessboardPoint().getX()][3]);
@@ -444,6 +447,9 @@ public class Chessboard extends JComponent {
                         Countdown.restart();
                     }
             else if (castle2(King,Rook)){
+                ChessComponent[][] chessComponents1 = recordComponents(chessComponents);
+                Step oneStep = new Step(currentColor, chessComponents1);
+                StepSaver.stepList.add(oneStep);
                         King.moved=true;
                         swapChessComponents(King, chessComponents[King.getChessboardPoint().getX()][6]);
                         swapChessComponents(Rook, chessComponents[King.getChessboardPoint().getX()][5]);
