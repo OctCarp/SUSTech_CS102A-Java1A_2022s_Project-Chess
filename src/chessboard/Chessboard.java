@@ -398,11 +398,94 @@ public class Chessboard extends JComponent {
     public ClickController getClickController(){
         return clickController;
     }
+
     public void removeSelect(){
         for (int i = 0; i <8 ; i++) {
             for (int j = 0; j <8 ; j++) {
                 chessComponents[i][j].removeSelected();
             }
         }
+    }
+
+    public boolean Threaten(ChessboardPoint chessboardPoint ,ChessColor color){
+        if (color==ChessColor.BLACK){
+            for (int i=0;i<CanMoveToW.size();i++){
+            if (CanMoveToW.get(i).getX()==chessboardPoint.getX()&&CanMoveToW.get(i).getY()==chessboardPoint.getY())
+                return true;
+        }
+    }
+        else {
+        for (int i=0;i<CanMoveToB.size();i++){
+            if (CanMoveToB.get(i).getX()==chessboardPoint.getX()&&CanMoveToB.get(i).getY()==chessboardPoint.getY())
+                return true;
+        }
+    }
+        return false;
+    }
+
+    public void castling(ChessComponent King, ChessComponent Rook){
+            if (castle1(King,Rook)){
+                        King.moved=true;
+                        swapChessComponents(King, chessComponents[King.getChessboardPoint().getX()][2]);
+                        swapChessComponents(Rook, chessComponents[King.getChessboardPoint().getX()][3]);
+                        swapColor();
+
+
+                        for (int i = 0; i < 8; i++) {
+                            for (int j = 0; j < 8; j++) {
+                                Chessboard.chessComponents[i][j].setSquareColor(Chessboard.chessComponents[i][j].getBackColor(new ChessboardPoint(i,j)));
+                                Chessboard.chessComponents[i][j].repaint();
+                            }
+                        }
+                        setCanMoveToW();
+                        setCanMoveToB();
+                        ChessGameFrame.setStatusLabelCheck(this);
+                        King.setSelected(false);
+                        Countdown.restart();
+                    }
+            else if (castle2(King,Rook)){
+                        King.moved=true;
+                        swapChessComponents(King, chessComponents[King.getChessboardPoint().getX()][6]);
+                        swapChessComponents(Rook, chessComponents[King.getChessboardPoint().getX()][5]);
+                        swapColor();
+
+
+                        for (int i = 0; i < 8; i++) {
+                            for (int j = 0; j < 8; j++) {
+                                Chessboard.chessComponents[i][j].setSquareColor(Chessboard.chessComponents[i][j].getBackColor(new ChessboardPoint(i,j)));
+                                Chessboard.chessComponents[i][j].repaint();
+                            }
+                        }
+                        setCanMoveToW();
+                        setCanMoveToB();
+                        CheckMake();
+                        ChessGameFrame.setStatusLabelCheck(this);
+                        King.setSelected(false);
+                        Countdown.restart();
+                    }
+    }
+
+    public boolean castle1(ChessComponent King,ChessComponent Rook){
+        if (Rook.getChessboardPoint().getY()==0&&!Chessboard.CheckKing(King)&&!Chessboard.CheckKing(Rook)){
+            if (chessComponents[King.getChessboardPoint().getX()][1] instanceof EmptySlotComponent
+                    &&chessComponents[King.getChessboardPoint().getX()][2] instanceof EmptySlotComponent
+                    &&chessComponents[King.getChessboardPoint().getX()][3] instanceof EmptySlotComponent){
+                return !Threaten(chessComponents[King.getChessboardPoint().getX()][1].getChessboardPoint(), King.getChessColor())
+                        && !Threaten(chessComponents[King.getChessboardPoint().getX()][2].getChessboardPoint(), King.getChessColor())
+                        && !Threaten(chessComponents[King.getChessboardPoint().getX()][3].getChessboardPoint(), King.getChessColor());
+            }
+            else return false;
+        }
+        else return false;
+    }
+
+    public boolean castle2(ChessComponent King,ChessComponent Rook){
+        if (Rook.getChessboardPoint().getY()==7&&!Chessboard.CheckKing(King)&&!Chessboard.CheckKing(Rook)){
+            if (!Threaten(chessComponents[King.getChessboardPoint().getX()][5].getChessboardPoint(),King.getChessColor())
+                    &&!Threaten(chessComponents[King.getChessboardPoint().getX()][6].getChessboardPoint(),King.getChessColor())){
+                return chessComponents[King.getChessboardPoint().getX()][5] instanceof EmptySlotComponent
+                        && chessComponents[King.getChessboardPoint().getX()][6] instanceof EmptySlotComponent;
+            }else return false;
+        }else return false;
     }
 }

@@ -56,10 +56,14 @@ public class KingChessComponent extends ChessComponent{
             }else if (chessColor==ChessColor.WHITE&&!CheckKingW(destination))
             return true;
             else return false;
-        } else {
-            return false;
         }
-
+        else if (!moved){
+            if (chessComponents[destination.getX()][destination.getY()]instanceof RookChessComponent
+                    &&chessComponents[destination.getX()][destination.getY()].getChessColor()==chessColor
+                    &&(chessboard.castle1(this,chessComponents[destination.getX()][destination.getY()])
+                    ||chessboard.castle2(this,chessComponents[destination.getX()][destination.getY()])))return true;
+            else return false;
+        }else return false;
     }
 
     private boolean CheckKingB(ChessboardPoint destination){
