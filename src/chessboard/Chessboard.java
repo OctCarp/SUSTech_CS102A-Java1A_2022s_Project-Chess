@@ -437,6 +437,7 @@ public class Chessboard extends JComponent {
                         for (int i = 0; i < 8; i++) {
                             for (int j = 0; j < 8; j++) {
                                 Chessboard.chessComponents[i][j].setSquareColor(Chessboard.chessComponents[i][j].getBackColor(new ChessboardPoint(i,j)));
+                                chessComponents[i][j].setAttacked(false);
                                 Chessboard.chessComponents[i][j].repaint();
                             }
                         }
@@ -459,6 +460,7 @@ public class Chessboard extends JComponent {
                         for (int i = 0; i < 8; i++) {
                             for (int j = 0; j < 8; j++) {
                                 Chessboard.chessComponents[i][j].setSquareColor(Chessboard.chessComponents[i][j].getBackColor(new ChessboardPoint(i,j)));
+                                chessComponents[i][j].setAttacked(false);
                                 Chessboard.chessComponents[i][j].repaint();
                             }
                         }
