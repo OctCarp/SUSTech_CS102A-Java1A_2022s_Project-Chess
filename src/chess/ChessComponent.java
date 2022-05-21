@@ -65,6 +65,14 @@ public abstract class ChessComponent extends JComponent {
         this.clickController = clickController;
         setSquareColor(getBackColor(chessboardPoint));
     }
+    protected ChessComponent(ChessboardPoint chessboardPoint, Point location, ChessColor chessColor,int size) {
+        setLocation(location);
+        setSize(size, size);
+        this.chessboardPoint = chessboardPoint;
+        this.chessColor = chessColor;
+        this.selected = false;
+        setSquareColor(getBackColor(chessboardPoint));
+    }
 
     public ClickController getClickController() {
         return clickController;

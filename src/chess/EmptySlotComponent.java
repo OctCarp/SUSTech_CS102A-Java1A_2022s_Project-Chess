@@ -16,6 +16,10 @@ public class EmptySlotComponent extends ChessComponent {
         setName(ChessColor.NONE);
     }
 
+    public EmptySlotComponent(ChessboardPoint chessboardPoint, Point location, int size) {
+        super(chessboardPoint, location, ChessColor.NONE, size);
+    }
+
     @Override
     public boolean canMoveTo(ChessComponent[][] chessboard, ChessboardPoint destination) {
         return false;
@@ -25,11 +29,13 @@ public class EmptySlotComponent extends ChessComponent {
     public void loadResource() throws IOException {
         //No resource!
     }
+
     @Override
     public void setName(ChessColor color) {
-        this.name='_';
+        this.name = '_';
     }
+
     @Override
-    public void removeSelected(){
+    public void removeSelected() {
     }
 }

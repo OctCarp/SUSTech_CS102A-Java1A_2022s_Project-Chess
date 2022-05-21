@@ -42,6 +42,10 @@ public class KnightChessComponent extends ChessComponent {
         setName(color);
         initiateKnightImage(color);
     }
+    public KnightChessComponent(ChessboardPoint chessboardPoint, Point location, ChessColor color, int size) {
+        super(chessboardPoint, location, color, size);
+        initiateKnightImage(color);
+    }
 
     @Override
     public boolean canMoveTo(ChessComponent[][] chessComponents, ChessboardPoint destination) {

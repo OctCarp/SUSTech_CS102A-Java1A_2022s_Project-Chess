@@ -74,6 +74,7 @@ public class RookChessComponent extends ChessComponent {
      * @return 车棋子移动的合法性
      */
 
+
     @Override
     public boolean canMoveTo(ChessComponent[][] chessComponents, ChessboardPoint destination) {
         ChessboardPoint source = getChessboardPoint();
@@ -108,13 +109,14 @@ public class RookChessComponent extends ChessComponent {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 //        g.drawImage(rookImage, 0, 0, getWidth() - 13, getHeight() - 20, this);
-        g.drawImage(rookImage, 0, 0, getWidth() , getHeight(), this);
+        g.drawImage(rookImage, 0, 0, getWidth(), getHeight(), this);
         g.setColor(Color.BLACK);
         if (isSelected()) { // Highlights the model if selected.
             g.setColor(Color.RED);
-            g.drawOval(0, 0, getWidth() , getHeight());
+            g.drawOval(0, 0, getWidth(), getHeight());
         }
     }
+
     @Override
     public void setName(ChessColor color) {
         if (color == ChessColor.BLACK) {
@@ -123,8 +125,14 @@ public class RookChessComponent extends ChessComponent {
             this.name = 'r';
         }
     }
+
     @Override
-    public  void removeSelected(){
+    public void removeSelected() {
         getClickController().removeFirst(this);
+    }
+
+    public RookChessComponent(ChessboardPoint chessboardPoint, Point location, ChessColor color, int size) {
+        super(chessboardPoint, location, color, size);
+        initiateRookImage(color);
     }
 }
