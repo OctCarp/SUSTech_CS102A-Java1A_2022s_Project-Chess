@@ -1,5 +1,6 @@
 package chess;
 
+import chessboard.Chessboard;
 import controller.ClickController;
 import chessboard.ChessboardPoint;
 
@@ -57,7 +58,10 @@ public class PawnChessComponent extends ChessComponent {
                         return false;
                     }
                 } else return false;
-            } else if (source.getX() != 1 && source.getY() == destination.getY() && destination.getX() - source.getX() == 1) {
+            } else if (PassingSoldier(chessComponents,destination)){
+                return true;
+            }
+            else if (source.getX() != 1 && source.getY() == destination.getY() && destination.getX() - source.getX() == 1) {
                 if (!(chessComponents[destination.getX()][destination.getY()] instanceof EmptySlotComponent)) {
                     return false;
                 }
@@ -79,7 +83,10 @@ public class PawnChessComponent extends ChessComponent {
                             return false;
                         }
                     } else return false;
-            } else if (source.getX() != 7 && source.getY() == destination.getY() && destination.getX() - source.getX() == -1) {
+            } else if (PassingSoldier(chessComponents,destination)){
+                return true;
+            }
+            else if (source.getX() != 7 && source.getY() == destination.getY() && destination.getX() - source.getX() == -1) {
                 if (!(chessComponents[destination.getX()][destination.getY()] instanceof EmptySlotComponent)) {
                     return false;
                 }
@@ -113,5 +120,23 @@ public class PawnChessComponent extends ChessComponent {
     @Override
     public  void removeSelected(){
         getClickController().removeFirst(this);
+    }
+
+    public boolean PassingSoldier(ChessComponent[][] chessComponents, ChessboardPoint destination){
+        ChessboardPoint source = getChessboardPoint();
+        if (getChessColor()==ChessColor.BLACK){
+            if (destination.getX()<7&&chessComponents[destination.getX()+1][destination.getY()]instanceof PawnChessComponent
+                    &&chessComponents[destination.getX()+1][destination.getY()].getChessColor()==ChessColor.BLACK
+                    &&destination.getX()+1==source.getX()&&chessComponents[destination.getX()+1][destination.getY()].getMove()== Chessboard.turn){
+                return true;
+            }else return false;
+        }
+        else {
+            if (destination.getX()<7&&chessComponents[destination.getX()+1][destination.getY()]instanceof PawnChessComponent
+                    &&chessComponents[destination.getX()+1][destination.getY()].getChessColor()==ChessColor.BLACK
+                    &&destination.getX()+1==source.getX()&&chessComponents[destination.getX()+1][destination.getY()].getMove()==Chessboard.turn){
+                return true;
+            }else return false;
+        }
     }
 }

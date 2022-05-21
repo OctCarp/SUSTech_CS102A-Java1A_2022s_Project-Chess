@@ -45,6 +45,15 @@ public abstract class ChessComponent extends JComponent {
     protected final ChessColor chessColor;
     private boolean selected;
     public boolean moved=false;
+    private int move=0;
+
+    public void setMove(int i){
+        move=i;
+    }
+
+    public int getMove(){
+        return move;
+    }
 
     protected ChessComponent(ChessboardPoint chessboardPoint, Point location, ChessColor chessColor, ClickController clickController, int size) {
         enableEvents(AWTEvent.MOUSE_EVENT_MASK);
