@@ -42,6 +42,10 @@ public class PawnChessComponent extends ChessComponent {
         setName(color);
         initiatePawnImage(color);
     }
+    public PawnChessComponent(ChessboardPoint chessboardPoint, Point location, ChessColor color, int size) {
+        super(chessboardPoint, location, color, size);
+        initiatePawnImage(color);
+    }
 
     @Override
     public boolean canMoveTo(ChessComponent[][] chessComponents, ChessboardPoint destination) {

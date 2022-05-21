@@ -44,6 +44,10 @@ public class QueenChessComponent extends ChessComponent {
         setName(color);
         initiateQueenImage(color);
     }
+    public QueenChessComponent(ChessboardPoint chessboardPoint, Point location, ChessColor color, int size) {
+        super(chessboardPoint, location, color, size);
+        initiateQueenImage(color);
+    }
 
     @Override
     public boolean canMoveTo(ChessComponent[][] chessComponents, ChessboardPoint destination) {

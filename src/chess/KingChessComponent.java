@@ -44,6 +44,10 @@ public class KingChessComponent extends ChessComponent{
         initiateKingImage(color);
         this.chessboard=chessboard;
     }
+    public KingChessComponent(ChessboardPoint chessboardPoint, Point location, ChessColor color, int size) {
+        super(chessboardPoint, location, color, size);
+        initiateKingImage(color);
+    }
 
     @Override
     public boolean canMoveTo(ChessComponent[][] chessComponents, ChessboardPoint destination) {

@@ -114,6 +114,12 @@ public class ClickController {
                 //repaint in swap chess method.
                 if (chessComponent instanceof KingChessComponent) {
                     Winboard.setWinText(chessComponent.getChessColor());
+                    chessboard.swapChessComponents(first, chessComponent);
+                    chessboard.swapColor();
+                    ChessComponent[][] chessComponents1 = chessboard.recordComponents(chessComponents);
+                    Step oneStep = new Step(chessboard.getCurrentColor(), chessComponents1);
+                    StepSaver.stepList.add(oneStep);
+                    Winboard.setReplayList();
                     chessboard.chessGameFrame.winboard.setVisible(true);
                     chessboard.chessGameFrame.setVisible(false);
                 }

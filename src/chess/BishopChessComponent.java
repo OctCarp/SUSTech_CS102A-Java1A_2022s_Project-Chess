@@ -41,6 +41,10 @@ public class BishopChessComponent extends ChessComponent {
         setName(color);
         initiateBishopImage(color);
     }
+    public BishopChessComponent(ChessboardPoint chessboardPoint, Point location, ChessColor color, int size) {
+        super(chessboardPoint, location, color, size);
+        initiateBishopImage(color);
+    }
 
     @Override
     public boolean canMoveTo(ChessComponent[][] chessComponents, ChessboardPoint destination) {
