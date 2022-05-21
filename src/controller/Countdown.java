@@ -79,7 +79,6 @@ public class Countdown extends Thread {
         //一直循环
         while (true) {
             if (pause) {
-                //线程 阻塞/等待
                 onPause();
             }
             this.resumeThread();
@@ -91,6 +90,7 @@ public class Countdown extends Thread {
                 if (midTime == 0) {
                     StepSaver.stepList.add(new Step(chessboard.getCurrentColor(), chessboard.getChessComponents()));
                     chessboard.removeSelect();
+                    chessboard.removeAttacked();
                     chessboard.swapColor();
                     restart();
                 }

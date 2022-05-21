@@ -1,6 +1,7 @@
 package chessboard;
 
 
+import audio.AudioPlay;
 import chess.*;
 import controller.ClickController;
 import controller.Countdown;
@@ -35,7 +36,7 @@ public class Chessboard extends JComponent {
     private static final int CHESSBOARD_SIZE = 8;
 
     public static ChessComponent[][] chessComponents = new ChessComponent[CHESSBOARD_SIZE][CHESSBOARD_SIZE];
-    private ChessColor currentColor=ChessColor.WHITE;
+    private ChessColor currentColor = ChessColor.WHITE;
     //all chessComponents in this chessboard are shared only one model controller
     private final ClickController clickController = new ClickController(this);
     public static int CHESS_SIZE;
@@ -47,7 +48,6 @@ public class Chessboard extends JComponent {
     public ChessGameFrame chessGameFrame;
 
 
-
     public Chessboard(int width, int height) {
         setLayout(null); // Use absolute layout.
         setSize(width, height);
@@ -56,6 +56,7 @@ public class Chessboard extends JComponent {
         // FIXME: Initialize chessboard for testing only.
         initChess();
     }
+
     public ChessComponent[][] getChessComponents() {
         return chessComponents;
     }
@@ -73,21 +74,22 @@ public class Chessboard extends JComponent {
         add(chessComponents[row][col] = chessComponent);
     }
 
-    public List<ChessboardPoint> getCanMoveToW(){
+    public List<ChessboardPoint> getCanMoveToW() {
         return CanMoveToW;
     }
 
-    public List<ChessboardPoint> getCanMoveToB(){
+    public List<ChessboardPoint> getCanMoveToB() {
         return CanMoveToB;
     }
 
     public void setCanMoveToB() {
-        List<ChessboardPoint> canMoveToB=new ArrayList<>();
-        for (int i=0;i<=7;i++){
-            for (int j=0;j<=7;j++){
-                for (int M=0;M<=7;M++){
-                    for (int N=0;N<=7;N++){
-                        if (chessComponents[i][j].canMoveTo(chessComponents,new ChessboardPoint(M,N))&&chessComponents[i][j].getChessColor()==ChessColor.BLACK)canMoveToB.add(new ChessboardPoint(M,N));
+        List<ChessboardPoint> canMoveToB = new ArrayList<>();
+        for (int i = 0; i <= 7; i++) {
+            for (int j = 0; j <= 7; j++) {
+                for (int M = 0; M <= 7; M++) {
+                    for (int N = 0; N <= 7; N++) {
+                        if (chessComponents[i][j].canMoveTo(chessComponents, new ChessboardPoint(M, N)) && chessComponents[i][j].getChessColor() == ChessColor.BLACK)
+                            canMoveToB.add(new ChessboardPoint(M, N));
                     }
                 }
             }
@@ -96,12 +98,13 @@ public class Chessboard extends JComponent {
     }
 
     public void setCanMoveToW() {
-        List<ChessboardPoint> canMoveToW=new ArrayList<>();
-        for (int i=0;i<=7;i++){
-            for (int j=0;j<=7;j++){
-                for (int M=0;M<=7;M++){
-                    for (int N=0;N<=7;N++){
-                        if (chessComponents[i][j].canMoveTo(chessComponents,new ChessboardPoint(M,N))&&chessComponents[i][j].getChessColor()==ChessColor.WHITE)canMoveToW.add(new ChessboardPoint(M,N));
+        List<ChessboardPoint> canMoveToW = new ArrayList<>();
+        for (int i = 0; i <= 7; i++) {
+            for (int j = 0; j <= 7; j++) {
+                for (int M = 0; M <= 7; M++) {
+                    for (int N = 0; N <= 7; N++) {
+                        if (chessComponents[i][j].canMoveTo(chessComponents, new ChessboardPoint(M, N)) && chessComponents[i][j].getChessColor() == ChessColor.WHITE)
+                            canMoveToW.add(new ChessboardPoint(M, N));
                     }
                 }
             }
@@ -171,9 +174,9 @@ public class Chessboard extends JComponent {
         simpleSwap(chess1, chess2);
     }
 
-    public void CheckMake(){
-            if (CheckKing(KingW))System.out.println("JIANGW");
-            if (CheckKing(KingB))System.out.println("JIANGB");
+    public void CheckMake() {
+        if (CheckKing(KingW)) System.out.println("JIANGW");
+        if (CheckKing(KingB)) System.out.println("JIANGB");
     }
 
     public void initiateEmptyChessboard() {
@@ -184,16 +187,15 @@ public class Chessboard extends JComponent {
         }
     }
 
-    public static boolean CheckKing(ChessComponent King){
-        if (King.getChessColor()==ChessColor.BLACK){
-            for (int i=0;i<CanMoveToW.size();i++){
-                if (CanMoveToW.get(i).getX()==King.getChessboardPoint().getX()&&CanMoveToW.get(i).getY()==King.getChessboardPoint().getY())
+    public static boolean CheckKing(ChessComponent King) {
+        if (King.getChessColor() == ChessColor.BLACK) {
+            for (int i = 0; i < CanMoveToW.size(); i++) {
+                if (CanMoveToW.get(i).getX() == King.getChessboardPoint().getX() && CanMoveToW.get(i).getY() == King.getChessboardPoint().getY())
                     return true;
             }
-        }
-        else {
-            for (int i=0;i<CanMoveToB.size();i++){
-                if (CanMoveToB.get(i).getX()==King.getChessboardPoint().getX()&&CanMoveToB.get(i).getY()==King.getChessboardPoint().getY())
+        } else {
+            for (int i = 0; i < CanMoveToB.size(); i++) {
+                if (CanMoveToB.get(i).getX() == King.getChessboardPoint().getX() && CanMoveToB.get(i).getY() == King.getChessboardPoint().getY())
                     return true;
             }
         }
@@ -239,14 +241,14 @@ public class Chessboard extends JComponent {
     }
 
     private void KingOnBoard(int row, int col, ChessColor color) {
-        ChessComponent chessComponent = new KingChessComponent(new ChessboardPoint(row, col), calculatePoint(row, col), color, clickController, CHESS_SIZE,this);
+        ChessComponent chessComponent = new KingChessComponent(new ChessboardPoint(row, col), calculatePoint(row, col), color, clickController, CHESS_SIZE, this);
         chessComponent.setVisible(true);
         putChessOnBoard(chessComponent);
-        if (color==ChessColor.WHITE){
-            KingW=chessComponent;
+        if (color == ChessColor.WHITE) {
+            KingW = chessComponent;
         }
-        if (color==ChessColor.BLACK){
-            KingB=chessComponent;
+        if (color == ChessColor.BLACK) {
+            KingB = chessComponent;
         }
     }
 
@@ -355,9 +357,9 @@ public class Chessboard extends JComponent {
     public ChessComponent type(char c, int x, int y) {
         switch (c) {
             case 'K':
-                return new KingChessComponent((new ChessboardPoint(x, y)), calculatePoint(x, y), ChessColor.BLACK, clickController, CHESS_SIZE,this);
+                return new KingChessComponent((new ChessboardPoint(x, y)), calculatePoint(x, y), ChessColor.BLACK, clickController, CHESS_SIZE, this);
             case 'k':
-                return new KingChessComponent((new ChessboardPoint(x, y)), calculatePoint(x, y), ChessColor.WHITE, clickController, CHESS_SIZE,this);
+                return new KingChessComponent((new ChessboardPoint(x, y)), calculatePoint(x, y), ChessColor.WHITE, clickController, CHESS_SIZE, this);
             case 'Q':
                 return new QueenChessComponent((new ChessboardPoint(x, y)), calculatePoint(x, y), ChessColor.BLACK, clickController, CHESS_SIZE);
             case 'q':
@@ -383,7 +385,7 @@ public class Chessboard extends JComponent {
     }
 
 
-    public ChessComponent getChessComponents(int x,int y){
+    public ChessComponent getChessComponents(int x, int y) {
         return chessComponents[x][y];
     }
 
@@ -395,105 +397,111 @@ public class Chessboard extends JComponent {
         return KingB;
     }
 
-    public ClickController getClickController(){
+    public ClickController getClickController() {
         return clickController;
     }
 
-    public void removeSelect(){
-        for (int i = 0; i <8 ; i++) {
-            for (int j = 0; j <8 ; j++) {
+    public void removeSelect() {
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
                 chessComponents[i][j].removeSelected();
             }
         }
     }
+    public void removeAttacked() {
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                chessComponents[i][j].setAttacked(false);
+                chessComponents[i][j].repaint();
+            }
+        }
+    }
 
-    public boolean Threaten(ChessboardPoint chessboardPoint ,ChessColor color){
-        if (color==ChessColor.BLACK){
-            for (int i=0;i<CanMoveToW.size();i++){
-            if (CanMoveToW.get(i).getX()==chessboardPoint.getX()&&CanMoveToW.get(i).getY()==chessboardPoint.getY())
-                return true;
+    public boolean Threaten(ChessboardPoint chessboardPoint, ChessColor color) {
+        if (color == ChessColor.BLACK) {
+            for (int i = 0; i < CanMoveToW.size(); i++) {
+                if (CanMoveToW.get(i).getX() == chessboardPoint.getX() && CanMoveToW.get(i).getY() == chessboardPoint.getY())
+                    return true;
+            }
+        } else {
+            for (int i = 0; i < CanMoveToB.size(); i++) {
+                if (CanMoveToB.get(i).getX() == chessboardPoint.getX() && CanMoveToB.get(i).getY() == chessboardPoint.getY())
+                    return true;
+            }
         }
-    }
-        else {
-        for (int i=0;i<CanMoveToB.size();i++){
-            if (CanMoveToB.get(i).getX()==chessboardPoint.getX()&&CanMoveToB.get(i).getY()==chessboardPoint.getY())
-                return true;
-        }
-    }
         return false;
     }
 
-    public void castling(ChessComponent King, ChessComponent Rook){
-            if (castle1(King,Rook)){
-                ChessComponent[][] chessComponents1 = recordComponents(chessComponents);
-                Step oneStep = new Step(currentColor, chessComponents1);
-                StepSaver.stepList.add(oneStep);
-                        King.moved=true;
-                        swapChessComponents(King, chessComponents[King.getChessboardPoint().getX()][2]);
-                        swapChessComponents(Rook, chessComponents[King.getChessboardPoint().getX()][3]);
-                        swapColor();
+    public void castling(ChessComponent King, ChessComponent Rook) {
+        if (castle1(King, Rook)) {
+            ChessComponent[][] chessComponents1 = recordComponents(chessComponents);
+            Step oneStep = new Step(currentColor, chessComponents1);
+            StepSaver.stepList.add(oneStep);
+            King.moved = true;
+            swapChessComponents(King, chessComponents[King.getChessboardPoint().getX()][2]);
+            swapChessComponents(Rook, chessComponents[King.getChessboardPoint().getX()][3]);
+            swapColor();
+            AudioPlay.playHit();
 
 
-                        for (int i = 0; i < 8; i++) {
-                            for (int j = 0; j < 8; j++) {
-                                Chessboard.chessComponents[i][j].setSquareColor(Chessboard.chessComponents[i][j].getBackColor(new ChessboardPoint(i,j)));
-                                chessComponents[i][j].setAttacked(false);
-                                Chessboard.chessComponents[i][j].repaint();
-                            }
-                        }
-                        setCanMoveToW();
-                        setCanMoveToB();
-                        ChessGameFrame.setStatusLabelCheck(this);
-                        King.setSelected(false);
-                        Countdown.restart();
-                    }
-            else if (castle2(King,Rook)){
-                ChessComponent[][] chessComponents1 = recordComponents(chessComponents);
-                Step oneStep = new Step(currentColor, chessComponents1);
-                StepSaver.stepList.add(oneStep);
-                        King.moved=true;
-                        swapChessComponents(King, chessComponents[King.getChessboardPoint().getX()][6]);
-                        swapChessComponents(Rook, chessComponents[King.getChessboardPoint().getX()][5]);
-                        swapColor();
+            for (int i = 0; i < 8; i++) {
+                for (int j = 0; j < 8; j++) {
+                    Chessboard.chessComponents[i][j].setSquareColor(Chessboard.chessComponents[i][j].getBackColor(new ChessboardPoint(i, j)));
+                    chessComponents[i][j].setAttacked(false);
+                    Chessboard.chessComponents[i][j].repaint();
+                }
+            }
+            setCanMoveToW();
+            setCanMoveToB();
+            ChessGameFrame.setStatusLabelCheck(this);
+            King.setSelected(false);
+            Countdown.restart();
+        } else if (castle2(King, Rook)) {
+            ChessComponent[][] chessComponents1 = recordComponents(chessComponents);
+            Step oneStep = new Step(currentColor, chessComponents1);
+            StepSaver.stepList.add(oneStep);
+            King.moved = true;
+            swapChessComponents(King, chessComponents[King.getChessboardPoint().getX()][6]);
+            swapChessComponents(Rook, chessComponents[King.getChessboardPoint().getX()][5]);
+            swapColor();
+            AudioPlay.playHit();
 
 
-                        for (int i = 0; i < 8; i++) {
-                            for (int j = 0; j < 8; j++) {
-                                Chessboard.chessComponents[i][j].setSquareColor(Chessboard.chessComponents[i][j].getBackColor(new ChessboardPoint(i,j)));
-                                chessComponents[i][j].setAttacked(false);
-                                Chessboard.chessComponents[i][j].repaint();
-                            }
-                        }
-                        setCanMoveToW();
-                        setCanMoveToB();
-                        CheckMake();
-                        ChessGameFrame.setStatusLabelCheck(this);
-                        King.setSelected(false);
-                        Countdown.restart();
-                    }
+            for (int i = 0; i < 8; i++) {
+                for (int j = 0; j < 8; j++) {
+                    Chessboard.chessComponents[i][j].setSquareColor(Chessboard.chessComponents[i][j].getBackColor(new ChessboardPoint(i, j)));
+                    chessComponents[i][j].setAttacked(false);
+                    Chessboard.chessComponents[i][j].repaint();
+                }
+            }
+            setCanMoveToW();
+            setCanMoveToB();
+            CheckMake();
+            ChessGameFrame.setStatusLabelCheck(this);
+            King.setSelected(false);
+            Countdown.restart();
+        }
     }
 
-    public boolean castle1(ChessComponent King,ChessComponent Rook){
-        if (Rook.getChessboardPoint().getY()==0&&!Chessboard.CheckKing(King)&&!Chessboard.CheckKing(Rook)){
+    public boolean castle1(ChessComponent King, ChessComponent Rook) {
+        if (Rook.getChessboardPoint().getY() == 0 && !Chessboard.CheckKing(King) && !Chessboard.CheckKing(Rook)) {
             if (chessComponents[King.getChessboardPoint().getX()][1] instanceof EmptySlotComponent
-                    &&chessComponents[King.getChessboardPoint().getX()][2] instanceof EmptySlotComponent
-                    &&chessComponents[King.getChessboardPoint().getX()][3] instanceof EmptySlotComponent){
+                    && chessComponents[King.getChessboardPoint().getX()][2] instanceof EmptySlotComponent
+                    && chessComponents[King.getChessboardPoint().getX()][3] instanceof EmptySlotComponent) {
                 return !Threaten(chessComponents[King.getChessboardPoint().getX()][1].getChessboardPoint(), King.getChessColor())
                         && !Threaten(chessComponents[King.getChessboardPoint().getX()][2].getChessboardPoint(), King.getChessColor())
                         && !Threaten(chessComponents[King.getChessboardPoint().getX()][3].getChessboardPoint(), King.getChessColor());
-            }
-            else return false;
-        }
-        else return false;
+            } else return false;
+        } else return false;
     }
 
-    public boolean castle2(ChessComponent King,ChessComponent Rook){
-        if (Rook.getChessboardPoint().getY()==7&&!Chessboard.CheckKing(King)&&!Chessboard.CheckKing(Rook)){
-            if (!Threaten(chessComponents[King.getChessboardPoint().getX()][5].getChessboardPoint(),King.getChessColor())
-                    &&!Threaten(chessComponents[King.getChessboardPoint().getX()][6].getChessboardPoint(),King.getChessColor())){
+    public boolean castle2(ChessComponent King, ChessComponent Rook) {
+        if (Rook.getChessboardPoint().getY() == 7 && !Chessboard.CheckKing(King) && !Chessboard.CheckKing(Rook)) {
+            if (!Threaten(chessComponents[King.getChessboardPoint().getX()][5].getChessboardPoint(), King.getChessColor())
+                    && !Threaten(chessComponents[King.getChessboardPoint().getX()][6].getChessboardPoint(), King.getChessColor())) {
                 return chessComponents[King.getChessboardPoint().getX()][5] instanceof EmptySlotComponent
                         && chessComponents[King.getChessboardPoint().getX()][6] instanceof EmptySlotComponent;
-            }else return false;
-        }else return false;
+            } else return false;
+        } else return false;
     }
 }

@@ -1,6 +1,7 @@
 package controller;
 
 
+import audio.AudioPlay;
 import chess.*;
 import chessboard.ChessGameFrame;
 import chessboard.Chessboard;
@@ -65,11 +66,7 @@ public class ClickController {
         } else {
             if (first == chessComponent) { // 再次点击取消选取
                 removeFirst(chessComponent);
-                for (int i = 0; i < 8; i++) {
-                    for (int j = 0; j < 8; j++) {
-                        chessComponents[i][j].setAttacked(false);
-                    }
-                }
+                chessboard.removeAttacked();
             }
             else if (first instanceof KingChessComponent&&chessComponent instanceof RookChessComponent&&first.getChessColor()==chessComponent.getChessColor()){
                 if (!first.moved&&!chessComponent.moved){
@@ -95,6 +92,7 @@ public class ClickController {
                 StepSaver.stepList.add(oneStep);
                 chessboard.swapChessComponents(first, chessComponent);
                 chessboard.swapColor();
+                AudioPlay.playHit();
 
 
                 for (int i = 0; i < 8; i++) {

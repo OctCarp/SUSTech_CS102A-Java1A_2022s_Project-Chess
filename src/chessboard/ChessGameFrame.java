@@ -1,5 +1,6 @@
 package chessboard;
 
+import audio.AudioPlay;
 import chess.ChessColor;
 import controller.Countdown;
 import controller.GameController;
@@ -55,6 +56,7 @@ public class ChessGameFrame extends JFrame {
         addRegretButton();
         addLabelCheck();
         addPause();
+        AudioPlay.playBgm();
     }
     public static void setPause(){
         pauseBtn.setText("Pause");
