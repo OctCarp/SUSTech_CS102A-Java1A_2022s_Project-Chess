@@ -56,4 +56,4 @@
 /src/rub/
 /demos/
 saves/*.txt
-saves/!samplesave.txt
+!samplesave.txt
