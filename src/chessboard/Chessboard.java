@@ -46,6 +46,7 @@ public class Chessboard extends JComponent {
     public static ChessComponent KingW;
     public static ChessComponent KingB;
     public ChessGameFrame chessGameFrame;
+    public static int turn=0;
 
 
     public Chessboard(int width, int height) {

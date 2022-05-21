@@ -73,9 +73,42 @@ public class ClickController {
                     chessboard.castling(first,chessComponent);
                     if (first.moved){
                         first = null;
+                        chessboard.turn++;
                     }
                 }
+            }
+            else if (first instanceof PawnChessComponent&&((PawnChessComponent) first).PassingSoldier(chessComponents,chessComponent.getChessboardPoint())){
+                        ChessComponent[][] chessComponents1 = chessboard.recordComponents(chessComponents);
+                        Step oneStep = new Step(chessboard.getCurrentColor(), chessComponents1);
+                        StepSaver.stepList.add(oneStep);
+                        if (first.getChessColor()==ChessColor.BLACK){
+                        chessboard.swapChessComponents(first, chessComponents[chessComponent.getChessboardPoint().getX()-1][chessComponent.getChessboardPoint().getY()]);
+                        chessboard.swapChessComponents(first,chessComponent);
+                        }
+                        else {
+                            chessboard.swapChessComponents(first, chessComponents[chessComponent.getChessboardPoint().getX()+1][chessComponent.getChessboardPoint().getY()]);
+                            chessboard.swapChessComponents(first,chessComponent);
+                        }
+                        chessboard.swapColor();
+                        AudioPlay.playHit();
 
+
+                        for (int i = 0; i < 8; i++) {
+                            for (int j = 0; j < 8; j++) {
+                                chessComponents[i][j].setSquareColor(chessComponents[i][j].getBackColor(new ChessboardPoint(i, j)));
+                                chessComponents[i][j].setAttacked(false);
+                                chessComponents[i][j].repaint();
+                            }
+                        }
+                        Chessboard.turn++;
+                        first.setMove(Chessboard.turn);
+                        chessboard.setCanMoveToW();
+                        chessboard.setCanMoveToB();
+                        chessboard.CheckMake();
+                        ChessGameFrame.setStatusLabelCheck(chessboard);
+                        first.setSelected(false);
+                        Countdown.restart();
+                        first = null;
             }
               else if (handleSecond(chessComponent)) {
                 //repaint in swap chess method.
@@ -102,6 +135,8 @@ public class ClickController {
                         chessComponents[i][j].repaint();
                     }
                 }
+                Chessboard.turn++;
+                first.setMove(Chessboard.turn);
                 chessboard.setCanMoveToW();
                 chessboard.setCanMoveToB();
                 chessboard.CheckMake();
