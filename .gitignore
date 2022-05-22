@@ -55,5 +55,5 @@
 /*.iml
 /src/rub/
 /demos/
-saves/*.txt
-!samplesave.txt
+saves/general/*.txt
+!saves/general/samplesave.txt
