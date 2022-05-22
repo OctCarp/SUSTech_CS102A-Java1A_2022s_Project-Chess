@@ -131,6 +131,9 @@ public class ClickController {
                     int column=first.getChessboardPoint().getY();
                     Object[] ChessComponents = {"Queen","Rook","Bishop","Knight"};
                     String ChessComponent = (String) JOptionPane.showInputDialog(null,"Which to Promote", "Promotion",JOptionPane.QUESTION_MESSAGE,null,ChessComponents,ChessComponents[0]);
+                    while (ChessComponent==null){
+                        ChessComponent = (String) JOptionPane.showInputDialog(null, "You must choose one","Promotion",JOptionPane.ERROR_MESSAGE,null,ChessComponents,ChessComponents[0]);
+                    }
                     if (ChessComponent.equals("Queen")){
                         chessboard.putChessOnBoard
                                 (new QueenChessComponent(new ChessboardPoint(first.getChessboardPoint().getX(), first.getChessboardPoint().getY()),
