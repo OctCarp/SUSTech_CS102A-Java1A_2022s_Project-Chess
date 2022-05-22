@@ -45,8 +45,10 @@ public class Chessboard extends JComponent {
     public static List<ChessboardPoint> CanMoveToB = new ArrayList<>();
     public static ChessComponent KingW;
     public static ChessComponent KingB;
-    public static boolean castlingBlack = true;
-    public static boolean castlingWhite = true;
+    public static boolean kingSideB = true;
+    public static boolean kingSideW = true;
+    public static boolean queenSideB = true;
+    public static boolean queenSideW = true;
 
     public ChessGameFrame chessGameFrame;
     public static int turn = 0;
@@ -125,8 +127,10 @@ public class Chessboard extends JComponent {
                 if (turn < 0) {
                     turn = 0;
                 }
-                castlingBlack = step.isCastlingBlack();
-                castlingWhite = step.isCastlingWhite();
+                queenSideB = step.isQueenSideB();
+                kingSideB = step.isKingSideB();
+                queenSideW = step.isQueenSideW();
+                kingSideW = step.isKingSideW();
                 ChessboardPoint chessboardPoint1 = step.getMovedChessPoint();
                 ChessComponent[][] chessComponents1 = step.getChessComponents1();
                 swapColor(step.getPlayer());
@@ -304,19 +308,31 @@ public class Chessboard extends JComponent {
                 chessComponents2[i][j] = chess;
             }
         }
-        char castlingBlack = chessboard.get(8).charAt(0);
-        char castlingWhite = chessboard.get(8).charAt(1);
+        char queenSideB = chessboard.get(8).charAt(0);
+        char kingSideB = chessboard.get(8).charAt(1);
+        char queenSideW = chessboard.get(8).charAt(2);
+        char kingSideW = chessboard.get(8).charAt(3);
         StepSaver.initiate();
         Step board = new Step();
-        if (castlingBlack == 'T') {
-            board.setCastlingBlack(true);
+        if (queenSideB == 'T') {
+            board.setQueenSideB(true);
         } else {
-            board.setCastlingBlack(false);
+            board.setQueenSideB(false);
         }
-        if (castlingWhite == 't') {
-            board.setCastlingWhite(true);
+        if (kingSideB == 'T') {
+            board.setKingSideB(true);
         } else {
-            board.setCastlingWhite(false);
+            board.setKingSideB(false);
+        }
+        if (queenSideW == 't') {
+            board.setQueenSideW(true);
+        } else {
+            board.setQueenSideW(false);
+        }
+        if (kingSideW == 't') {
+            board.setKingSideW(true);
+        } else {
+            board.setKingSideW(false);
         }
         board.setChessComponents(chessComponents2);
 

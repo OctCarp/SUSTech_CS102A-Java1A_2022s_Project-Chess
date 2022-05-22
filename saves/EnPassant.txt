@@ -6,5 +6,5 @@ ______P_
 ________
 _pp_pppp
 rnbqkbnr
-Tt
+TTtt
 y

@@ -55,10 +55,16 @@ public class ClickController {
                             if (chessComponent.getChessColor() != chessComponents[i][j].getChessColor()
                                     || (first instanceof KingChessComponent && first.getChessColor() == ChessColor.WHITE
                                     && chessComponents[i][j] instanceof RookChessComponent
-                                    && chessComponent.getChessColor() == ChessColor.WHITE && castlingWhite == true)
+                                    && chessComponent.getChessColor() == ChessColor.WHITE && queenSideW == true && (i == 7 && j == 0))
+                                    || (first instanceof KingChessComponent && first.getChessColor() == ChessColor.WHITE
+                                    && chessComponents[i][j] instanceof RookChessComponent
+                                    && chessComponent.getChessColor() == ChessColor.WHITE && kingSideW == true && (i == 7 && j == 7))
                                     || (first instanceof KingChessComponent && first.getChessColor() == ChessColor.BLACK
                                     && chessComponents[i][j] instanceof RookChessComponent
-                                    && chessComponent.getChessColor() == ChessColor.BLACK && castlingBlack == true)
+                                    && chessComponent.getChessColor() == ChessColor.BLACK && queenSideB == true && (i == 0 && j == 0))
+                                    || (first instanceof KingChessComponent && first.getChessColor() == ChessColor.BLACK
+                                    && chessComponents[i][j] instanceof RookChessComponent
+                                    && chessComponent.getChessColor() == ChessColor.BLACK && kingSideB == true && (i == 0 && j == 7))
                             ) {
                                 chessComponents[i][j].setSquareColor(BackColor.ATTACKED.getColor());
                                 chessComponents[i][j].setAttacked(true);
@@ -73,15 +79,35 @@ public class ClickController {
                 removeFirst(chessComponent);
                 chessboard.removeAttacked();
             } else if (first instanceof KingChessComponent && chessComponent instanceof RookChessComponent && first.getChessColor() == chessComponent.getChessColor()
-                    && (first.getChessColor() == ChessColor.WHITE && Chessboard.castlingWhite == true)) {
+                    && (first.getChessColor() == ChessColor.WHITE &&
+                    chessComponent.getChessboardPoint().getX() == 7 && chessComponent.getChessboardPoint().getY() == 0 && queenSideW == true)) {
                 chessboard.castling(first, chessComponent);
-                Chessboard.castlingWhite = false;
+                queenSideW = false;
+                kingSideW = false;
                 chessboard.turn++;
                 first = null;
             } else if (first instanceof KingChessComponent && chessComponent instanceof RookChessComponent && first.getChessColor() == chessComponent.getChessColor()
-                    && (first.getChessColor() == ChessColor.BLACK && Chessboard.castlingBlack == true)) {
+                    && (first.getChessColor() == ChessColor.WHITE &&
+                    chessComponent.getChessboardPoint().getX() == 7 && chessComponent.getChessboardPoint().getY() == 7 && kingSideW == true)) {
                 chessboard.castling(first, chessComponent);
-                Chessboard.castlingBlack = false;
+                queenSideW = false;
+                kingSideW = false;
+                chessboard.turn++;
+                first = null;
+            } else if (first instanceof KingChessComponent && chessComponent instanceof RookChessComponent && first.getChessColor() == chessComponent.getChessColor()
+                    && (first.getChessColor() == ChessColor.BLACK &&
+                    chessComponent.getChessboardPoint().getX() == 0 && chessComponent.getChessboardPoint().getY() == 0 && queenSideB == true)) {
+                chessboard.castling(first, chessComponent);
+                queenSideB = false;
+                kingSideB = false;
+                chessboard.turn++;
+                first = null;
+            } else if (first instanceof KingChessComponent && chessComponent instanceof RookChessComponent && first.getChessColor() == chessComponent.getChessColor()
+                    && (first.getChessColor() == ChessColor.BLACK &&
+                    chessComponent.getChessboardPoint().getX() == 0 && chessComponent.getChessboardPoint().getY() == 7 && kingSideB == true)) {
+                chessboard.castling(first, chessComponent);
+                kingSideB = false;
+                queenSideB = false;
                 chessboard.turn++;
                 first = null;
             } else if (first instanceof PawnChessComponent && ((PawnChessComponent) first).PassingSoldier(chessComponents, chessComponent.getChessboardPoint())) {
@@ -218,16 +244,34 @@ public class ClickController {
                         oneStep.setMovedChessPoint(new ChessboardPoint(lastMovedPoint.getX(), lastMovedPoint.getY()));
                     }
                 }*/
+                if (first instanceof KingChessComponent) {
+                    if (first.getChessColor() == ChessColor.WHITE) {
+                        queenSideW = false;
+                        kingSideW = false;
+                    } else if (first.getChessColor() == ChessColor.BLACK) {
+                        queenSideB = false;
+                        kingSideB = false;
+                    }
+                }
+                if (first instanceof RookChessComponent) {
+                    if (first.getChessColor() == ChessColor.WHITE) {
+                        if (first.getChessboardPoint().getX() == 7 && first.getChessboardPoint().getY() == 0) {
+                            queenSideW = false;
+                        } else if (first.getChessboardPoint().getX() == 7 && first.getChessboardPoint().getY() == 7) {
+                            kingSideW = false;
+                        }
+                    } else {
+                        if (first.getChessboardPoint().getX() == 0 && first.getChessboardPoint().getY() == 0) {
+                            queenSideB = false;
+                        } else if (first.getChessboardPoint().getX() == 0 && first.getChessboardPoint().getY() == 7) {
+                            kingSideB = false;
+                        }
+                    }
+                }
+
                 chessboard.swapChessComponents(first, chessComponent);
                 chessboard.swapColor();
                 AudioPlay.playHit();
-                if (first instanceof KingChessComponent || first instanceof RookChessComponent) {
-                    if (first.getChessColor() == ChessColor.WHITE) {
-                        Chessboard.castlingWhite = false;
-                    } else if (first.getChessColor() == ChessColor.BLACK) {
-                        Chessboard.castlingBlack = false;
-                    }
-                }
 
 
                 for (int i = 0; i < 8; i++) {

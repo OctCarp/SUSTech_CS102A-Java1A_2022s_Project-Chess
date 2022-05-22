@@ -10,16 +10,20 @@ public class Step {
     ChessComponent[][] chessComponents1 = new ChessComponent[8][8];
     private ChessboardPoint movedChessPoint;
     private ChessboardPoint moveChessPoint;
-    private boolean castlingWhite=true;
-    private boolean castlingBlack=true;
+    private boolean kingSideB=true;
+    private boolean kingSideW=true;
+    private boolean queenSideB=true;
+    private boolean queenSideW=true;
 
     public void setPlayer(ChessColor player) {
         this.player = player;
     }
 
     public void setCastling(Chessboard chessboard) {
-        this.castlingBlack=chessboard.castlingBlack;
-        this.castlingWhite=chessboard.castlingWhite;
+        this.kingSideB=chessboard.kingSideB;
+        this.kingSideW=chessboard.kingSideW;
+        this.queenSideB=chessboard.queenSideB;
+        this.queenSideW=chessboard.queenSideW;
     }
 
     public Step() {
@@ -64,12 +68,22 @@ public class Step {
             }
             sb.append(String.format("\n"));
         }
-        if(castlingBlack==true){
+        if(queenSideB==true){
             sb.append(String.format("T"));
         }else {
             sb.append(String.format("F"));
         }
-        if(castlingWhite==true){
+        if(kingSideB==true){
+            sb.append(String.format("T"));
+        }else {
+            sb.append(String.format("F"));
+        }
+        if(queenSideW==true){
+            sb.append(String.format("t"));
+        }else {
+            sb.append(String.format("f"));
+        }
+        if(kingSideW==true){
             sb.append(String.format("t\n"));
         }else {
             sb.append(String.format("f\n"));
@@ -90,19 +104,35 @@ public class Step {
         this.moveChessPoint = moveChessPoint;
     }
 
-    public boolean isCastlingBlack() {
-        return castlingBlack;
+    public boolean isKingSideB() {
+        return kingSideB;
     }
 
-    public boolean isCastlingWhite() {
-        return castlingWhite;
+    public boolean isKingSideW() {
+        return kingSideW;
     }
 
-    public void setCastlingBlack(boolean castlingBlack) {
-        this.castlingBlack = castlingBlack;
+    public boolean isQueenSideB() {
+        return queenSideB;
     }
 
-    public void setCastlingWhite(boolean castlingWhite) {
-        this.castlingWhite = castlingWhite;
+    public boolean isQueenSideW() {
+        return queenSideW;
+    }
+
+    public void setKingSideB(boolean kingSideB) {
+        this.kingSideB = kingSideB;
+    }
+
+    public void setKingSideW(boolean kingSideW) {
+        this.kingSideW = kingSideW;
+    }
+
+    public void setQueenSideB(boolean queenSideB) {
+        this.queenSideB = queenSideB;
+    }
+
+    public void setQueenSideW(boolean queenSideW) {
+        this.queenSideW = queenSideW;
     }
 }
