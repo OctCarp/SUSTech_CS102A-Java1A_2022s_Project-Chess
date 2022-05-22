@@ -55,11 +55,7 @@ public class KingChessComponent extends ChessComponent{
         if ((Math.abs(source.getX() - destination.getX()) == 1 && Math.abs(source.getY() - destination.getY()) == 0) ||
                 (Math.abs(source.getX() - destination.getX()) == 0 &&Math.abs(source.getY() - destination.getY()) == 1)||
                 (Math.abs(source.getX() - destination.getX()) == 1 &&Math.abs(source.getY() - destination.getY()) == 1)) {
-            if (chessColor==ChessColor.BLACK&&!CheckKingB(destination)){
-                return true;
-            }else if (chessColor==ChessColor.WHITE&&!CheckKingW(destination))
             return true;
-            else return false;
         }
         else if (moved==0){
             if (chessComponents[destination.getX()][destination.getY()]instanceof RookChessComponent
