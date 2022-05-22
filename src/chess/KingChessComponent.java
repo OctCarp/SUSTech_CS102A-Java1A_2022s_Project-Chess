@@ -63,6 +63,7 @@ public class KingChessComponent extends ChessComponent{
         }
         else if (!moved){
             if (chessComponents[destination.getX()][destination.getY()]instanceof RookChessComponent
+                    &&!chessComponents[destination.getX()][destination.getY()].moved
                     &&chessComponents[destination.getX()][destination.getY()].getChessColor()==chessColor
                     &&(chessboard.castle1(this,chessComponents[destination.getX()][destination.getY()])
                     ||chessboard.castle2(this,chessComponents[destination.getX()][destination.getY()])))return true;
