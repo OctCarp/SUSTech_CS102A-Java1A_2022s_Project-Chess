@@ -86,7 +86,6 @@ public class ChessGameFrame extends JFrame {
         if (chessboard != null) {
             this.remove(chessboard);
         }
-        StepSaver.initiate();
         addChessboard();
         checkLabel.setVisible(false);
         setStatusLabel(ChessColor.WHITE);
@@ -117,6 +116,7 @@ public class ChessGameFrame extends JFrame {
     public void addChessboard() {
         chessboard = new Chessboard(CHESSBOARD_SIZE, CHESSBOARD_SIZE);
         gameController = new GameController(chessboard);
+        StepSaver.initiate();
         setCountBoard(cd, chessboard);
         chessboard.setLocation(HEIGTH / 10, HEIGTH / 10);
         chessboard.chessGameFrame=this;
@@ -241,6 +241,7 @@ public class ChessGameFrame extends JFrame {
         chessboard = new Chessboard(CHESSBOARD_SIZE, CHESSBOARD_SIZE);
         gameController = new GameController(chessboard);
         setCountBoard(cd, chessboard);
+        chessboard.chessGameFrame=this;
         chessboard.setLocation(HEIGTH / 10, HEIGTH / 10);
         add(chessboard);
     }
