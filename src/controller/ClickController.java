@@ -10,6 +10,7 @@ import chessboard.Winboard;
 import util.Step;
 import util.StepSaver;
 
+import javax.swing.*;
 import java.awt.*;
 
 import static chessboard.Chessboard.chessComponents;
@@ -76,7 +77,8 @@ public class ClickController {
                         chessboard.turn++;
                     }
                 }
-            } else if (first instanceof PawnChessComponent && ((PawnChessComponent) first).PassingSoldier(chessComponents, chessComponent.getChessboardPoint())) {
+            }
+            else if (first instanceof PawnChessComponent && ((PawnChessComponent) first).PassingSoldier(chessComponents, chessComponent.getChessboardPoint())) {
                 ChessComponent[][] chessComponents1 = chessboard.recordComponents(chessComponents);
                 Step oneStep = new Step(chessboard.getCurrentColor(), chessComponents1);
                 if (StepSaver.stepList.size() != 0) {
@@ -112,7 +114,78 @@ public class ClickController {
                 first.setSelected(false);
                 Countdown.restart();
                 first = null;
-            } else if (handleSecond(chessComponent)) {
+            }
+            else if (first instanceof PawnChessComponent&&chessComponent.getChessboardPoint().getX()==0||chessComponent.getChessboardPoint().getX()==7){
+                if (chessComponent instanceof KingChessComponent) {
+                    Winboard.setWinText(chessComponent.getChessColor());
+                    chessboard.swapChessComponents(first, chessComponent);
+                    chessboard.swapColor();
+                    ChessComponent[][] chessComponents1 = chessboard.recordComponents(chessComponents);
+                    Step oneStep = new Step(chessboard.getCurrentColor(), chessComponents1);
+                    StepSaver.stepList.add(oneStep);
+                    Winboard.setReplayList();
+                    chessboard.chessGameFrame.winboard.setVisible(true);
+                    chessboard.chessGameFrame.setVisible(false);
+                }else {
+                    int row=first.getChessboardPoint().getX();
+                    int column=first.getChessboardPoint().getY();
+                    Object[] ChessComponents = {"Queen","Rook","Bishop","Knight"};
+                    String ChessComponent = (String) JOptionPane.showInputDialog(null,"Which to Promote", "Promotion",JOptionPane.QUESTION_MESSAGE,null,ChessComponents,ChessComponents[0]);
+                    if (ChessComponent.equals("Queen")){
+                        chessboard.putChessOnBoard
+                                (new QueenChessComponent(new ChessboardPoint(first.getChessboardPoint().getX(), first.getChessboardPoint().getY()),
+                                        Chessboard.calculatePoint(first.getChessboardPoint().getX(),first.getChessboardPoint().getY()),
+                                        first.getChessColor(), this, Chessboard.CHESS_SIZE));
+                    }
+                    else if (ChessComponent.equals("Rook")){
+                        chessboard.putChessOnBoard
+                                (new RookChessComponent(new ChessboardPoint(first.getChessboardPoint().getX(), first.getChessboardPoint().getY()),
+                                        Chessboard.calculatePoint(first.getChessboardPoint().getX(),first.getChessboardPoint().getY()),
+                                        first.getChessColor(), this, Chessboard.CHESS_SIZE));
+                    }
+                    else if (ChessComponent.equals("Bishop")){
+                        chessboard.putChessOnBoard
+                                (new BishopChessComponent(new ChessboardPoint(first.getChessboardPoint().getX(), first.getChessboardPoint().getY()),
+                                        Chessboard.calculatePoint(first.getChessboardPoint().getX(),first.getChessboardPoint().getY()),
+                                        first.getChessColor(), this, Chessboard.CHESS_SIZE));
+                    }
+                    else if (ChessComponent.equals("Knight")){
+                        chessboard.putChessOnBoard
+                                (new KnightChessComponent(new ChessboardPoint(first.getChessboardPoint().getX(), first.getChessboardPoint().getY()),
+                                        Chessboard.calculatePoint(first.getChessboardPoint().getX(),first.getChessboardPoint().getY()),
+                                        first.getChessColor(), this, Chessboard.CHESS_SIZE));
+                    }
+                    first=chessComponents[row][column];
+                    if (first.moved!=true){
+                        first.moved=true;
+                    }
+                    ChessComponent[][] chessComponents1 = chessboard.recordComponents(chessComponents);
+                    Step oneStep = new Step(chessboard.getCurrentColor(), chessComponents1);
+                    StepSaver.stepList.add(oneStep);
+                    chessboard.swapChessComponents(first, chessComponent);
+                    chessboard.swapColor();
+                    AudioPlay.playHit();
+
+
+                    for (int i = 0; i < 8; i++) {
+                        for (int j = 0; j < 8; j++) {
+                            chessComponents[i][j].setSquareColor(chessComponents[i][j].getBackColor(new ChessboardPoint(i, j)));
+                            chessComponents[i][j].setAttacked(false);
+                            chessComponents[i][j].repaint();
+                        }
+                    }
+                    Chessboard.turn++;
+                    first.setMove(Chessboard.turn);
+                    chessboard.setCanMoveToW();
+                    chessboard.setCanMoveToB();
+                    chessboard.CheckMake();
+                    ChessGameFrame.setStatusLabelCheck(chessboard);
+                    first.setSelected(false);
+                    Countdown.restart();
+                    first = null;
+                }
+            }
+            else if (handleSecond(chessComponent)) {
                 //repaint in swap chess method.
                 if (chessComponent instanceof KingChessComponent) {
                     Winboard.setWinText(chessComponent.getChessColor());
