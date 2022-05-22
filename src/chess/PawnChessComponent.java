@@ -128,7 +128,7 @@ public class PawnChessComponent extends ChessComponent {
 
     public boolean PassingSoldier(ChessComponent[][] chessComponents, ChessboardPoint destination){
         ChessboardPoint source = getChessboardPoint();
-        if (getChessColor()==ChessColor.BLACK){
+        if (getChessColor()==ChessColor.WHITE){
             if (destination.getX()<7&&chessComponents[destination.getX()+1][destination.getY()]instanceof PawnChessComponent
                     &&chessComponents[destination.getX()+1][destination.getY()].getChessColor()==ChessColor.BLACK
                     &&destination.getX()+1==source.getX()&&chessComponents[destination.getX()+1][destination.getY()].getMove()== Chessboard.turn){
@@ -136,9 +136,9 @@ public class PawnChessComponent extends ChessComponent {
             }else return false;
         }
         else {
-            if (destination.getX()<7&&chessComponents[destination.getX()+1][destination.getY()]instanceof PawnChessComponent
-                    &&chessComponents[destination.getX()+1][destination.getY()].getChessColor()==ChessColor.BLACK
-                    &&destination.getX()+1==source.getX()&&chessComponents[destination.getX()+1][destination.getY()].getMove()==Chessboard.turn){
+            if (destination.getX()>0&&chessComponents[destination.getX()-1][destination.getY()]instanceof PawnChessComponent
+                    &&chessComponents[destination.getX()-1][destination.getY()].getChessColor()==ChessColor.WHITE
+                    &&destination.getX()-1==source.getX()&&chessComponents[destination.getX()-1][destination.getY()].getMove()==Chessboard.turn){
                 return true;
             }else return false;
         }
