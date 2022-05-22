@@ -14,6 +14,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 import static chessboard.ChessGameFrame.setStatusLabelCheck;
 
@@ -60,6 +61,7 @@ public class Chessboard extends JComponent {
         CHESS_SIZE = width / 8;
         System.out.printf("chessboard size = %d, chess size = %d\n", width, CHESS_SIZE);
         // FIXME: Initialize chessboard for testing only.
+        StepSaver.initiate();
         initChess();
     }
 
@@ -94,12 +96,16 @@ public class Chessboard extends JComponent {
             for (int j = 0; j <= 7; j++) {
                 for (int M = 0; M <= 7; M++) {
                     for (int N = 0; N <= 7; N++) {
-                        if (chessComponents[i][j].canMoveTo(chessComponents, new ChessboardPoint(M, N)) && chessComponents[i][j].getChessColor() == ChessColor.BLACK)
+                        if (chessComponents[i][j].getChessColor() == ChessColor.BLACK && chessComponents[i][j] instanceof PawnChessComponent) {
+                            canMoveToB.add(offset(i, j, -1, 1));
+                            canMoveToB.add(offset(i, j, 1, 1));
+                        } else if (chessComponents[i][j].canMoveTo(chessComponents, new ChessboardPoint(M, N)) && chessComponents[i][j].getChessColor() == ChessColor.BLACK)
                             canMoveToB.add(new ChessboardPoint(M, N));
                     }
                 }
             }
         }
+        canMoveToB.removeIf(Objects::isNull);
         CanMoveToB = canMoveToB;
     }
 
@@ -109,12 +115,17 @@ public class Chessboard extends JComponent {
             for (int j = 0; j <= 7; j++) {
                 for (int M = 0; M <= 7; M++) {
                     for (int N = 0; N <= 7; N++) {
+                        if (chessComponents[i][j].getChessColor() == ChessColor.WHITE && chessComponents[i][j] instanceof PawnChessComponent) {
+                            canMoveToW.add(offset(i, j, -1, -1));
+                            canMoveToW.add(offset(i, j, 1, -1));
+                        }
                         if (chessComponents[i][j].canMoveTo(chessComponents, new ChessboardPoint(M, N)) && chessComponents[i][j].getChessColor() == ChessColor.WHITE)
                             canMoveToW.add(new ChessboardPoint(M, N));
                     }
                 }
             }
         }
+        canMoveToW.removeIf(Objects::isNull);
         CanMoveToW = canMoveToW;
     }
 
@@ -158,6 +169,8 @@ public class Chessboard extends JComponent {
                         if (chessboardPoint1 != null) {
                             if (chessboardPoint1.getX() == i && chessboardPoint1.getY() == j) {
                                 chessComponents[i][j].setMove(turn);
+                                //TODO:
+                                System.out.printf("%d,%d",chessboardPoint1.getX(),chessboardPoint1.getY());
                             }
                         }
                         chessComponents[i][j].repaint();
@@ -198,6 +211,7 @@ public class Chessboard extends JComponent {
     }
 
     public void CheckMake() {
+        //TODO
         if (CheckKing(KingW)) System.out.println("JIANGW");
         if (CheckKing(KingB)) System.out.println("JIANGB");
     }
@@ -551,5 +565,13 @@ public class Chessboard extends JComponent {
                         && chessComponents[King.getChessboardPoint().getX()][6] instanceof EmptySlotComponent;
             } else return false;
         } else return false;
+    }
+
+    public ChessboardPoint offset(int i, int j, int dx, int dy) {
+        int a = i + dx;
+        int b = j + dy;
+        if (a < 0 || a > 7 || b < 0 || b > 7) {
+            return null;
+        } else return new ChessboardPoint(a, b);
     }
 }
