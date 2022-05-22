@@ -140,7 +140,7 @@ public class PawnChessComponent extends ChessComponent {
             if (destination.getX()>0&&chessComponents[destination.getX()-1][destination.getY()]instanceof PawnChessComponent
                     &&chessComponents[destination.getX()-1][destination.getY()].getChessColor()==ChessColor.WHITE&&source.getX()==4
                     &&destination.getX()-1==source.getX()&&chessComponents[destination.getX()-1][destination.getY()].getMove()==Chessboard.turn
-                    &&Math.abs(destination.getY()-source.getY())==1&&chessComponents[destination.getX()+1][destination.getY()].moved==1){
+                    &&Math.abs(destination.getY()-source.getY())==1&&chessComponents[destination.getX()-1][destination.getY()].moved==1){
                 return true;
             }else return false;
         }

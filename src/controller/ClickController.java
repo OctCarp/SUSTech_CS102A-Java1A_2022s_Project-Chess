@@ -115,7 +115,7 @@ public class ClickController {
                 Countdown.restart();
                 first = null;
             }
-            else if (first instanceof PawnChessComponent&&chessComponent.getChessboardPoint().getX()==0||chessComponent.getChessboardPoint().getX()==7){
+            else if (first instanceof PawnChessComponent&&chessComponent.getChessboardPoint().getX()==0||chessComponent.getChessboardPoint().getX()==7&&first.canMoveTo(chessComponents,chessComponent.getChessboardPoint())){
                 if (chessComponent instanceof KingChessComponent) {
                     Winboard.setWinText(chessComponent.getChessColor());
                     ChessComponent[][] chessComponents1 = chessboard.recordComponents(chessComponents);
