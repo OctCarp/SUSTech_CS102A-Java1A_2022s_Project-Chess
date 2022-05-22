@@ -10,9 +10,16 @@ public class Step {
     ChessComponent[][] chessComponents1 = new ChessComponent[8][8];
     private ChessboardPoint movedChessPoint;
     private ChessboardPoint moveChessPoint;
+    private boolean castlingWhite=true;
+    private boolean castlingBlack=true;
 
     public void setPlayer(ChessColor player) {
         this.player = player;
+    }
+
+    public void setCastling(Chessboard chessboard) {
+        this.castlingBlack=chessboard.castlingBlack;
+        this.castlingWhite=chessboard.castlingWhite;
     }
 
     public Step() {
@@ -57,6 +64,16 @@ public class Step {
             }
             sb.append(String.format("\n"));
         }
+        if(castlingBlack==true){
+            sb.append(String.format("T"));
+        }else {
+            sb.append(String.format("F"));
+        }
+        if(castlingWhite==true){
+            sb.append(String.format("t\n"));
+        }else {
+            sb.append(String.format("f\n"));
+        }
         if (player == ChessColor.BLACK) {
             sb.append(String.format("x"));
         } else {
@@ -71,5 +88,21 @@ public class Step {
 
     public void setMoveChessPoint(ChessboardPoint moveChessPoint) {
         this.moveChessPoint = moveChessPoint;
+    }
+
+    public boolean isCastlingBlack() {
+        return castlingBlack;
+    }
+
+    public boolean isCastlingWhite() {
+        return castlingWhite;
+    }
+
+    public void setCastlingBlack(boolean castlingBlack) {
+        this.castlingBlack = castlingBlack;
+    }
+
+    public void setCastlingWhite(boolean castlingWhite) {
+        this.castlingWhite = castlingWhite;
     }
 }

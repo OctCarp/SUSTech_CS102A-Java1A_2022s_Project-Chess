@@ -2,6 +2,7 @@ import chessboard.ChessGameFrame;
 import chessboard.Homescreen;
 
 import javax.swing.*;
+import java.awt.image.ImageProducer;
 import java.io.IOException;
 
 public class Main {

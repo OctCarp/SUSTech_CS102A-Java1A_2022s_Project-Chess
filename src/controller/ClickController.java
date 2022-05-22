@@ -13,8 +13,7 @@ import util.StepSaver;
 import javax.swing.*;
 import java.awt.*;
 
-import static chessboard.Chessboard.chessComponents;
-import static chessboard.Chessboard.stepList;
+import static chessboard.Chessboard.*;
 
 public class ClickController {
     private Chessboard chessboard;
@@ -54,9 +53,13 @@ public class ClickController {
                     for (int j = 0; j < 8; j++) {
                         if (first.canMoveTo(chessComponents, new ChessboardPoint(i, j))) {
                             if (chessComponent.getChessColor() != chessComponents[i][j].getChessColor()
-                                    || (first instanceof KingChessComponent
+                                    || (first instanceof KingChessComponent && first.getChessColor() == ChessColor.WHITE
                                     && chessComponents[i][j] instanceof RookChessComponent
-                                    && chessComponent.getChessColor() == chessComponents[i][j].getChessColor())) {
+                                    && chessComponent.getChessColor() == ChessColor.WHITE && castlingWhite == true)
+                                    || (first instanceof KingChessComponent && first.getChessColor() == ChessColor.BLACK
+                                    && chessComponents[i][j] instanceof RookChessComponent
+                                    && chessComponent.getChessColor() == ChessColor.BLACK && castlingBlack == true)
+                            ) {
                                 chessComponents[i][j].setSquareColor(BackColor.ATTACKED.getColor());
                                 chessComponents[i][j].setAttacked(true);
                                 chessComponents[i][j].repaint();
@@ -69,16 +72,19 @@ public class ClickController {
             if (first == chessComponent) { // 再次点击取消选取
                 removeFirst(chessComponent);
                 chessboard.removeAttacked();
-            } else if (first instanceof KingChessComponent && chessComponent instanceof RookChessComponent && first.getChessColor() == chessComponent.getChessColor()) {
-                if (first.moved==0 && chessComponent.moved==0) {
-                    chessboard.castling(first, chessComponent);
-                    if (first.moved!=0) {
-                        first = null;
-                        chessboard.turn++;
-                    }
-                }
-            }
-            else if (first instanceof PawnChessComponent && ((PawnChessComponent) first).PassingSoldier(chessComponents, chessComponent.getChessboardPoint())) {
+            } else if (first instanceof KingChessComponent && chessComponent instanceof RookChessComponent && first.getChessColor() == chessComponent.getChessColor()
+                    && (first.getChessColor() == ChessColor.WHITE && Chessboard.castlingWhite == true)) {
+                chessboard.castling(first, chessComponent);
+                Chessboard.castlingWhite = false;
+                chessboard.turn++;
+                first = null;
+            } else if (first instanceof KingChessComponent && chessComponent instanceof RookChessComponent && first.getChessColor() == chessComponent.getChessColor()
+                    && (first.getChessColor() == ChessColor.BLACK && Chessboard.castlingBlack == true)) {
+                chessboard.castling(first, chessComponent);
+                Chessboard.castlingBlack = false;
+                chessboard.turn++;
+                first = null;
+            } else if (first instanceof PawnChessComponent && ((PawnChessComponent) first).PassingSoldier(chessComponents, chessComponent.getChessboardPoint())) {
                 ChessComponent[][] chessComponents1 = chessboard.recordComponents(chessComponents);
                 Step oneStep = new Step(chessboard.getCurrentColor(), chessComponents1);
                 if (StepSaver.stepList.size() != 0) {
@@ -114,8 +120,7 @@ public class ClickController {
                 first.setSelected(false);
                 Countdown.restart();
                 first = null;
-            }
-            else if (first instanceof PawnChessComponent&&(chessComponent.getChessboardPoint().getX()==0||chessComponent.getChessboardPoint().getX()==7)&&first.canMoveTo(chessComponents,chessComponent.getChessboardPoint())){
+            } else if (first instanceof PawnChessComponent && (chessComponent.getChessboardPoint().getX() == 0 || chessComponent.getChessboardPoint().getX() == 7) && first.canMoveTo(chessComponents, chessComponent.getChessboardPoint())) {
                 if (chessComponent instanceof KingChessComponent) {
                     Winboard.setWinText(chessComponent.getChessColor());
                     ChessComponent[][] chessComponents1 = chessboard.recordComponents(chessComponents);
@@ -129,41 +134,38 @@ public class ClickController {
                     Winboard.setReplayList();
                     chessboard.chessGameFrame.winboard.setVisible(true);
                     chessboard.chessGameFrame.setVisible(false);
-                }else {
+                } else {
                     ChessComponent[][] chessComponents1 = chessboard.recordComponents(chessComponents);
                     Step oneStep = new Step(chessboard.getCurrentColor(), chessComponents1);
-                    int row=first.getChessboardPoint().getX();
-                    int column=first.getChessboardPoint().getY();
-                    Object[] ChessComponents = {"Queen","Rook","Bishop","Knight"};
-                    String ChessComponent = (String) JOptionPane.showInputDialog(null,"Which to Promote", "Promotion",JOptionPane.QUESTION_MESSAGE,null,ChessComponents,ChessComponents[0]);
-                    while (ChessComponent==null){
-                        ChessComponent = (String) JOptionPane.showInputDialog(null, "You must choose one","Promotion",JOptionPane.ERROR_MESSAGE,null,ChessComponents,ChessComponents[0]);
+                    int row = first.getChessboardPoint().getX();
+                    int column = first.getChessboardPoint().getY();
+                    Object[] ChessComponents = {"Queen", "Rook", "Bishop", "Knight"};
+                    String ChessComponent = (String) JOptionPane.showInputDialog(null, "Which to Promote", "Promotion", JOptionPane.QUESTION_MESSAGE, null, ChessComponents, ChessComponents[0]);
+                    while (ChessComponent == null) {
+                        ChessComponent = (String) JOptionPane.showInputDialog(null, "You must choose one", "Promotion", JOptionPane.ERROR_MESSAGE, null, ChessComponents, ChessComponents[0]);
                     }
-                    if (ChessComponent.equals("Queen")){
+                    if (ChessComponent.equals("Queen")) {
                         chessboard.putChessOnBoard
                                 (new QueenChessComponent(new ChessboardPoint(first.getChessboardPoint().getX(), first.getChessboardPoint().getY()),
-                                        Chessboard.calculatePoint(first.getChessboardPoint().getX(),first.getChessboardPoint().getY()),
+                                        Chessboard.calculatePoint(first.getChessboardPoint().getX(), first.getChessboardPoint().getY()),
                                         first.getChessColor(), this, Chessboard.CHESS_SIZE));
-                    }
-                    else if (ChessComponent.equals("Rook")){
+                    } else if (ChessComponent.equals("Rook")) {
                         chessboard.putChessOnBoard
                                 (new RookChessComponent(new ChessboardPoint(first.getChessboardPoint().getX(), first.getChessboardPoint().getY()),
-                                        Chessboard.calculatePoint(first.getChessboardPoint().getX(),first.getChessboardPoint().getY()),
+                                        Chessboard.calculatePoint(first.getChessboardPoint().getX(), first.getChessboardPoint().getY()),
                                         first.getChessColor(), this, Chessboard.CHESS_SIZE));
-                    }
-                    else if (ChessComponent.equals("Bishop")){
+                    } else if (ChessComponent.equals("Bishop")) {
                         chessboard.putChessOnBoard
                                 (new BishopChessComponent(new ChessboardPoint(first.getChessboardPoint().getX(), first.getChessboardPoint().getY()),
-                                        Chessboard.calculatePoint(first.getChessboardPoint().getX(),first.getChessboardPoint().getY()),
+                                        Chessboard.calculatePoint(first.getChessboardPoint().getX(), first.getChessboardPoint().getY()),
                                         first.getChessColor(), this, Chessboard.CHESS_SIZE));
-                    }
-                    else if (ChessComponent.equals("Knight")){
+                    } else if (ChessComponent.equals("Knight")) {
                         chessboard.putChessOnBoard
                                 (new KnightChessComponent(new ChessboardPoint(first.getChessboardPoint().getX(), first.getChessboardPoint().getY()),
-                                        Chessboard.calculatePoint(first.getChessboardPoint().getX(),first.getChessboardPoint().getY()),
+                                        Chessboard.calculatePoint(first.getChessboardPoint().getX(), first.getChessboardPoint().getY()),
                                         first.getChessColor(), this, Chessboard.CHESS_SIZE));
                     }
-                    first=chessComponents[row][column];
+                    first = chessComponents[row][column];
                     first.moved++;
                     chessboard.swapChessComponents(first, chessComponent);
                     chessboard.swapColor();
@@ -189,13 +191,13 @@ public class ClickController {
                     Countdown.restart();
                     first = null;
                 }
-            }
-            else if (handleSecond(chessComponent)) {
+            } else if (handleSecond(chessComponent)) {
                 //repaint in swap chess method.
                 if (chessComponent instanceof KingChessComponent) {
                     Winboard.setWinText(chessComponent.getChessColor());
                     ChessComponent[][] chessComponents1 = chessboard.recordComponents(chessComponents);
                     Step oneStep = new Step(chessboard.getCurrentColor(), chessComponents1);
+                    oneStep.setCastling(chessboard);
                     StepSaver.stepList.add(oneStep);
                     chessboard.swapChessComponents(first, chessComponent);
                     ChessComponent[][] chessComponents2 = chessboard.recordComponents(chessComponents);
@@ -208,6 +210,8 @@ public class ClickController {
                 first.moved++;
                 ChessComponent[][] chessComponents1 = chessboard.recordComponents(chessComponents);
                 Step oneStep = new Step(chessboard.getCurrentColor(), chessComponents1);
+                oneStep.setCastling(chessboard);
+
                 /*if (StepSaver.stepList.size() != 0) {
                     ChessboardPoint lastMovedPoint = StepSaver.stepList.getLast().getMoveChessPoint();
                     if (lastMovedPoint != null) {
@@ -217,6 +221,13 @@ public class ClickController {
                 chessboard.swapChessComponents(first, chessComponent);
                 chessboard.swapColor();
                 AudioPlay.playHit();
+                if (first instanceof KingChessComponent || first instanceof RookChessComponent) {
+                    if (first.getChessColor() == ChessColor.WHITE) {
+                        Chessboard.castlingWhite = false;
+                    } else if (first.getChessColor() == ChessColor.BLACK) {
+                        Chessboard.castlingBlack = false;
+                    }
+                }
 
 
                 for (int i = 0; i < 8; i++) {

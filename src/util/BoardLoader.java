@@ -63,7 +63,7 @@ public class BoardLoader {
 
     public static List<String> board() throws IOException {
         List<String> chessBoard = new ArrayList<>();
-        for (int i = 0; i < 9; i++) {
+        for (int i = 0; i < 10; i++) {
             chessBoard.add(boardReader.readLine());
         }
         boardStrings = chessBoard;
@@ -83,7 +83,7 @@ public class BoardLoader {
         } catch (ArrayIndexOutOfBoundsException e) {
             one01 = true;
         }
-        for (int i = 0; i < boardStrings.size()-1; i++) {
+        for (int i = 0; i < boardStrings.size() - 2; i++) {
             String s = boardStrings.get(i);
             if (s != null) {
                 for (int j = 0; j < s.length(); j++) {
@@ -94,14 +94,14 @@ public class BoardLoader {
             }
         }
         try {
-            String s = boardStrings.get(8);
+            String s = boardStrings.get(boardStrings.size() - 1);
             char player = s.charAt(0);
             if (!(player == 'x' || player == 'y')) {
                 one03 = true;
             }
         } catch (NullPointerException e) {
             one03 = true;
-        } catch (ArrayIndexOutOfBoundsException e) {
+        } catch (IndexOutOfBoundsException e) {
             one03 = true;
         }
 

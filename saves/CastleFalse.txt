@@ -6,5 +6,5 @@ ________
 ___p_npb
 ppp_pp_p
 rnbqk__r
-Tt
+Tf
 y

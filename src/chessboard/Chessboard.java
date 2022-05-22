@@ -45,8 +45,11 @@ public class Chessboard extends JComponent {
     public static List<ChessboardPoint> CanMoveToB = new ArrayList<>();
     public static ChessComponent KingW;
     public static ChessComponent KingB;
+    public static boolean castlingBlack = true;
+    public static boolean castlingWhite = true;
+
     public ChessGameFrame chessGameFrame;
-    public static int turn=0;
+    public static int turn = 0;
 
 
     public Chessboard(int width, int height) {
@@ -119,10 +122,12 @@ public class Chessboard extends JComponent {
             Step step = stepList.pollLast();
             if (step != null) {
                 turn--;
-                if(turn<0){
-                    turn=0;
+                if (turn < 0) {
+                    turn = 0;
                 }
-                ChessboardPoint chessboardPoint1 =step.getMovedChessPoint();
+                castlingBlack = step.isCastlingBlack();
+                castlingWhite = step.isCastlingWhite();
+                ChessboardPoint chessboardPoint1 = step.getMovedChessPoint();
                 ChessComponent[][] chessComponents1 = step.getChessComponents1();
                 swapColor(step.getPlayer());
                 removeSelect();
@@ -146,7 +151,7 @@ public class Chessboard extends JComponent {
                         } else if (chess instanceof EmptySlotComponent) {
                             EmptyOnBoard(i, j);
                         }
-                        if (chessboardPoint1!=null) {
+                        if (chessboardPoint1 != null) {
                             if (chessboardPoint1.getX() == i && chessboardPoint1.getY() == j) {
                                 chessComponents[i][j].setMove(turn);
                             }
@@ -285,7 +290,7 @@ public class Chessboard extends JComponent {
 
     public void loadGame(List<String> chessboard) {
 
-        char player = chessboard.get(8).charAt(0);
+        char player = chessboard.get(9).charAt(0);
         if (player == 'x') {
             swapColor(ChessColor.BLACK);
         } else {
@@ -299,8 +304,20 @@ public class Chessboard extends JComponent {
                 chessComponents2[i][j] = chess;
             }
         }
+        char castlingBlack = chessboard.get(8).charAt(0);
+        char castlingWhite = chessboard.get(8).charAt(1);
         StepSaver.initiate();
         Step board = new Step();
+        if (castlingBlack == 'T') {
+            board.setCastlingBlack(true);
+        } else {
+            board.setCastlingBlack(false);
+        }
+        if (castlingWhite == 't') {
+            board.setCastlingWhite(true);
+        } else {
+            board.setCastlingWhite(false);
+        }
         board.setChessComponents(chessComponents2);
 
         if (player == 'x') {
@@ -422,6 +439,7 @@ public class Chessboard extends JComponent {
             }
         }
     }
+
     public void removeAttacked() {
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
@@ -450,8 +468,8 @@ public class Chessboard extends JComponent {
         if (castle1(King, Rook)) {
             ChessComponent[][] chessComponents1 = recordComponents(chessComponents);
             Step oneStep = new Step(currentColor, chessComponents1);
+            oneStep.setCastling(this);
             StepSaver.stepList.add(oneStep);
-            King.moved++;
             swapChessComponents(King, chessComponents[King.getChessboardPoint().getX()][2]);
             swapChessComponents(Rook, chessComponents[King.getChessboardPoint().getX()][3]);
             swapColor();
@@ -473,8 +491,8 @@ public class Chessboard extends JComponent {
         } else if (castle2(King, Rook)) {
             ChessComponent[][] chessComponents1 = recordComponents(chessComponents);
             Step oneStep = new Step(currentColor, chessComponents1);
+            oneStep.setCastling(this);
             StepSaver.stepList.add(oneStep);
-            King.moved++;
             swapChessComponents(King, chessComponents[King.getChessboardPoint().getX()][6]);
             swapChessComponents(Rook, chessComponents[King.getChessboardPoint().getX()][5]);
             swapColor();

@@ -9,7 +9,7 @@ public class BoardSaver {
 
     public static void saveGame(String fileName) {
         try {
-            boardSaver = new BufferedWriter(new FileWriter("./saves/general"+fileName));
+            boardSaver = new BufferedWriter(new FileWriter("./saves/general/"+fileName));
             saveBoardIntoFile(fileName);
             boardSaver.flush();
             boardSaver.close();
