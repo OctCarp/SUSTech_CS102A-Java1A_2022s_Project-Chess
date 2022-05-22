@@ -1,11 +1,15 @@
 package util;
 
 import chess.*;
+import chessboard.Chessboard;
+import chessboard.ChessboardPoint;
 
 
 public class Step {
     ChessColor player;
     ChessComponent[][] chessComponents1 = new ChessComponent[8][8];
+    private ChessboardPoint movedChessPoint;
+    private ChessboardPoint moveChessPoint;
 
     public void setPlayer(ChessColor player) {
         this.player = player;
@@ -23,6 +27,13 @@ public class Step {
         this.chessComponents1 = chessComponents1;
     }
 
+    public ChessboardPoint getMoveChessPoint() {
+        return moveChessPoint;
+    }
+
+    public ChessboardPoint getMovedChessPoint() {
+        return movedChessPoint;
+    }
 
     public ChessComponent[][] getChessComponents1() {
         return chessComponents1;
@@ -46,5 +57,13 @@ public class Step {
             sb.append(String.format("y"));
         }
         return sb.toString();
+    }
+
+    public void setMovedChessPoint(ChessboardPoint movedChessPoint) {
+        this.movedChessPoint = movedChessPoint;
+    }
+
+    public void setMoveChessPoint(ChessboardPoint moveChessPoint) {
+        this.moveChessPoint = moveChessPoint;
     }
 }

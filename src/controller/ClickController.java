@@ -13,6 +13,7 @@ import util.StepSaver;
 import java.awt.*;
 
 import static chessboard.Chessboard.chessComponents;
+import static chessboard.Chessboard.stepList;
 
 public class ClickController {
     private Chessboard chessboard;
@@ -52,9 +53,9 @@ public class ClickController {
                     for (int j = 0; j < 8; j++) {
                         if (first.canMoveTo(chessComponents, new ChessboardPoint(i, j))) {
                             if (chessComponent.getChessColor() != chessComponents[i][j].getChessColor()
-                                    ||(first instanceof KingChessComponent
+                                    || (first instanceof KingChessComponent
                                     && chessComponents[i][j] instanceof RookChessComponent
-                                    &&chessComponent.getChessColor()== chessComponents[i][j].getChessColor())) {
+                                    && chessComponent.getChessColor() == chessComponents[i][j].getChessColor())) {
                                 chessComponents[i][j].setSquareColor(BackColor.ATTACKED.getColor());
                                 chessComponents[i][j].setAttacked(true);
                                 chessComponents[i][j].repaint();
@@ -67,68 +68,76 @@ public class ClickController {
             if (first == chessComponent) { // 再次点击取消选取
                 removeFirst(chessComponent);
                 chessboard.removeAttacked();
-            }
-            else if (first instanceof KingChessComponent&&chessComponent instanceof RookChessComponent&&first.getChessColor()==chessComponent.getChessColor()){
-                if (!first.moved&&!chessComponent.moved){
-                    chessboard.castling(first,chessComponent);
-                    if (first.moved){
+            } else if (first instanceof KingChessComponent && chessComponent instanceof RookChessComponent && first.getChessColor() == chessComponent.getChessColor()) {
+                if (!first.moved && !chessComponent.moved) {
+                    chessboard.castling(first, chessComponent);
+                    if (first.moved) {
                         first = null;
                         chessboard.turn++;
                     }
                 }
-            }
-            else if (first instanceof PawnChessComponent&&((PawnChessComponent) first).PassingSoldier(chessComponents,chessComponent.getChessboardPoint())){
-                        ChessComponent[][] chessComponents1 = chessboard.recordComponents(chessComponents);
-                        Step oneStep = new Step(chessboard.getCurrentColor(), chessComponents1);
-                        StepSaver.stepList.add(oneStep);
-                        if (first.getChessColor()==ChessColor.BLACK){
-                        chessboard.swapChessComponents(first, chessComponents[chessComponent.getChessboardPoint().getX()-1][chessComponent.getChessboardPoint().getY()]);
-                        chessboard.swapChessComponents(first,chessComponent);
-                        }
-                        else {
-                            chessboard.swapChessComponents(first, chessComponents[chessComponent.getChessboardPoint().getX()+1][chessComponent.getChessboardPoint().getY()]);
-                            chessboard.swapChessComponents(first,chessComponent);
-                        }
-                        chessboard.swapColor();
-                        AudioPlay.playHit();
+            } else if (first instanceof PawnChessComponent && ((PawnChessComponent) first).PassingSoldier(chessComponents, chessComponent.getChessboardPoint())) {
+                ChessComponent[][] chessComponents1 = chessboard.recordComponents(chessComponents);
+                Step oneStep = new Step(chessboard.getCurrentColor(), chessComponents1);
+                if (StepSaver.stepList.size() != 0) {
+                    ChessboardPoint lastMovedPoint = StepSaver.stepList.getLast().getMoveChessPoint();
+                    oneStep.setMovedChessPoint(new ChessboardPoint(lastMovedPoint.getX(), lastMovedPoint.getY()));
+                }
+                if (first.getChessColor() == ChessColor.BLACK) {
+                    chessboard.swapChessComponents(first, chessComponents[chessComponent.getChessboardPoint().getX() - 1][chessComponent.getChessboardPoint().getY()]);
+                    chessboard.swapChessComponents(first, chessComponent);
+                } else {
+                    chessboard.swapChessComponents(first, chessComponents[chessComponent.getChessboardPoint().getX() + 1][chessComponent.getChessboardPoint().getY()]);
+                    chessboard.swapChessComponents(first, chessComponent);
+                }
+                chessboard.swapColor();
+                oneStep.setMoveChessPoint(first.getChessboardPoint());
+                StepSaver.stepList.add(oneStep);
+                AudioPlay.playHit();
 
 
-                        for (int i = 0; i < 8; i++) {
-                            for (int j = 0; j < 8; j++) {
-                                chessComponents[i][j].setSquareColor(chessComponents[i][j].getBackColor(new ChessboardPoint(i, j)));
-                                chessComponents[i][j].setAttacked(false);
-                                chessComponents[i][j].repaint();
-                            }
-                        }
-                        Chessboard.turn++;
-                        first.setMove(Chessboard.turn);
-                        chessboard.setCanMoveToW();
-                        chessboard.setCanMoveToB();
-                        chessboard.CheckMake();
-                        ChessGameFrame.setStatusLabelCheck(chessboard);
-                        first.setSelected(false);
-                        Countdown.restart();
-                        first = null;
-            }
-              else if (handleSecond(chessComponent)) {
+                for (int i = 0; i < 8; i++) {
+                    for (int j = 0; j < 8; j++) {
+                        chessComponents[i][j].setSquareColor(chessComponents[i][j].getBackColor(new ChessboardPoint(i, j)));
+                        chessComponents[i][j].setAttacked(false);
+                        chessComponents[i][j].repaint();
+                    }
+                }
+                Chessboard.turn++;
+                first.setMove(Chessboard.turn);
+                chessboard.setCanMoveToW();
+                chessboard.setCanMoveToB();
+                chessboard.CheckMake();
+                ChessGameFrame.setStatusLabelCheck(chessboard);
+                first.setSelected(false);
+                Countdown.restart();
+                first = null;
+            } else if (handleSecond(chessComponent)) {
                 //repaint in swap chess method.
                 if (chessComponent instanceof KingChessComponent) {
                     Winboard.setWinText(chessComponent.getChessColor());
-                    chessboard.swapChessComponents(first, chessComponent);
-                    chessboard.swapColor();
                     ChessComponent[][] chessComponents1 = chessboard.recordComponents(chessComponents);
                     Step oneStep = new Step(chessboard.getCurrentColor(), chessComponents1);
                     StepSaver.stepList.add(oneStep);
+                    chessboard.swapChessComponents(first, chessComponent);
+                    ChessComponent[][] chessComponents2 = chessboard.recordComponents(chessComponents);
+                    Step checkStep = new Step(chessboard.getCurrentColor(), chessComponents2);
+                    StepSaver.stepList.add(checkStep);
                     Winboard.setReplayList();
                     chessboard.chessGameFrame.winboard.setVisible(true);
                     chessboard.chessGameFrame.setVisible(false);
                 }
-                if (first.moved!=true){
-                    first.moved=true;
+                if (first.moved != true) {
+                    first.moved = true;
                 }
                 ChessComponent[][] chessComponents1 = chessboard.recordComponents(chessComponents);
                 Step oneStep = new Step(chessboard.getCurrentColor(), chessComponents1);
-                StepSaver.stepList.add(oneStep);
+                if (StepSaver.stepList.size() != 0) {
+                    ChessboardPoint lastMovedPoint = StepSaver.stepList.getLast().getMoveChessPoint();
+                    if (lastMovedPoint != null) {
+                        oneStep.setMovedChessPoint(new ChessboardPoint(lastMovedPoint.getX(), lastMovedPoint.getY()));
+                    }
+                }
                 chessboard.swapChessComponents(first, chessComponent);
                 chessboard.swapColor();
                 AudioPlay.playHit();
@@ -143,6 +152,8 @@ public class ClickController {
                 }
                 Chessboard.turn++;
                 first.setMove(Chessboard.turn);
+                oneStep.setMoveChessPoint(new ChessboardPoint(first.getChessboardPoint().getX(), first.getChessboardPoint().getY()));
+                StepSaver.stepList.add(oneStep);
                 chessboard.setCanMoveToW();
                 chessboard.setCanMoveToB();
                 chessboard.CheckMake();
@@ -173,7 +184,7 @@ public class ClickController {
                 first.canMoveTo(chessboard.getChessComponents(), chessComponent.getChessboardPoint());
     }
 
-    public ChessComponent getFirst(){
+    public ChessComponent getFirst() {
         return first;
     }
 }

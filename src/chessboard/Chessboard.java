@@ -118,8 +118,14 @@ public class Chessboard extends JComponent {
         if (stepList != null) {
             Step step = stepList.pollLast();
             if (step != null) {
+                turn--;
+                if(turn<0){
+                    turn=0;
+                }
+                ChessboardPoint chessboardPoint1 =step.getMovedChessPoint();
                 ChessComponent[][] chessComponents1 = step.getChessComponents1();
                 swapColor(step.getPlayer());
+                removeSelect();
                 Countdown.restart();
                 //     initiateEmptyChessboard();
                 for (int i = 0; i < 8; i++) {
@@ -140,9 +146,16 @@ public class Chessboard extends JComponent {
                         } else if (chess instanceof EmptySlotComponent) {
                             EmptyOnBoard(i, j);
                         }
+                        if (chessboardPoint1!=null) {
+                            if (chessboardPoint1.getX() == i && chessboardPoint1.getY() == j) {
+                                chessComponents[i][j].setMove(turn);
+                            }
+                        }
                         chessComponents[i][j].repaint();
                     }
                 }
+                System.out.println(turn);
+
                 setCanMoveToB();
                 setCanMoveToW();
                 setStatusLabelCheck(this);
