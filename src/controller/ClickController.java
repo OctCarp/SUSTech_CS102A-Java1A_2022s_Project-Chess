@@ -118,6 +118,7 @@ public class ClickController {
             else if (first instanceof PawnChessComponent&&chessComponent.getChessboardPoint().getX()==0||chessComponent.getChessboardPoint().getX()==7){
                 if (chessComponent instanceof KingChessComponent) {
                     Winboard.setWinText(chessComponent.getChessColor());
+<<<<<<< HEAD
                     ChessComponent[][] chessComponents1 = chessboard.recordComponents(chessComponents);
                     Step oneStep = new Step(chessboard.getCurrentColor(), chessComponents1);
                     StepSaver.stepList.add(oneStep);
@@ -126,12 +127,22 @@ public class ClickController {
                     ChessComponent[][] chessComponents2 = chessboard.recordComponents(chessComponents);
                     Step checkStep = new Step(chessboard.getCurrentColor(), chessComponents2);
                     StepSaver.stepList.add(checkStep);
+=======
+                    chessboard.swapChessComponents(first, chessComponent);
+                    chessboard.swapColor();
+                    ChessComponent[][] chessComponents1 = chessboard.recordComponents(chessComponents);
+                    Step oneStep = new Step(chessboard.getCurrentColor(), chessComponents1);
+                    StepSaver.stepList.add(oneStep);
+>>>>>>> origin/master
                     Winboard.setReplayList();
                     chessboard.chessGameFrame.winboard.setVisible(true);
                     chessboard.chessGameFrame.setVisible(false);
                 }else {
+<<<<<<< HEAD
                     ChessComponent[][] chessComponents1 = chessboard.recordComponents(chessComponents);
                     Step oneStep = new Step(chessboard.getCurrentColor(), chessComponents1);
+=======
+>>>>>>> origin/master
                     int row=first.getChessboardPoint().getX();
                     int column=first.getChessboardPoint().getY();
                     Object[] ChessComponents = {"Queen","Rook","Bishop","Knight"};
@@ -164,11 +175,20 @@ public class ClickController {
                     if (first.moved!=true){
                         first.moved=true;
                     }
+<<<<<<< HEAD
                     chessboard.swapChessComponents(first, chessComponent);
                     chessboard.swapColor();
                     oneStep.setMoveChessPoint(first.getChessboardPoint());
                     AudioPlay.playHit();
                     StepSaver.stepList.add(oneStep);
+=======
+                    ChessComponent[][] chessComponents1 = chessboard.recordComponents(chessComponents);
+                    Step oneStep = new Step(chessboard.getCurrentColor(), chessComponents1);
+                    StepSaver.stepList.add(oneStep);
+                    chessboard.swapChessComponents(first, chessComponent);
+                    chessboard.swapColor();
+                    AudioPlay.playHit();
+>>>>>>> origin/master
 
 
                     for (int i = 0; i < 8; i++) {
