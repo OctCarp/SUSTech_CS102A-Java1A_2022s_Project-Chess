@@ -451,7 +451,7 @@ public class Chessboard extends JComponent {
             ChessComponent[][] chessComponents1 = recordComponents(chessComponents);
             Step oneStep = new Step(currentColor, chessComponents1);
             StepSaver.stepList.add(oneStep);
-            King.moved = true;
+            King.moved++;
             swapChessComponents(King, chessComponents[King.getChessboardPoint().getX()][2]);
             swapChessComponents(Rook, chessComponents[King.getChessboardPoint().getX()][3]);
             swapColor();
@@ -474,7 +474,7 @@ public class Chessboard extends JComponent {
             ChessComponent[][] chessComponents1 = recordComponents(chessComponents);
             Step oneStep = new Step(currentColor, chessComponents1);
             StepSaver.stepList.add(oneStep);
-            King.moved = true;
+            King.moved++;
             swapChessComponents(King, chessComponents[King.getChessboardPoint().getX()][6]);
             swapChessComponents(Rook, chessComponents[King.getChessboardPoint().getX()][5]);
             swapColor();

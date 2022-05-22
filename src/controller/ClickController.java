@@ -70,9 +70,9 @@ public class ClickController {
                 removeFirst(chessComponent);
                 chessboard.removeAttacked();
             } else if (first instanceof KingChessComponent && chessComponent instanceof RookChessComponent && first.getChessColor() == chessComponent.getChessColor()) {
-                if (!first.moved && !chessComponent.moved) {
+                if (first.moved==0 && chessComponent.moved==0) {
                     chessboard.castling(first, chessComponent);
-                    if (first.moved) {
+                    if (first.moved!=0) {
                         first = null;
                         chessboard.turn++;
                     }
@@ -164,9 +164,7 @@ public class ClickController {
                                         first.getChessColor(), this, Chessboard.CHESS_SIZE));
                     }
                     first=chessComponents[row][column];
-                    if (first.moved!=true){
-                        first.moved=true;
-                    }
+                    first.moved++;
                     chessboard.swapChessComponents(first, chessComponent);
                     chessboard.swapColor();
                     oneStep.setMoveChessPoint(first.getChessboardPoint());
@@ -207,9 +205,7 @@ public class ClickController {
                     chessboard.chessGameFrame.winboard.setVisible(true);
                     chessboard.chessGameFrame.setVisible(false);
                 }
-                if (first.moved != true) {
-                    first.moved = true;
-                }
+                first.moved++;
                 ChessComponent[][] chessComponents1 = chessboard.recordComponents(chessComponents);
                 Step oneStep = new Step(chessboard.getCurrentColor(), chessComponents1);
                 /*if (StepSaver.stepList.size() != 0) {

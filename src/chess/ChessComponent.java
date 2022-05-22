@@ -44,7 +44,7 @@ public abstract class ChessComponent extends JComponent {
     private ChessboardPoint chessboardPoint;
     protected final ChessColor chessColor;
     private boolean selected;
-    public boolean moved=false;
+    public int moved=0;
     private int move=0;
 
     public void setMove(int i){

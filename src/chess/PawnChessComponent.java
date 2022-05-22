@@ -130,15 +130,17 @@ public class PawnChessComponent extends ChessComponent {
         ChessboardPoint source = getChessboardPoint();
         if (getChessColor()==ChessColor.WHITE){
             if (destination.getX()<7&&chessComponents[destination.getX()+1][destination.getY()]instanceof PawnChessComponent
-                    &&chessComponents[destination.getX()+1][destination.getY()].getChessColor()==ChessColor.BLACK
-                    &&destination.getX()+1==source.getX()&&chessComponents[destination.getX()+1][destination.getY()].getMove()== Chessboard.turn){
+                    &&chessComponents[destination.getX()+1][destination.getY()].getChessColor()==ChessColor.BLACK&&source.getX()==3
+                    &&destination.getX()+1==source.getX()&&chessComponents[destination.getX()+1][destination.getY()].getMove()== Chessboard.turn
+                    &&Math.abs(destination.getY()-source.getY())==1&&chessComponents[destination.getX()+1][destination.getY()].moved==1){
                 return true;
             }else return false;
         }
         else {
             if (destination.getX()>0&&chessComponents[destination.getX()-1][destination.getY()]instanceof PawnChessComponent
-                    &&chessComponents[destination.getX()-1][destination.getY()].getChessColor()==ChessColor.WHITE
-                    &&destination.getX()-1==source.getX()&&chessComponents[destination.getX()-1][destination.getY()].getMove()==Chessboard.turn){
+                    &&chessComponents[destination.getX()-1][destination.getY()].getChessColor()==ChessColor.WHITE&&source.getX()==4
+                    &&destination.getX()-1==source.getX()&&chessComponents[destination.getX()-1][destination.getY()].getMove()==Chessboard.turn
+                    &&Math.abs(destination.getY()-source.getY())==1&&chessComponents[destination.getX()+1][destination.getY()].moved==1){
                 return true;
             }else return false;
         }
