@@ -21,6 +21,12 @@ public class Step {
     public Step(ChessColor player, ChessComponent[][] chessComponents) {
         this.player = player;
         setChessComponents(chessComponents);
+        if (StepSaver.stepList.size() != 0) {
+            ChessboardPoint lastMovedPoint = StepSaver.stepList.getLast().getMoveChessPoint();
+            if (lastMovedPoint != null) {
+                this.setMovedChessPoint(new ChessboardPoint(lastMovedPoint.getX(), lastMovedPoint.getY()));
+            }
+        }
     }
 
     public void setChessComponents(ChessComponent[][] chessComponents1) {
