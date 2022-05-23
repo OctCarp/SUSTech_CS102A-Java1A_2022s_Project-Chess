@@ -4,8 +4,6 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
@@ -15,9 +13,9 @@ public class ImagePanel extends JPanel {
 
     public ImagePanel() {
         try {
+            //FIXME: background image
             image = ImageIO.read(new File("./resources/images/background.png"));
         } catch (IOException ex) {
-            System.out.println("no file");
         }
     }
     public ImagePanel(String path) {
