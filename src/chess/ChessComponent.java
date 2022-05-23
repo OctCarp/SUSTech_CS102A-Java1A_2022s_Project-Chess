@@ -124,8 +124,6 @@ public abstract class ChessComponent extends JComponent {
         super.processMouseEvent(e);
 
         if (e.getID() == MouseEvent.MOUSE_PRESSED) {
-            //TODO
-            System.out.printf("Click [%d,%d]\n", chessboardPoint.getX(), chessboardPoint.getY());
             clickController.onClick(this);
         }
         if (e.getID() == MouseEvent.MOUSE_ENTERED) {

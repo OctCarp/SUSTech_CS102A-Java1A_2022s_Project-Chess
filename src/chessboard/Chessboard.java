@@ -59,8 +59,6 @@ public class Chessboard extends JComponent {
         setLayout(null); // Use absolute layout.
         setSize(width, height);
         CHESS_SIZE = width / 8;
-        System.out.printf("chessboard size = %d, chess size = %d\n", width, CHESS_SIZE);
-        // FIXME: Initialize chessboard for testing only.
         StepSaver.initiate();
         initChess();
     }
@@ -169,8 +167,6 @@ public class Chessboard extends JComponent {
                         if (chessboardPoint1 != null) {
                             if (chessboardPoint1.getX() == i && chessboardPoint1.getY() == j) {
                                 chessComponents[i][j].setMove(turn);
-                                //TODO:
-                                System.out.printf("%d,%d",chessboardPoint1.getX(),chessboardPoint1.getY());
                             }
                         }
                         chessComponents[i][j].repaint();
@@ -208,12 +204,6 @@ public class Chessboard extends JComponent {
         Step oneStep = new Step(currentColor, chessComponents1);
         StepSaver.stepList.add(oneStep);*/
         simpleSwap(chess1, chess2);
-    }
-
-    public void CheckMake() {
-        //TODO
-        if (CheckKing(KingW)) System.out.println("JIANGW");
-        if (CheckKing(KingB)) System.out.println("JIANGB");
     }
 
     public void initiateEmptyChessboard() {
@@ -538,7 +528,6 @@ public class Chessboard extends JComponent {
             }
             setCanMoveToW();
             setCanMoveToB();
-            CheckMake();
             ChessGameFrame.setStatusLabelCheck(this);
             King.setSelected(false);
             Countdown.restart();

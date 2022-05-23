@@ -141,7 +141,6 @@ public class ClickController {
                 first.setMove(Chessboard.turn);
                 chessboard.setCanMoveToW();
                 chessboard.setCanMoveToB();
-                chessboard.CheckMake();
                 ChessGameFrame.setStatusLabelCheck(chessboard);
                 first.setSelected(false);
                 Countdown.restart();
@@ -211,7 +210,6 @@ public class ClickController {
                     first.setMove(Chessboard.turn);
                     chessboard.setCanMoveToW();
                     chessboard.setCanMoveToB();
-                    chessboard.CheckMake();
                     ChessGameFrame.setStatusLabelCheck(chessboard);
                     first.setSelected(false);
                     Countdown.restart();
@@ -287,7 +285,6 @@ public class ClickController {
                 StepSaver.stepList.add(oneStep);
                 chessboard.setCanMoveToW();
                 chessboard.setCanMoveToB();
-                chessboard.CheckMake();
                 ChessGameFrame.setStatusLabelCheck(chessboard);
                 first.setSelected(false);
                 Countdown.restart();

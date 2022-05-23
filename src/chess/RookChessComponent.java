@@ -15,7 +15,7 @@ public class RookChessComponent extends ChessComponent {
     /**
      * 黑车和白车的图片，static使得其可以被所有车对象共享
      * <br>
-     * FIXME: 需要特别注意此处加载的图片是没有背景底色的！！！
+     * 需要特别注意此处加载的图片是没有背景底色的！！！
      */
     private static Image ROOK_WHITE;
     private static Image ROOK_BLACK;
