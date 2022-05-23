@@ -57,7 +57,9 @@ public class Countdown extends Thread {
             try {
                 Thread.sleep(1000);
                 if (midTime == 0) {
-                    StepSaver.stepList.add(new Step(chessboard.getCurrentColor(), chessboard.getChessComponents()));
+                    Step oneStep=new Step(chessboard.getCurrentColor(), chessboard.getChessComponents());
+                    oneStep.setCastling(chessboard);
+                    StepSaver.stepList.add(oneStep);
                     chessboard.removeSelect();
                     chessboard.removeAttacked();
                     chessboard.swapColor();
