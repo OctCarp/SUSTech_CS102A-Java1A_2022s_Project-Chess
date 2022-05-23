@@ -10,7 +10,7 @@ public class BoardSaver {
     public static void saveGame(String fileName) {
         try {
             //FIXME: save path
-            boardSaver = new BufferedWriter(new FileWriter(".resources/saves/general/" + fileName));
+            boardSaver = new BufferedWriter(new FileWriter("./resources/saves/general/" + fileName));
             saveBoardIntoFile(fileName);
             boardSaver.flush();
             boardSaver.close();
