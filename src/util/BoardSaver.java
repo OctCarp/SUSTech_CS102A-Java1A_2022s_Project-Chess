@@ -9,13 +9,12 @@ public class BoardSaver {
 
     public static void saveGame(String fileName) {
         try {
-            boardSaver = new BufferedWriter(new FileWriter("./saves/general/"+fileName));
+            //FIXME: save path
+            boardSaver = new BufferedWriter(new FileWriter(".resources/saves/general/" + fileName));
             saveBoardIntoFile(fileName);
             boardSaver.flush();
             boardSaver.close();
         } catch (IOException e) {
-
-            //todo: fail!
             e.printStackTrace();
         }
     }

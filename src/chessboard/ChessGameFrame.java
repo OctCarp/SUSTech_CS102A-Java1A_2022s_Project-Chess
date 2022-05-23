@@ -221,7 +221,8 @@ public class ChessGameFrame extends JFrame {
 
     String readPath() {
         JFileChooser fc = new JFileChooser();
-        fc.setCurrentDirectory(new File("./saves"));
+        //FIXME:load path
+        fc.setCurrentDirectory(new File("./resources/saves"));
         fc.showOpenDialog(this);
         try {
             String s = fc.getSelectedFile().getName();
