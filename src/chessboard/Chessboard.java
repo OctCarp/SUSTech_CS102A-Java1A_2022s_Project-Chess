@@ -172,7 +172,6 @@ public class Chessboard extends JComponent {
                         chessComponents[i][j].repaint();
                     }
                 }
-                System.out.println(turn);
 
                 setCanMoveToB();
                 setCanMoveToW();
