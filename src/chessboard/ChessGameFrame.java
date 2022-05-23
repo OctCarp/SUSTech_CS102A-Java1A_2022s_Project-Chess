@@ -39,7 +39,7 @@ public class ChessGameFrame extends JFrame {
         this.WIDTH = width;
         this.HEIGTH = height;
         this.CHESSBOARD_SIZE = HEIGTH * 4 / 5;
-        this.winboard=new Winboard(600,300,this);
+        this.winboard = new Winboard(600, 300, this);
 
         setSize(WIDTH, HEIGTH);
         setLocationRelativeTo(null); // Center the window.
@@ -58,10 +58,12 @@ public class ChessGameFrame extends JFrame {
         addPause();
         AudioPlay.playBgm();
     }
-    public static void setPause(){
+
+    public static void setPause() {
         pauseBtn.setText("Pause");
     }
-    public static void setResume(){
+
+    public static void setResume() {
         pauseBtn.setText("Resume");
     }
 
@@ -73,10 +75,11 @@ public class ChessGameFrame extends JFrame {
         button.setFont(new Font("Rockwell", Font.BOLD, 20));
         add(button);
     }
+
     private void addPause() {
         pauseBtn = new JButton("Pause");
         pauseBtn.addActionListener(e -> cd.changePause());
-        pauseBtn.setLocation(HEIGTH+120, HEIGTH / 10);
+        pauseBtn.setLocation(HEIGTH + 120, HEIGTH / 10);
         pauseBtn.setSize(80, 50);
         pauseBtn.setFont(new Font("Rockwell", Font.BOLD, 10));
         add(pauseBtn);
@@ -119,7 +122,7 @@ public class ChessGameFrame extends JFrame {
         StepSaver.initiate();
         setCountBoard(cd, chessboard);
         chessboard.setLocation(HEIGTH / 10, HEIGTH / 10);
-        chessboard.chessGameFrame=this;
+        chessboard.chessGameFrame = this;
         add(chessboard);
     }
 
@@ -134,25 +137,23 @@ public class ChessGameFrame extends JFrame {
         add(statusLabel);
     }
 
-    private void addLabelCheck(){
+    private void addLabelCheck() {
         checkLabel = new JLabel();
-        checkLabel.setLocation(HEIGTH, HEIGTH/10 +60 );
+        checkLabel.setLocation(HEIGTH, HEIGTH / 10 + 60);
         checkLabel.setSize(200, 60);
         checkLabel.setFont(new Font("Rockwell", Font.BOLD, 10));
         setVisible(false);
         add(checkLabel);
     }
 
-    public static void setStatusLabelCheck(Chessboard chessboard){
-        if (chessboard.CheckKing(chessboard.getKingB())){
+    public static void setStatusLabelCheck(Chessboard chessboard) {
+        if (chessboard.CheckKing(chessboard.getKingB())) {
             checkLabel.setText("Check King Black");
             checkLabel.setVisible(true);
-        }
-        else if (chessboard.CheckKing(chessboard.getKingW())){
+        } else if (chessboard.CheckKing(chessboard.getKingW())) {
             checkLabel.setText("Check King White");
             checkLabel.setVisible(true);
-        }
-        else checkLabel.setVisible(false);
+        } else checkLabel.setVisible(false);
     }
 
     public static void setStatusLabel(ChessColor color) {
@@ -172,9 +173,11 @@ public class ChessGameFrame extends JFrame {
         add(button);
         button.addActionListener(e -> {
             String filePath = JOptionPane.showInputDialog(this, "input the name here");
-                StepSaver.stepList.add(new Step(chessboard.getCurrentColor(), chessboard.getChessComponents()));
-                BoardSaver.saveGame(filePath + ".txt");
-                cd.resumeThread();
+            Step board = new Step(chessboard.getCurrentColor(), chessboard.getChessComponents());
+            board.setCastling(chessboard);
+            StepSaver.stepList.add(board);
+            BoardSaver.saveGame(filePath + ".txt");
+            cd.resumeThread();
         });
         button.setLocation(HEIGTH, HEIGTH / 10 + 120);
         button.setSize(200, 60);
@@ -223,11 +226,11 @@ public class ChessGameFrame extends JFrame {
         try {
             String s = fc.getSelectedFile().getName();
             String[] ss = s.split("\\.");
-            if (ss.length == 2) {
-                if (!ss[1].equals("txt")) {
+            if (ss.length != 0) {
+                if (!ss[ss.length - 1].equals("txt")) {
                     BoardLoader.one04 = true;
                 }
-            }else BoardLoader.one04 = true;
+            } else BoardLoader.one04 = true;
             return fc.getSelectedFile().getAbsolutePath();
         } catch (NullPointerException e) {
             return null;
@@ -241,12 +244,12 @@ public class ChessGameFrame extends JFrame {
         chessboard = new Chessboard(CHESSBOARD_SIZE, CHESSBOARD_SIZE);
         gameController = new GameController(chessboard);
         setCountBoard(cd, chessboard);
-        chessboard.chessGameFrame=this;
+        chessboard.chessGameFrame = this;
         chessboard.setLocation(HEIGTH / 10, HEIGTH / 10);
         add(chessboard);
     }
 
-    public Chessboard getChessboard(){
+    public Chessboard getChessboard() {
         return chessboard;
     }
 }

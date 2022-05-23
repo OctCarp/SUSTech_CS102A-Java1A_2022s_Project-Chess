@@ -10,10 +10,10 @@ public class Step {
     ChessComponent[][] chessComponents1 = new ChessComponent[8][8];
     private ChessboardPoint movedChessPoint;
     private ChessboardPoint moveChessPoint;
-    private boolean kingSideB=true;
-    private boolean kingSideW=true;
-    private boolean queenSideB=true;
-    private boolean queenSideW=true;
+    private boolean kingSideB;
+    private boolean kingSideW;
+    private boolean queenSideB;
+    private boolean queenSideW;
 
     public void setPlayer(ChessColor player) {
         this.player = player;
@@ -68,22 +68,22 @@ public class Step {
             }
             sb.append(String.format("\n"));
         }
-        if(queenSideB==true){
+        if(isQueenSideB()==true){
+            sb.append(String.format("T"));
+        }else{
+            sb.append(String.format("F"));
+        }
+        if(isKingSideB()==true){
             sb.append(String.format("T"));
         }else {
             sb.append(String.format("F"));
         }
-        if(kingSideB==true){
-            sb.append(String.format("T"));
-        }else {
-            sb.append(String.format("F"));
-        }
-        if(queenSideW==true){
+        if(isQueenSideW()==true){
             sb.append(String.format("t"));
         }else {
             sb.append(String.format("f"));
         }
-        if(kingSideW==true){
+        if(isKingSideW()==true){
             sb.append(String.format("t\n"));
         }else {
             sb.append(String.format("f\n"));
