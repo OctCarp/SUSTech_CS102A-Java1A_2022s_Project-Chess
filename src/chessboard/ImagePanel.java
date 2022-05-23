@@ -9,15 +9,17 @@ import javax.swing.JPanel;
 
 public class ImagePanel extends JPanel {
 
-    private BufferedImage image;
+    private Image image;
 
     public ImagePanel() {
         try {
             //FIXME: background image
             image = ImageIO.read(new File("./resources/images/background.png"));
+            setOpaque(false);
         } catch (IOException ex) {
         }
     }
+
     public ImagePanel(String path) {
         try {
             image = ImageIO.read(new File(path));
@@ -25,9 +27,14 @@ public class ImagePanel extends JPanel {
         }
     }
 
+    public ImagePanel(Image background) {
+        image = background;
+        this.setOpaque(false);
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
-        super.paintComponents(g);
-        g.drawImage(image, 0, 0, this);
+        super.paintComponent(g);
+        g.drawImage(image,0,0 ,this.getWidth(), this.getWidth(), this);
     }
 }

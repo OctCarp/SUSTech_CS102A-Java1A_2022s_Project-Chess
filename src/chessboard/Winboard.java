@@ -60,6 +60,7 @@ public class Winboard extends JFrame {
         }
         StepSaver.initiate();
         chessGameFrame.addChessboard();
+        chessGameFrame.addBackground();
         chessGameFrame.checkLabel.setVisible(false);
         chessGameFrame.setStatusLabel(ChessColor.WHITE);
         repaint();

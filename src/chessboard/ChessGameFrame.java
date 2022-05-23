@@ -30,6 +30,10 @@ public class ChessGameFrame extends JFrame {
     static JLabel checkLabel;
     static JButton pauseBtn;
     public Winboard winboard;
+    static ImagePanel background;
+    static ImagePanel background1;
+    static ImagePanel background2;
+    static JButton changeBack;
 
     Countdown cd;
 
@@ -56,6 +60,9 @@ public class ChessGameFrame extends JFrame {
         addRegretButton();
         addLabelCheck();
         addPause();
+        setBackground();
+        addBackground();
+
         AudioPlay.playBgm();
     }
 
@@ -65,6 +72,16 @@ public class ChessGameFrame extends JFrame {
 
     public static void setResume() {
         pauseBtn.setText("Resume");
+    }
+
+    private static void setBackground() {
+        try {
+            //FIXME: background path
+            background1 = new ImagePanel(new ImageIcon("./resources/images/background1.png").getImage());
+            background2 = new ImagePanel(new ImageIcon("./resources/images/background2.png").getImage());
+            background = background1;
+        } catch (NullPointerException e) {
+        }
     }
 
     private void addRestart() {
@@ -90,6 +107,7 @@ public class ChessGameFrame extends JFrame {
             this.remove(chessboard);
         }
         addChessboard();
+        add(background);
         checkLabel.setVisible(false);
         setStatusLabel(ChessColor.WHITE);
         repaint();
@@ -248,9 +266,41 @@ public class ChessGameFrame extends JFrame {
         chessboard.chessGameFrame = this;
         chessboard.setLocation(HEIGTH / 10, HEIGTH / 10);
         add(chessboard);
+        add(background);
     }
 
     public Chessboard getChessboard() {
         return chessboard;
     }
+
+    public void addBackground() {
+        background.setBounds(0, 0, WIDTH, HEIGTH);
+        add(background);
+    }
+
+    private void addChangeBack() {
+        changeBack = new JButton("Theme");
+        changeBack.addActionListener(e -> changeBack());
+        changeBack.setLocation(HEIGTH + 120, HEIGTH / 10 + 550);
+        changeBack.setSize(80, 50);
+        changeBack.setFont(new Font("Rockwell", Font.BOLD, 10));
+        add(changeBack);
+    }
+
+    //FIXME
+    private void changeBack() {
+        if (background != null) {
+            remove(background);
+            if (background == background1) {
+                background = background2;
+            } else {
+                background = background1;
+            }
+        } else {
+            background = background1;
+        }
+        background.repaint();
+        addBackground();
+    }
+
 }
