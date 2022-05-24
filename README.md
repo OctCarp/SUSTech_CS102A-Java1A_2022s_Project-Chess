@@ -1,19 +1,20 @@
 # CS102A-ChessProject
 
-now for xch & wjy only
+v0.1.0 created by me & wjy
 
 项目要求为[得分细则](docs/cs102a_project_chess_5-12_.pdf)
 
 SA提供的项目demo为[demo文件](docs/ChessDemo.zip)
 
-## 基础部分
+### Basic:
 #### Task1：初始化游戏 (10/10)
 #### Task2：载入和存储游戏(20/20)
 #### Task3：游戏运行(35/35)
 #### Task4：图形化界面(15/15)
 
+### Basic合计：80×1.05=84(15周)
 
-## Bonus：
+### Bonus：
 
 #### 1.平台与美观(8/12)
 (1)主窗体进入游戏(1%)
@@ -57,4 +58,8 @@ SA提供的项目demo为[demo文件](docs/ChessDemo.zip)
 
 (3)兵底线升变：可升变为“后”、“车”、“马”、“象”，不能不变(2%)
 
-### Bonus期望合计：28
+### Bonus合计：28
+
+***
+
+### 112/100 and 20points for final
