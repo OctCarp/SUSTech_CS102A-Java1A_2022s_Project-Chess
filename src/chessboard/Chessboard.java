@@ -61,6 +61,14 @@ public class Chessboard extends JComponent {
         CHESS_SIZE = width / 8;
         StepSaver.initiate();
         initChess();
+        initiateCastling();
+    }
+
+    public static void initiateCastling() {
+        kingSideB = true;
+        kingSideW = true;
+        queenSideW = true;
+        queenSideB = true;
     }
 
     public ChessComponent[][] getChessComponents() {
