@@ -1,5 +1,10 @@
 # CS102A-ChessProject
-now for xch&wjy only
+
+now for xch & wjy only
+
+项目要求为[得分细则](docs/cs102a project chess_5-12_.pdf)
+
+SA提供的项目demo为[demo文件](docs/ChessDemo.zip)
 
 ## 基础部分
 #### Task1：初始化游戏 (10/10)
